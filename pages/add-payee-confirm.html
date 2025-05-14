@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Payee - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .form-input {
+            height: 40px;
+            padding: 8px 12px;
+            font-size: 14px;
+            width: 100%;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #7C3AED;
+            box-shadow: 0 0 0 1px #7C3AED;
+        }
+        .form-select {
+            height: 40px;
+            padding: 8px 12px;
+            font-size: 14px;
+            width: 100%;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background-color: #fff;
+            appearance: none;
+            padding-right: 36px;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        .form-select:focus {
+            outline: none;
+            border-color: #7C3AED;
+            box-shadow: 0 0 0 1px #7C3AED;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .required::after {
+            content: '*';
+            color: #EF4444;
+            margin-left: 4px;
+        }
+        .file-upload {
+            border: 2px dashed #E5E7EB;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .file-upload:hover {
+            border-color: #7C3AED;
+            background-color: #F9FAFB;
+        }
+        .alert-info {
+            background-color: #F3E8FF;
+            border: 1px solid #E9D8FD;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            color: #6B21A8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Information Confirmation</h1>
+                    </div>
+                    <a href="payment.html" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="p-6">
+                <!-- Alert Info -->
+                <div class="alert-info mb-6">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Please carefully verify the payee account information. Incorrect bank account information or mismatched numbers will result in the funds being returned by the receiving bank, and withdrawal fees and bank charges will not be refunded!
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Confirmation Information Display -->
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-4">
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Supplier Type</span>
+                            <span class="text-gray-900">Supplier</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Supplier Region</span>
+                            <span class="text-gray-900">United States</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Supplier Name</span>
+                            <span class="text-gray-900">FuqingKangmao Technology Co., Ltd.</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Remark Name</span>
+                            <span class="text-gray-900">--</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Long-term Cooperation</span>
+                            <span class="text-gray-900">Yes</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Trade Relationship</span>
+                            <span class="text-gray-900">--</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Remarks</span>
+                            <span class="text-gray-900">--</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Payment Currency</span>
+                            <span class="text-gray-900">USD</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Name</span>
+                            <span class="text-gray-900">asdfasdfa</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Bank</span>
+                            <span class="text-gray-900">asdfasdf</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's A/C No.</span>
+                            <span class="text-gray-900">25458548545254525</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Swift Code</span>
+                            <span class="text-gray-900">EWBKUS66XXX</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Bank Address</span>
+                            <span class="text-gray-900">asdfasdf</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Routing Number</span>
+                            <span class="text-gray-900">123456789</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Address</span>
+                            <span class="text-gray-900">asdfasf PUEBLO Alabama US</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Postal Code</span>
+                            <span class="text-gray-900">--</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Mobile</span>
+                            <span class="text-gray-900">--</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Beneficiary's Email</span>
+                            <span class="text-gray-900">--</span>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-gray-500 w-32">Authorization</span>
+                            <span class="text-gray-900">--</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <div class="mb-4">
+                            <label class="text-gray-700 text-sm required">Transaction Password</label>
+                            <div class="flex items-center mt-1">
+                                <input type="password" class="form-input mr-2" placeholder="Please enter transaction password" required>
+                                <a href="#" class="text-purple-600 text-sm hover:text-purple-700 whitespace-nowrap">Forgot transaction password?</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Button Group -->
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="history.back()" class="px-8 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Previous
+                        </button>
+                        <button type="submit" class="px-8 py-2 bg-purple-600 text-white rounded-md text-sm font-medium hover:bg-purple-700">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle all return links
+            document.querySelectorAll('a[href="payment.html"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Set return to payee management tab
+                    localStorage.setItem('returnToPaymentTab', 'payee-management');
+                    window.location.href = 'payment.html';
+                });
+            });
+
+            // File upload handling
+            const fileUpload = document.querySelector('.file-upload');
+            const fileInput = fileUpload.querySelector('input[type="file"]');
+            
+            fileUpload.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const fileSize = file.size / 1024 / 1024; // Convert to MB
+                    if (fileSize > 15) {
+                        alert('File size cannot exceed 15MB');
+                        return;
+                    }
+                    const fileName = file.name;
+                    fileUpload.querySelector('.text-sm').textContent = fileName;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

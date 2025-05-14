@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <script src="../js/languages.js"></script>
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+        [data-theme="dark"] body {
+            background-color: #1a1a1a;
+        }
+        .welcome-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(125, 51, 255, 0.05) 0%, rgba(125, 51, 255, 0.1) 100%);
+        }
+        .welcome-content {
+            text-align: center;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(125, 51, 255, 0.1), 0 10px 10px -5px rgba(125, 51, 255, 0.05);
+            max-width: 500px;
+            width: 100%;
+        }
+        [data-theme="dark"] .welcome-content {
+            background-color: #2d2d2d;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        .greeting {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        [data-theme="dark"] .greeting {
+            color: #e5e7eb;
+        }
+        .date-time {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+        [data-theme="dark"] .date-time {
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <div class="welcome-content">
+            <div class="greeting" id="greeting">晚上好, 重庆商贸科技有限公司</div>
+            <div class="date-time" id="currentDateTime">2025年5月13日星期二 19:16:22</div>
+        </div>
+    </div>
+
+    <script>
+        // 设置固定的问候语和时间
+        document.getElementById('greeting').textContent = "晚上好, 重庆商贸科技有限公司";
+        document.getElementById('currentDateTime').textContent = "2025年5月13日星期二 19:16:22";
+        
+        // 响应主框架发送的语言变更消息
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'languageChanged') {
+                const language = event.data.language;
+                document.documentElement.lang = language;
+                
+                // 根据语言更新页面内容
+                if (language === 'en') {
+                    document.getElementById('greeting').textContent = "Good Evening, Chongqing Trading Technology Co., Ltd";
+                    document.getElementById('currentDateTime').textContent = "Tuesday, May 13, 2025 19:16:22";
+                } else {
+                    document.getElementById('greeting').textContent = "晚上好, 重庆商贸科技有限公司";
+                    document.getElementById('currentDateTime').textContent = "2025年5月13日星期二 19:16:22";
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

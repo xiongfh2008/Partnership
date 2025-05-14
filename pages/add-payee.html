@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Payee - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .form-input {
+            height: 40px;
+            padding: 8px 12px;
+            font-size: 14px;
+            width: 100%;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #7C3AED;
+            box-shadow: 0 0 0 1px #7C3AED;
+        }
+        .form-select {
+            height: 40px;
+            padding: 8px 12px;
+            font-size: 14px;
+            width: 100%;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            background-color: #fff;
+            appearance: none;
+            padding-right: 36px;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+        }
+        .form-select:focus {
+            outline: none;
+            border-color: #7C3AED;
+            box-shadow: 0 0 0 1px #7C3AED;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .required::after {
+            content: '*';
+            color: #EF4444;
+            margin-left: 4px;
+        }
+        .file-upload {
+            border: 2px dashed #E5E7EB;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .file-upload:hover {
+            border-color: #7C3AED;
+            background-color: #F9FAFB;
+        }
+        .alert-info {
+            background-color: #F3E8FF;
+            border: 1px solid #E9D8FD;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            color: #6B21A8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="payment.html" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="payment.html" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Add Payee</h1>
+                    </div>
+                    <a href="payment.html" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="p-6">
+                <!-- Rejection Reason Alert -->
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-circle text-red-500"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-800">Rejection Reason</h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <p>Your payee information was not approved. Please modify according to the following reasons:</p>
+                                <ul class="list-disc list-inside mt-2">
+                                    <li>Incorrect bank account format</li>
+                                    <li>Invalid SwiftCode information</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Alert -->
+                <div class="alert-info mb-6">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    Note: Whalet account balance is used for direct payment to your suppliers. Please ensure the payee account information you submit is accurate to avoid affecting your normal payments.
+                </div>
+
+                <form class="space-y-6">
+                    <!-- Supplier Information -->
+                    <div class="space-y-4">
+                        <h2 class="text-base font-medium text-gray-900">Supplier Information</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="form-label required">Supplier Type</label>
+                                <select class="form-select">
+                                    <option value="">Please select supplier type</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Payee Type</label>
+                                <div class="flex items-center space-x-6 mt-2">
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="payeeType" value="bank" class="form-radio text-purple-600" checked>
+                                        <span class="ml-2 text-sm text-gray-700">Bank Account</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" name="payeeType" value="other" class="form-radio text-purple-600">
+                                        <span class="ml-2 text-sm text-gray-700">No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label">Country/Region</label>
+                                <select class="form-select">
+                                    <option value="US">United States (US)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label">Payment Currency</label>
+                                <select class="form-select">
+                                    <option value="USD">US Dollar (USD)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="form-label required">Supplier Name</label>
+                                <input type="text" class="form-input" placeholder="Please enter name in English, must match account holder name">
+                            </div>
+                            <div>
+                                <label class="form-label">Remarks</label>
+                                <input type="text" class="form-input" placeholder="Please enter remarks">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Information -->
+                    <div class="space-y-4">
+                        <h2 class="text-base font-medium text-gray-900">Account Information</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="form-label required">Payee Name</label>
+                                <input type="text" class="form-input" placeholder="Please enter payee name">
+                            </div>
+                            <div>
+                                <label class="form-label required">Bank Name</label>
+                                <input type="text" class="form-input" placeholder="Please enter bank name">
+                            </div>
+                            <div>
+                                <label class="form-label required">Bank Account Number</label>
+                                <input type="text" class="form-input" placeholder="Please enter bank account number">
+                            </div>
+                            <div>
+                                <label class="form-label required">Bank Address</label>
+                                <input type="text" class="form-input" placeholder="Please enter bank address">
+                            </div>
+                            <div>
+                                <label class="form-label required">SwiftCode</label>
+                                <input type="text" class="form-input" placeholder="Please enter SwiftCode">
+                            </div>
+                            <div>
+                                <label class="form-label required">Routing Number</label>
+                                <input type="text" class="form-input" placeholder="Please enter routing number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payee Address -->
+                    <div class="space-y-4">
+                        <h2 class="text-base font-medium text-gray-900">Payee Address</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <select class="form-select" placeholder="Country">
+                                    <option value="">Country</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="text" class="form-input" placeholder="State/Province">
+                            </div>
+                            <div>
+                                <input type="text" class="form-input" placeholder="City">
+                            </div>
+                        </div>
+                        <div>
+                            <input type="text" class="form-input" placeholder="Address">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="form-label">Postal Code</label>
+                                <input type="text" class="form-input" placeholder="Please enter postal code">
+                            </div>
+                            <div>
+                                <label class="form-label">Contact Phone</label>
+                                <div class="flex space-x-2">
+                                    <select class="form-select w-24">
+                                        <option value="">Area Code</option>
+                                    </select>
+                                    <input type="text" class="form-input flex-1" placeholder="Please enter phone number">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="Please enter email">
+                        </div>
+                    </div>
+
+                    <!-- Authorization -->
+                    <div class="space-y-4">
+                        <h2 class="text-base font-medium text-gray-900">Authorization</h2>
+                        <div class="file-upload">
+                            <input type="file" class="hidden" accept=".pdf,.jpg,.jpeg,.png">
+                            <i class="fas fa-plus text-gray-400 text-xl mb-2"></i>
+                            <div class="text-sm text-gray-500">Upload Attachment</div>
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            Please submit required documents such as Payment Authorization Letter.docx<br>
+                            Only PDF, JPG, JPEG, PNG files are allowed, maximum size 15MB
+                        </div>
+                    </div>
+
+                    <!-- Agreement -->
+                    <div class="flex items-center">
+                        <input type="checkbox" class="h-4 w-4 text-purple-600 rounded border-gray-300">
+                        <label class="ml-2 text-sm text-gray-700">
+                            I have read, understood and agree to the <a href="#" class="text-purple-600 hover:text-purple-800">《Commitment Letter》</a> terms
+                        </label>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex justify-center space-x-4">
+                        <a href="payment.html" class="px-8 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Back
+                        </a>
+                        <button type="submit" class="px-8 py-2 bg-purple-600 text-white rounded-md text-sm font-medium hover:bg-purple-700">
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle all back links
+            document.querySelectorAll('a[href="payment.html"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Set return to payee management tab
+                    localStorage.setItem('returnToPaymentTab', 'payee-management');
+                    window.location.href = 'payment.html';
+                });
+            });
+
+            // File upload handling
+            const fileUpload = document.querySelector('.file-upload');
+            const fileInput = fileUpload.querySelector('input[type="file"]');
+            
+            fileUpload.addEventListener('click', () => {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    const file = e.target.files[0];
+                    const fileSize = file.size / 1024 / 1024; // Convert to MB
+                    if (fileSize > 15) {
+                        alert('File size cannot exceed 15MB');
+                        return;
+                    }
+                    const fileName = file.name;
+                    fileUpload.querySelector('.text-sm').textContent = fileName;
+                }
+            });
+
+            // Form submission handling
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                window.location.href = 'add-payee-confirm.html';
+            });
+        });
+    </script>
+</body>
+</html> 
