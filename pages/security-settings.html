@@ -72,33 +72,68 @@
         <!-- 密码设置 -->
         <div class="card bg-white p-6 mb-6">
             <h2 class="text-lg font-medium mb-4" data-i18n="password_settings">Password Settings</h2>
+            
+            <!-- 登录密码 -->
             <div class="border-b border-gray-200 pb-4 mb-4">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h3 class="font-medium text-gray-900" data-i18n="change_password">Change Password</h3>
-                        <p class="text-sm text-gray-500 mt-1" data-i18n="password_description">It's a good idea to use a strong password that you're not using elsewhere</p>
+                        <h3 class="font-medium text-gray-900" data-i18n="change_login_password">Change Login Password</h3>
+                        <p class="text-sm text-gray-500 mt-1" data-i18n="login_password_description">Use a strong password you haven't used elsewhere to secure your account</p>
                     </div>
-                    <button class="btn-outline px-4 py-2 rounded-md" data-i18n="change">Change</button>
+                    <button class="btn-outline px-4 py-2 rounded-md" id="change-login-btn" data-i18n="change">Change</button>
                 </div>
             </div>
 
-            <!-- 修改密码表单 - 默认隐藏 -->
-            <div class="hidden">
+            <!-- 修改登录密码表单 - 默认隐藏 -->
+            <div class="hidden" id="login-password-form">
                 <form class="space-y-4">
                     <div>
-                        <label for="current-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="current_password">Current Password</label>
-                        <input type="password" id="current-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
+                        <label for="current-login-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="current_login_password">Current Login Password</label>
+                        <input type="password" id="current-login-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
                     </div>
                     <div>
-                        <label for="new-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="new_password">New Password</label>
-                        <input type="password" id="new-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
+                        <label for="new-login-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="new_login_password">New Login Password</label>
+                        <input type="password" id="new-login-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
                     </div>
                     <div>
-                        <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="confirm_password">Confirm Password</label>
-                        <input type="password" id="confirm-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
+                        <label for="confirm-login-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="confirm_login_password">Confirm New Login Password</label>
+                        <input type="password" id="confirm-login-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
                     </div>
                     <div class="flex justify-end space-x-4">
-                        <button type="button" class="btn-outline px-4 py-2 rounded-md" data-i18n="cancel">Cancel</button>
+                        <button type="button" class="btn-outline px-4 py-2 rounded-md login-cancel-btn" data-i18n="cancel">Cancel</button>
+                        <button type="submit" class="btn-primary px-4 py-2 rounded-md" data-i18n="save">Save</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- 交易密码 -->
+            <div class="border-b border-gray-200 pb-4 mb-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="font-medium text-gray-900" data-i18n="change_transaction_password">Change Transaction Password</h3>
+                        <p class="text-sm text-gray-500 mt-1" data-i18n="transaction_password_description">Transaction password is used for confirming fund transfers and important operations, recommended to be different from login password</p>
+                    </div>
+                    <button class="btn-outline px-4 py-2 rounded-md" id="change-transaction-btn" data-i18n="change">Change</button>
+                </div>
+            </div>
+
+            <!-- 修改交易密码表单 - 默认隐藏 -->
+            <div class="hidden" id="transaction-password-form">
+                <form class="space-y-4">
+                    <div>
+                        <label for="current-transaction-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="current_transaction_password">Current Transaction Password</label>
+                        <input type="password" id="current-transaction-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
+                    </div>
+                    <div>
+                        <label for="new-transaction-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="new_transaction_password">New Transaction Password</label>
+                        <input type="password" id="new-transaction-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
+                    </div>
+                    <div>
+                        <label for="confirm-transaction-password" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="confirm_transaction_password">Confirm New Transaction Password</label>
+                        <input type="password" id="confirm-transaction-password" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-200">
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" class="btn-outline px-4 py-2 rounded-md transaction-cancel-btn" data-i18n="cancel">Cancel</button>
                         <button type="submit" class="btn-primary px-4 py-2 rounded-md" data-i18n="save">Save</button>
                     </div>
                 </form>
@@ -245,6 +280,29 @@
             console.log('Updating page content to language:', lang);
             // 这里应该根据语言加载对应的翻译文件并更新页面
         }
+
+        // 登录密码表单显示/隐藏
+        document.getElementById('change-login-btn').addEventListener('click', function() {
+            document.getElementById('login-password-form').classList.remove('hidden');
+        });
+
+        // 交易密码表单显示/隐藏
+        document.getElementById('change-transaction-btn').addEventListener('click', function() {
+            document.getElementById('transaction-password-form').classList.remove('hidden');
+        });
+
+        // 取消按钮事件
+        document.querySelectorAll('.login-cancel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('login-password-form').classList.add('hidden');
+            });
+        });
+
+        document.querySelectorAll('.transaction-cancel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.getElementById('transaction-password-form').classList.add('hidden');
+            });
+        });
     </script>
 </body>
 </html> 
