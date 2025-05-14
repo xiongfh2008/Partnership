@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User List - Whalet</title>
+    <title>Customer List - Whalet</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../styles/theme.css">
@@ -165,11 +165,11 @@
     <div class="container mx-auto py-4 px-4 max-w-7xl">
         <!-- 头部区域 -->
         <div class="flex items-center justify-between mb-4">
-            <h1 class="text-xl font-semibold text-gray-800" data-i18n="user_list_title" style="display: none;">User List</h1>
+            <h1 class="text-xl font-semibold text-gray-800" data-i18n="user_list_title" style="display: none;">Customer List</h1>
             <div class="flex space-x-2">
                 <button class="btn-primary px-3 py-1.5 rounded-md flex items-center text-sm" style="display: none;">
                     <i class="fas fa-plus mr-1.5 text-xs"></i>
-                    <span data-i18n="add_user">Add User</span>
+                    <span data-i18n="add_user">Add Customer</span>
                 </button>
                 <button class="btn-outline px-3 py-1.5 rounded-md flex items-center text-sm" style="display: none;">
                     <i class="fas fa-download mr-1.5 text-xs"></i>
@@ -182,15 +182,11 @@
         <div class="card bg-white p-4 mb-4 border border-gray-100">
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 <div>
-                    <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="user_id">User ID</label>
+                    <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="user_id">Customer ID</label>
                     <input type="text" class="w-full border border-gray-200 rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-purple-300 search-input">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="customer_name">Customer Name</label>
-                    <input type="text" class="w-full border border-gray-200 rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-purple-300 search-input">
-                </div>
-                <div>
-                    <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="account_name">Account Name</label>
                     <input type="text" class="w-full border border-gray-200 rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-purple-300 search-input">
                 </div>
                 <div>
@@ -241,13 +237,10 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="user_id">
-                                User ID
+                                Customer ID
                             </th>
                             <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="customer_name">
                                 Customer Name
-                            </th>
-                            <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="account_name">
-                                Account Name
                             </th>
                             <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="phone_number">
                                 Phone Number
@@ -272,13 +265,10 @@
                     <tbody class="bg-white divide-y divide-gray-100">
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="whitespace-nowrap text-gray-700">
-                                USER12345
+                                CUSTOMER12345
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 ABC Trading Co.
-                            </td>
-                            <td class="whitespace-nowrap text-gray-700">
-                                abctrading
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 +1 234 567 8900
@@ -298,18 +288,15 @@
                                 2023-08-15 14:30
                             </td>
                             <td class="whitespace-nowrap font-medium">
-                                <a href="#" class="text-purple-600 hover:text-purple-900 text-sm" data-i18n="view_details">Details</a>
+                                <a href="user-detail.html" class="text-purple-600 hover:text-purple-900 text-sm" data-i18n="view_details">Details</a>
                             </td>
                         </tr>
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="whitespace-nowrap text-gray-700">
-                                USER12346
+                                CUSTOMER12346
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 XYZ Imports Ltd.
-                            </td>
-                            <td class="whitespace-nowrap text-gray-700">
-                                xyzimports
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 +44 20 1234 5678
@@ -329,18 +316,15 @@
                                 2023-07-28 09:15
                             </td>
                             <td class="whitespace-nowrap font-medium">
-                                <a href="#" class="text-purple-600 hover:text-purple-900 text-sm" data-i18n="view_details">Details</a>
+                                <a href="user-detail.html" class="text-purple-600 hover:text-purple-900 text-sm" data-i18n="view_details">Details</a>
                             </td>
                         </tr>
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="whitespace-nowrap text-gray-700">
-                                USER12347
+                                CUSTOMER12347
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 Global E-Shop
-                            </td>
-                            <td class="whitespace-nowrap text-gray-700">
-                                globaleshop
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 +61 2 9876 5432
@@ -360,7 +344,7 @@
                                 2023-08-10 18:45
                             </td>
                             <td class="whitespace-nowrap font-medium">
-                                <a href="#" class="text-purple-600 hover:text-purple-900 text-sm" data-i18n="view_details">Details</a>
+                                <a href="user-detail.html" class="text-purple-600 hover:text-purple-900 text-sm" data-i18n="view_details">Details</a>
                             </td>
                         </tr>
                     </tbody>

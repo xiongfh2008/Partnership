@@ -535,10 +535,10 @@
                 init() {
                     this.initializeForm();
                     this.setupWatchers();
-                    // 默认选中第一张银行卡
+                    // 默认选中China Merchants Bank银行卡
                     if (this.banks.length > 0) {
-                        this.selectedBank = this.banks[0];
-                        this.receivingCurrency = this.banks[0].currency;
+                        this.selectedBank = this.banks[1]; // 选中第二个银行，即China Merchants Bank
+                        this.receivingCurrency = this.banks[1].currency;
                     }
                 },
 
