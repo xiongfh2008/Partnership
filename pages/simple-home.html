@@ -230,96 +230,89 @@
         <!-- 资产内容 -->
         <div id="assets-content" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             <!-- 总资产总额 -->
-            <section class="lg:col-span-4 gradient-card rounded-xl p-5">
+            <section class="lg:col-span-12 gradient-card rounded-xl p-3 md:p-4 mb-4">
                 <div class="flex flex-col">
-                    <h2 class="flex items-center justify-between">
-                        <div class="flex items-center gap-3 text-lg font-semibold text-white">
-                            <div class="p-2 rounded-lg bg-white/10">
-                                <i class="fas fa-chart-line"></i>
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="p-2 rounded-xl bg-white/10 backdrop-blur-sm">
+                                <i class="fas fa-chart-line text-xl text-white"></i>
                             </div>
-                            Total Assets
-                            <button id="totalAssetsTooltip" class="text-white/80 hover:text-white">
-                                <i class="fas fa-circle-info text-xs"></i>
-                            </button>
+                            <div>
+                                <h2 class="text-lg font-semibold text-white leading-tight">Total Assets</h2>
+                                <p class="text-xs text-white/80 mt-0.5">Real-time total balance in selected currency</p>
+                            </div>
                         </div>
-                        <!-- 添加币种选择器 -->
+                        <!-- 币种选择器 -->
                         <div class="relative">
-                            <button id="assetCurrencyBtn" class="flex items-center space-x-2 px-3 py-1.5 text-sm text-white bg-white/10 hover:bg-white/20 rounded-lg transition-colors duration-200">
-                                <span id="selectedCurrency">USD</span>
+                            <button id="assetCurrencyBtn" class="flex items-center space-x-2 px-3 py-1.5 text-sm text-white bg-white/10 hover:bg-white/20 rounded-xl transition-all duration-200 backdrop-blur-sm">
+                                <span id="selectedCurrency" class="font-medium">USD</span>
                                 <i class="fas fa-chevron-down text-xs transition-transform duration-200"></i>
                             </button>
-                            <div id="assetCurrencyDropdown" class="absolute right-0 top-full mt-1 w-40 bg-white rounded-lg shadow-lg py-2 hidden z-20">
-                                <button class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" data-currency="USD" data-symbol="$">
+                            <div id="assetCurrencyDropdown" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg py-2 hidden z-20">
+                                <button class="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors duration-200" data-currency="USD" data-symbol="$">
                                     <div class="flex items-center">
-                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/us.svg" class="w-4 h-4 rounded-full mr-2" alt="USD">
-                                        <span class="font-medium">USD</span>
+                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/us.svg" class="w-5 h-5 rounded-full mr-3" alt="USD">
+                                        <div>
+                                            <span class="font-medium">USD</span>
+                                            <span class="text-gray-500 text-xs ml-2">US Dollar</span>
+                                        </div>
                                     </div>
                                 </button>
-                                <button class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" data-currency="CNH" data-symbol="¥">
+                                <button class="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors duration-200" data-currency="CNH" data-symbol="¥">
                                     <div class="flex items-center">
-                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/cn.svg" class="w-4 h-4 rounded-full mr-2" alt="CNH">
-                                        <span class="font-medium">CNH</span>
+                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/cn.svg" class="w-5 h-5 rounded-full mr-3" alt="CNH">
+                                        <div>
+                                            <span class="font-medium">CNH</span>
+                                            <span class="text-gray-500 text-xs ml-2">Offshore RMB</span>
+                                        </div>
                                     </div>
                                 </button>
-                                <button class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" data-currency="EUR" data-symbol="€">
+                                <button class="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors duration-200" data-currency="EUR" data-symbol="€">
                                     <div class="flex items-center">
-                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/eu.svg" class="w-4 h-4 rounded-full mr-2" alt="EUR">
-                                        <span class="font-medium">EUR</span>
+                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/eu.svg" class="w-5 h-5 rounded-full mr-3" alt="EUR">
+                                        <div>
+                                            <span class="font-medium">EUR</span>
+                                            <span class="text-gray-500 text-xs ml-2">Euro</span>
+                                        </div>
                                     </div>
                                 </button>
-                                <button class="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 cursor-pointer" data-currency="GBP" data-symbol="£">
+                                <button class="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 cursor-pointer transition-colors duration-200" data-currency="GBP" data-symbol="£">
                                     <div class="flex items-center">
-                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/gb.svg" class="w-4 h-4 rounded-full mr-2" alt="GBP">
-                                        <span class="font-medium">GBP</span>
+                                        <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/gb.svg" class="w-5 h-5 rounded-full mr-3" alt="GBP">
+                                        <div>
+                                            <span class="font-medium">GBP</span>
+                                            <span class="text-gray-500 text-xs ml-2">British Pound</span>
+                                        </div>
                                     </div>
                                 </button>
                             </div>
                         </div>
-                    </h2>
-                    <div class="mt-4">
-                        <div class="text-sm font-medium text-white/80 mb-1">Total Amount</div>
-                        <div class="stats-value text-white mb-6" id="totalAssetsValue">
-                            <span class="currency-symbol">$</span>0.00
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <div class="text-sm font-medium text-white/80 mb-1">Available Amount</div>
-                                <div class="text-lg text-white mb-4" id="availableAssetsValue">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl py-2 px-2 flex flex-col items-center justify-center">
+                            <div class="flex flex-col items-center w-full">
+                                <div class="text-xs font-medium text-white/80 mb-1 flex items-center gap-1 justify-center">
+                                    Total Amount
+                                    <button id="totalAssetsTooltip" class="ml-1 text-white/80 hover:text-white transition-colors duration-200">
+                                        <i class="fas fa-circle-info text-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="text-2xl font-bold text-white" id="totalAssetsValue">
                                     <span class="currency-symbol">$</span>0.00
                                 </div>
                             </div>
-                            <div>
-                                <div class="text-sm font-medium text-white/80 mb-1">Unavailable Amount</div>
-                                <div class="text-lg text-white mb-4" id="unavailableAssetsValue">
-                                    <span class="currency-symbol">$</span>0.00
-                                </div>
+                        </div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl py-2 px-2 flex flex-col items-center">
+                            <div class="text-xs font-medium text-white/80 mb-1">Available Amount</div>
+                            <div class="text-2xl font-bold text-white" id="availableAssetsValue">
+                                <span class="currency-symbol">$</span>0.00
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 资产组成 - 增加宽度，左右布局 -->
-            <section class="lg:col-span-8 card rounded-xl p-4 flex flex-col">
-                <h2 class="flex items-center gap-3 text-lg font-semibold text-gray-800 mb-2">
-                    <div class="p-2 rounded-lg" style="background-color: rgba(125, 51, 255, 0.1);">
-                        <i class="fas fa-chart-pie" style="color: #7D33FF;"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-lg font-semibold text-gray-800">Asset Composition</h2>
-                        <p class="text-xs text-gray-500">Currency proportion converted to <span id="compositionCurrencyLabel">USD</span></p>
-                    </div>
-                </h2>
-                <div class="flex flex-1">
-                    <!-- 左侧饼图 -->
-                    <div class="chart-container flex-shrink-0 mr-4 flex items-center justify-center">
-                        <canvas id="assetComposition"></canvas>
-                    </div>
-                    
-                    <!-- 右侧数据 - 使用网格布局 -->
-                    <div class="flex-grow flex items-center">
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-2 gap-y-2 w-full" id="currencyCompositionList">
-                            <!-- 币种占比列表将由JavaScript动态生成 -->
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl py-2 px-2 flex flex-col items-center">
+                            <div class="text-xs font-medium text-white/80 mb-1">Unavailable Amount</div>
+                            <div class="text-2xl font-bold text-white" id="unavailableAssetsValue">
+                                <span class="currency-symbol">$</span>0.00
+                            </div>
                         </div>
                     </div>
                 </div>
