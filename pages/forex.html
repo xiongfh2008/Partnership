@@ -406,7 +406,7 @@
                         <div class="exchange-card">
                             <div class="exchange-card-header">
                                 <h3 class="font-medium text-gray-800">Sell</h3>
-                                <div class="text-sm text-blue-600 flex items-center">
+                                <div class="text-xs text-blue-600 flex items-center">
                                     <span>Available Balance</span>
                                     <span class="font-medium ml-1" id="selectedCurrencyBalance">1000.99 USD</span>
                                 </div>
@@ -418,7 +418,7 @@
                                 <div class="relative">
                                     <button id="sellCurrencyDropdown" class="currency-dropdown w-full">
                                         <img src="https://flagcdn.com/w40/us.png" alt="USD" class="currency-flag-large" id="sellCurrencyFlag">
-                                        <span class="ml-2" id="sellCurrencyText">USD USD</span>
+                                        <span class="ml-2" id="sellCurrencyText">USD</span>
                                         <i class="fas fa-chevron-down ml-auto text-gray-400"></i>
                                     </button>
                                     <div id="sellCurrencyOptions" class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
@@ -427,8 +427,8 @@
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/us.png" alt="USD" class="currency-flag-large">
                                                     <div class="ml-2">
-                                                        <div>USD USD</div>
-                                                        <div class="text-sm text-gray-500">Balance 18,983.87USD</div>
+                                                        <div>USD</div>
+                                                        <div class="text-xs text-gray-500">Balance 18,983.87USD</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -436,8 +436,8 @@
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/jp.png" alt="JPY" class="currency-flag-large">
                                                     <div class="ml-2">
-                                                        <div>JPY JPY</div>
-                                                        <div class="text-sm text-gray-500">Balance 196JPY</div>
+                                                        <div>JPY</div>
+                                                        <div class="text-xs text-gray-500">Balance 196JPY</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -445,8 +445,8 @@
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/eu.png" alt="EUR" class="currency-flag-large">
                                                     <div class="ml-2">
-                                                        <div>EUR EUR</div>
-                                                        <div class="text-sm text-gray-500">Balance 0.00EUR</div>
+                                                        <div>EUR</div>
+                                                        <div class="text-xs text-gray-500">Balance 0.00EUR</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -492,7 +492,7 @@
                                 <div class="relative">
                                     <button id="buyCurrencyDropdown" class="currency-dropdown w-full">
                                         <img src="https://flagcdn.com/w40/eu.png" alt="EUR" class="currency-flag-large" id="buyCurrencyFlag">
-                                        <span class="ml-2" id="buyCurrencyText">EUR EUR</span>
+                                        <span class="ml-2" id="buyCurrencyText">EUR</span>
                                         <i class="fas fa-chevron-down ml-auto text-gray-400"></i>
                                     </button>
                                     <div id="buyCurrencyOptions" class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
@@ -500,19 +500,19 @@
                                             <div class="currency-option hover:bg-gray-50 p-2 rounded cursor-pointer" data-currency="USD" data-flag="us">
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/us.png" alt="USD" class="currency-flag-large">
-                                                    <div class="ml-2">USD USD</div>
+                                                    <div class="ml-2">USD</div>
                                                 </div>
                                             </div>
                                             <div class="currency-option hover:bg-gray-50 p-2 rounded cursor-pointer" data-currency="JPY" data-flag="jp">
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/jp.png" alt="JPY" class="currency-flag-large">
-                                                    <div class="ml-2">JPY JPY</div>
+                                                    <div class="ml-2">JPY</div>
                                                 </div>
                                             </div>
                                             <div class="currency-option hover:bg-gray-50 p-2 rounded cursor-pointer" data-currency="EUR" data-flag="eu">
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/eu.png" alt="EUR" class="currency-flag-large">
-                                                    <div class="ml-2">EUR EUR</div>
+                                                    <div class="ml-2">EUR</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -872,7 +872,7 @@
 
             if (refreshButton) {
                 refreshButton.addEventListener('click', () => {
-                    alert('Refreshing exchange rate...');
+                    startCountdown();
                 });
             }
 
@@ -989,7 +989,7 @@
                     
                     sellCurrencyFlag.src = `https://flagcdn.com/w40/${flag}.png`;
                     sellCurrencyFlag.alt = currency;
-                    sellCurrencyText.textContent = `${currency}${getCurrencyName(currency)}`;
+                    sellCurrencyText.textContent = currency;
                     selectedCurrencyBalance.textContent = balance;
                     // 自动填充卖出金额并只读
                     document.getElementById('sellAmountInput').value = balance.replace(/[^\d.]/g, '');
@@ -1005,7 +1005,7 @@
                     
                     buyCurrencyFlag.src = `https://flagcdn.com/w40/${flag}.png`;
                     buyCurrencyFlag.alt = currency;
-                    buyCurrencyText.textContent = `${currency}${getCurrencyName(currency)}`;
+                    buyCurrencyText.textContent = currency;
                     
                     buyCurrencyOptions.classList.add('hidden');
                 });
