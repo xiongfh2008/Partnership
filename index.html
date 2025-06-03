@@ -193,13 +193,10 @@
                 return;
             }
 
-            // 显示用户信息
-            const username = sessionStorage.getItem('username');
-            if (username) {
-                const userWelcome = document.getElementById('userWelcome');
-                if (userWelcome) {
-                    userWelcome.textContent = `Welcome, ${username}`;
-                }
+            // 显示用户信息 - 始终显示企业名称
+            const userWelcome = document.getElementById('userWelcome');
+            if (userWelcome) {
+                userWelcome.textContent = 'Welcome, 重庆商贸科技有限公司';
             }
 
             // 处理退出登录
