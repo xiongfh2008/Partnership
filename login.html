@@ -308,7 +308,7 @@
                         <i class="fas fa-eye"></i>
                     </button>
                 </div>
-                <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
+                <div class="error-message" id="passwordError">Please enter your password</div>
             </div>
             
             <div class="remember-forgot">
@@ -354,7 +354,7 @@
             }
             
             function validatePassword(password) {
-                return password.length >= 6;
+                return true; // 取消密码长度校验
             }
             
             function showError(inputId, errorId, show = true) {

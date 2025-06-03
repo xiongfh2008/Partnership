@@ -221,7 +221,7 @@ const translations = {
         },
 
         // Left menu translations
-        'menu_home': 'Home',
+        'menu_home': 'Dashboard',
         'menu_account_overview': 'Account Overview',
         'menu_acquiring': 'Acquiring',
         'menu_bill_collection': 'Bill Collection',
