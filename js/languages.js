@@ -275,7 +275,11 @@ function updatePageContent() {
     
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
-        if (translations[currentLang] && translations[currentLang][key]) {
+        
+        // 强制首页菜单始终显示英文
+        if (key === 'menu_home') {
+            element.textContent = translations['en'][key];
+        } else if (translations[currentLang] && translations[currentLang][key]) {
             element.textContent = translations[currentLang][key];
         }
     });
