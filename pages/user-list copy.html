@@ -283,7 +283,7 @@
 
         <!-- 搜索区域 -->
         <div class="card bg-white p-4 mb-4 border border-gray-100">
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
                 <div>
                     <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="user_id">Customer ID</label>
                     <input type="text" class="w-full border border-gray-200 rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-purple-300 search-input">
@@ -291,6 +291,14 @@
                 <div>
                     <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="customer_name">Customer Name</label>
                     <input type="text" class="w-full border border-gray-200 rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-purple-300 search-input">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="phone_number">Phone Number</label>
+                    <input type="text" class="w-full border border-gray-200 rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-purple-300 search-input">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="email">Email</label>
+                    <input type="email" class="w-full border border-gray-200 rounded-md px-2.5 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-purple-300 search-input">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-600 mb-1" data-i18n="status">Status</label>
@@ -337,6 +345,12 @@
                             <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="customer_name" data-field="customer_name">
                                 Customer Name
                             </th>
+                            <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="phone_number" data-field="phone_number">
+                                Phone Number
+                            </th>
+                            <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="email" data-field="email">
+                                Email
+                            </th>
                             <th scope="col" class="text-left text-xs font-medium text-gray-500 uppercase tracking-wider" data-i18n="entity_type" data-field="entity_type">
                                 Entity Type
                             </th>
@@ -358,6 +372,12 @@
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 ABC Trading Co.
+                            </td>
+                            <td class="whitespace-nowrap text-gray-700">
+                                +1 234 567 8900
+                            </td>
+                            <td class="whitespace-nowrap text-gray-700">
+                                contact@abctrading.com
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 Corporate
@@ -382,6 +402,12 @@
                                 XYZ Imports Ltd.
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
+                                +44 20 1234 5678
+                            </td>
+                            <td class="whitespace-nowrap text-gray-700">
+                                info@xyzimports.co.uk
+                            </td>
+                            <td class="whitespace-nowrap text-gray-700">
                                 Corporate
                             </td>
                             <td class="whitespace-nowrap">
@@ -402,6 +428,12 @@
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 Global E-Shop
+                            </td>
+                            <td class="whitespace-nowrap text-gray-700">
+                                +61 2 9876 5432
+                            </td>
+                            <td class="whitespace-nowrap text-gray-700">
+                                support@globaleshop.com.au
                             </td>
                             <td class="whitespace-nowrap text-gray-700">
                                 Individual

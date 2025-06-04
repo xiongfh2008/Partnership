@@ -10,25 +10,6 @@
     <link rel="stylesheet" href="styles/theme.css">
     <link rel="stylesheet" href="styles/responsive.css">
     <script src="js/languages.js"></script>
-    <script>
-        // 检查登录状态
-        function checkLoginStatus() {
-            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-            if (!isLoggedIn) {
-                window.location.href = 'login.html';
-                return false;
-            }
-            return true;
-        }
-
-        // 页面加载前检查登录状态
-        if (!checkLoginStatus()) {
-            // 阻止页面继续加载
-            document.addEventListener('DOMContentLoaded', function(e) {
-                e.stopImmediatePropagation();
-            });
-        }
-    </script>
 </head>
 <body class="bg-gray-50 text-gray-800">
     <!-- 顶部导航栏 -->
@@ -188,24 +169,16 @@
     <script>
         // 初始化页面
         document.addEventListener('DOMContentLoaded', () => {
-            // 再次检查登录状态
-            if (!checkLoginStatus()) {
-                return;
-            }
-
-            // 显示用户信息 - 始终显示企业名称
-            const userWelcome = document.getElementById('userWelcome');
-            if (userWelcome) {
-                userWelcome.textContent = 'Welcome, 重庆商贸科技有限公司';
-            }
-
             // 处理退出登录
             const logoutBtn = document.getElementById('logoutBtn');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function() {
-                    sessionStorage.removeItem('isLoggedIn');
-                    sessionStorage.removeItem('username');
-                    window.location.href = 'login.html';
+                    if (confirm('确定要退出登录吗？')) {
+                        // 可以在这里添加退出登录的逻辑
+                        alert('已退出登录');
+                        // 如果需要可以重定向到其他页面
+                        // window.location.href = 'login.html';
+                    }
                 });
             }
 
