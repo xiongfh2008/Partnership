@@ -221,7 +221,7 @@ const translations = {
         },
 
         // Left menu translations
-        'menu_home': 'Dashboard',
+        'menu_home': 'Home',
         'menu_account_overview': 'Account Overview',
         'menu_acquiring': 'Acquiring',
         'menu_bill_collection': 'Bill Collection',
@@ -232,7 +232,7 @@ const translations = {
         'menu_withdrawal': 'Withdrawal',
         'menu_payment': 'Payment',
         'menu_transaction_query': 'Transaction Query',
-        'menu_referral': 'Exclusive Links',
+        'menu_referral': 'Referral Rewards',
         'menu_user_center': 'User Center',
         'menu_security': 'Security Settings',
         'menu_authentication': 'Authentication Info',
@@ -253,72 +253,42 @@ const translations = {
 
 // 获取当前语言
 function getCurrentLanguage() {
-    // 检查是否是移动端
-    const isMobile = window.innerWidth <= 768;
-    // 如果是移动端，强制使用英文
-    if (isMobile) {
-        return 'en';
-    }
+    console.log('Getting current language:', localStorage.getItem('language') || 'zh-CN');
     return localStorage.getItem('language') || 'zh-CN';
 }
 
 // 设置语言
 function setLanguage(lang) {
     localStorage.setItem('language', lang);
-    updatePageContent();
+    document.documentElement.lang = lang;
+    console.log('Language set to:', lang);
 }
 
 // 更新页面内容
 function updatePageContent() {
+    console.log('Updating page content');
     const currentLang = getCurrentLanguage();
     const elements = document.querySelectorAll('[data-i18n]');
     
     elements.forEach(element => {
         const key = element.getAttribute('data-i18n');
-        
-        // 强制首页菜单始终显示英文
-        if (key === 'menu_home') {
-            element.textContent = translations['en'][key];
+        if (key.includes('.')) {
+            // 处理嵌套的翻译键
+            const [category, subKey] = key.split('.');
+            if (translations[currentLang][category] && translations[currentLang][category][subKey]) {
+                element.textContent = translations[currentLang][category][subKey];
+            }
         } else if (translations[currentLang] && translations[currentLang][key]) {
             element.textContent = translations[currentLang][key];
         }
     });
-
-    // 在移动端时，强制将所有菜单项转换为英文
-    if (window.innerWidth <= 768) {
-        // 处理菜单项文本
-        document.querySelectorAll('.menu-text').forEach(element => {
-            const key = element.getAttribute('data-i18n');
-            if (key && translations['en'][key]) {
-                element.textContent = translations['en'][key];
-            } else if (element.textContent === '首页') {
-                element.textContent = 'Home';
-            } else if (element.textContent === '收款') {
-                element.textContent = 'Collection';
-            } else if (element.textContent === '外汇兑换') {
-                element.textContent = 'Forex';
-            } else if (element.textContent === '提现') {
-                element.textContent = 'Withdrawal';
-            } else if (element.textContent === '付款') {
-                element.textContent = 'Payment';
-            }
-        });
-
-        // 处理其他需要显示英文的元素
-        const welcomeText = document.querySelector('#toggle-menu-btn span');
-        if (welcomeText) {
-            welcomeText.textContent = 'Welcome to Whalet-Partnership Merchant Platform';
-        }
-    }
 }
 
-// 监听窗口大小变化
-window.addEventListener('resize', () => {
-    updatePageContent();
-});
-
-// 初始化页面内容
+// 初始化页面语言
+console.log('Initializing page language');
 document.addEventListener('DOMContentLoaded', () => {
+    const currentLang = getCurrentLanguage();
+    document.documentElement.lang = currentLang;
     updatePageContent();
 });
 
