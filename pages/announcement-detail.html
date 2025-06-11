@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcement Details - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <link rel="stylesheet" href="../styles/theme.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        [data-theme="dark"] body {
+            background-color: #1a1a1a;
+        }
+        [data-theme="dark"] .bg-white {
+            background-color: #2d2d2d !important;
+        }
+        [data-theme="dark"] .text-gray-600 {
+            color: #9ca3af !important;
+        }
+        [data-theme="dark"] .text-gray-700 {
+            color: #d1d5db !important;
+        }
+        [data-theme="dark"] .text-gray-800 {
+            color: #e5e7eb !important;
+        }
+        [data-theme="dark"] .text-gray-900 {
+            color: #f3f4f6 !important;
+        }
+        [data-theme="dark"] .border-gray-200 {
+            border-color: #404040 !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="home.html" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="home.html" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Announcement Details</h1>
+                    </div>
+                    <a href="home.html" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="p-6">
+                <!-- Announcement Title -->
+                <h2 class="text-2xl font-medium text-gray-900 mb-2">Qingming Festival Holiday Notice</h2>
+                
+                <!-- Publication Time -->
+                <div class="text-gray-600 text-sm mb-6">2025-03-21 17:54:59</div>
+                
+                <!-- Announcement Content -->
+                <div class="prose max-w-none text-gray-800">
+                    <p class="mb-4">Dear Whalet Users:</p>
+                    
+                    <p class="mb-6">Due to the Qingming Festival holiday (April 4-6, 2025), the processing times for various services will be adjusted as follows. Please plan your finances accordingly.</p>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">1. Payment Receipt</h3>
+                            <p class="text-gray-800">Delays in payment processing for Mainland China/Hong Kong/Indonesia due to holiday</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">2. Withdrawals and Payments</h3>
+                            <p class="text-gray-800">Withdrawal and payment services will be suspended and resume on April 7</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">3. Whalet Card Services</h3>
+                            <p class="text-gray-800">Whalet Card balance transfers will resume on April 7</p>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">4. Other Services</h3>
+                            <p class="text-gray-800">Account verification and store/order review will be suspended and processed in order on April 7</p>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-6 text-gray-800">We apologize for any inconvenience. For any questions, please contact your dedicated sales manager or our customer service at 400-806-0877.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 主题切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            html.setAttribute('data-theme', savedTheme);
+        });
+    </script>
+</body>
+</html> 

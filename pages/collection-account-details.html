@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <style>
+        /* 基础样式 */
+        .section-container {
+            max-height: calc(100vh - 8rem);
+            overflow-y: auto;
+        }
+        .copy-button:hover {
+            color: #7D33FF;
+        }
+        .account-card {
+            transition: all 0.3s ease;
+        }
+        .account-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .warning-icon {
+            color: #FFA500;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+        .text-purple {
+            color: #7D33FF !important;
+        }
+        .purple-text {
+            color: #7D33FF;
+        }
+        .purple-text:hover {
+            color: #6929CC;
+        }
+        /* 紫色主题样式 */
+        .purple-theme {
+            color: #7D33FF !important;
+        }
+        .purple-theme:hover {
+            color: #6929CC !important;
+        }
+        .purple-icon {
+            color: #7D33FF !important;
+        }
+        .purple-icon:hover {
+            color: #6929CC !important;
+        }
+        .purple-button {
+            color: #7D33FF !important;
+        }
+        .purple-button:hover {
+            color: #6929CC !important;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .tab-btn.active {
+            border-bottom: 2px solid #7D33FF !important;
+            color: #7D33FF !important;
+        }
+        .tab-btn:hover {
+            color: #7D33FF !important;
+            border-bottom-color: #7D33FF !important;
+        }
+        /* 添加链接样式 */
+        a {
+            color: #7D33FF;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #6929CC;
+        }
+        /* 添加或更新样式 */
+        .custom-purple {
+            color: #7D33FF !important;
+        }
+        .custom-purple-hover:hover {
+            color: #6929CC !important;
+        }
+        /* 确保按钮样式优先级 */
+        button.custom-purple,
+        a.custom-purple {
+            color: #7D33FF !important;
+        }
+        button.custom-purple-hover:hover,
+        a.custom-purple-hover:hover {
+            color: #6929CC !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Main Content Area -->
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white rounded-lg shadow-sm">
+                <!-- Top Navigation Bar -->
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <button onclick="window.history.back()" class="mr-4 flex items-center" style="color: #7D33FF;">
+                                <i class="fas fa-arrow-left"></i>
+                                <span class="ml-1 text-sm">Back</span>
+                            </button>
+                            <h1 class="text-xl font-medium text-gray-900">Account Details</h1>
+                        </div>
+                        <a href="my-assets.html#bank-accounts" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center">
+                            <i class="fas fa-university mr-2"></i>
+                            Bank Account Management
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 space-y-6">
+                    <!-- Collection Account Module -->
+                    <div class="bg-white border border-gray-200 rounded-lg">
+                        <div class="p-6">
+                            <!-- Account Information Title -->
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center space-x-2">
+                                    <h2 class="text-lg font-medium text-gray-900">Account Information</h2>
+                                    <span class="text-sm text-red-500">Please bind your store to activate the account to avoid collection failure</span>
+                                </div>
+                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Inactive</span>
+                            </div>
+
+                            <!-- Account Information Grid Layout -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Left Information -->
+                                <div class="space-y-4">
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Creation Time</div>
+                                            <div class="text-xs text-gray-400">Create Time</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">2024-03-26 14:54:24</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Bank Location</div>
+                                            <div class="text-xs text-gray-400">Bank Location</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">810 Seventh Avenue, New York, NY 10019, US</span>
+                                            <button class="ml-2 text-sm purple-theme" onclick="copyToClipboard('810 Seventh Avenue, New York, NY 10019, US')">Copy</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Applicable Platform</div>
+                                            <div class="text-xs text-gray-400">Applicable Platform</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">Amazon North America</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Bank Account Number</div>
+                                            <div class="text-xs text-gray-400">Bank Account Number</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900" id="bankAccountNumber">********1367</span>
+                                            <button class="ml-2 text-sm purple-theme" onclick="handleBankAccountView('bankAccountNumber', '20000044626899')">View</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Financial Institution Name</div>
+                                            <div class="text-xs text-gray-400">Financial Institution Name</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">Community Federal Savings Bank</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right Information -->
+                                <div class="space-y-4">
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Country/Region</div>
+                                            <div class="text-xs text-gray-400">Country/Region</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">United States</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Currency Receipt</div>
+                                            <div class="text-xs text-gray-400">Currency Receipt</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">USD</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">9 Digit Routing Number</div>
+                                            <div class="text-xs text-gray-400">9 Digit Routing Number</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="space-y-2">
+                                                <div class="flex items-center">
+                                                    <span class="text-gray-900">026073150(ACH)</span>
+                                                    <button class="ml-2 text-sm purple-theme" onclick="copyToClipboard('026073150')">Copy</button>
+                                                </div>
+                                                <div class="flex items-center">
+                                                    <span class="text-gray-900">026073008(Wire)</span>
+                                                    <button class="ml-2 text-sm purple-theme" onclick="copyToClipboard('026073008')">Copy</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Account Holder Name</div>
+                                            <div class="text-xs text-gray-400">Account Holder Name</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">Shanshan Zhang</span>
+                                            <button class="ml-2 text-sm purple-theme" onclick="copyToClipboard('Shanshan Zhang')">Copy</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start space-x-8">
+                                        <div class="w-32">
+                                            <div class="text-sm text-gray-500">Cancellation Date</div>
+                                            <div class="text-xs text-gray-400">Cancellation Date</div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <span class="text-gray-900">2027-04-25</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Account Holder Information Section -->
+                            <div class="mt-8">
+                                <h3 class="text-lg font-medium text-gray-900 mb-4">Account Holder Bank Account</h3>
+                                <div class="text-sm text-gray-500 mb-4">Independent account holder bank account can receive payments from participating platforms</div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <!-- First Row -->
+                                    <div class="space-y-4">
+                                        <div class="flex items-start space-x-8">
+                                            <div class="w-32">
+                                                <div class="text-sm text-gray-500">Account Holder Name</div>
+                                                <div class="text-xs text-gray-400">Account Holder Name</div>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="text-gray-900">Shanshan Zhang</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-start space-x-8">
+                                            <div class="w-32">
+                                                <div class="text-sm text-gray-500">Bank Name</div>
+                                                <div class="text-xs text-gray-400">Bank Name</div>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="text-gray-900">China Minsheng Bank</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Second Row -->
+                                    <div class="space-y-4">
+                                        <div class="flex items-start space-x-8">
+                                            <div class="w-32">
+                                                <div class="text-sm text-gray-500">Account Number</div>
+                                                <div class="text-xs text-gray-400">Account Number</div>
+                                            </div>
+                                            <div class="flex-1">
+                                                <span class="text-gray-900" id="holderBankAccountNumber">********4824</span>
+                                                <button class="ml-2 text-sm purple-theme" onclick="handleBankAccountView('holderBankAccountNumber', '6225888888888888')">View</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Store Information Module -->
+                    <div class="bg-white border border-gray-200 rounded-lg p-6">
+                        <!-- First Row: Platform and Add Store Button -->
+                        <div class="flex justify-between items-center mb-6">
+                            <div class="flex items-center">
+                                <img src="https://logo.clearbit.com/shopify.com" alt="Shopify" class="h-8 w-8 rounded-full">
+                                <span class="ml-3 text-lg font-medium">Shopify</span>
+                            </div>
+                            <a href="add-shop.html" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md text-sm font-medium transition-colors duration-200 flex items-center">
+                                <i class="fas fa-plus mr-2"></i>
+                                Add Store
+                            </a>
+                        </div>
+                        
+                        <!-- Store Information List -->
+                        <div class="overflow-hidden">
+                            <!-- Table Header -->
+                            <div class="grid grid-cols-4 gap-4 px-4 py-3 bg-gray-50 border-b border-gray-200">
+                                <div class="text-sm font-medium text-gray-500">Store Name</div>
+                                <div class="text-sm font-medium text-gray-500">Store Alias</div>
+                                <div class="text-sm font-medium text-gray-500">Store Link</div>
+                                <div class="text-sm font-medium text-gray-500">Status</div>
+                            </div>
+                            
+                            <!-- List Content -->
+                            <div class="divide-y divide-gray-200">
+                                <!-- Store 1 -->
+                                <div class="grid grid-cols-4 gap-4 px-4 py-4 hover:bg-gray-50">
+                                    <div class="text-sm text-gray-900">Global Tech Store</div>
+                                    <div class="text-sm text-gray-900 flex items-center">
+                                        <span id="shopAlias1">US Electronics Store</span>
+                                        <button onclick="editShopAlias('shopAlias1')" class="ml-2 text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-edit text-xs"></i>
+                                        </button>
+                                    </div>
+                                    <div class="text-sm">
+                                        <a href="https://globaltechstore.myshopify.com" target="_blank" class="text-gray-900 hover:text-purple-600">https://globaltechstore.myshopify.com</a>
+                                    </div>
+                                    <div>
+                                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Normal</span>
+                                    </div>
+                                </div>
+
+                                <!-- Store 2 -->
+                                <div class="grid grid-cols-4 gap-4 px-4 py-4 hover:bg-gray-50">
+                                    <div class="text-sm text-gray-900">Fashion World</div>
+                                    <div class="text-sm text-gray-900 flex items-center">
+                                        <span id="shopAlias2">Fashion Store</span>
+                                        <button onclick="editShopAlias('shopAlias2')" class="ml-2 text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-edit text-xs"></i>
+                                        </button>
+                                    </div>
+                                    <div class="text-sm">
+                                        <a href="https://fashionworld.myshopify.com" target="_blank" class="text-gray-900 hover:text-purple-600">https://fashionworld.myshopify.com</a>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">Pending</span>
+                                        <a href="apply-collection-account-binding.html" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs transition-colors duration-200">
+                                            Bind Store
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Verification Modal -->
+    <div id="passwordModal" class="modal">
+        <div class="modal-content max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-medium">Security Verification</h3>
+                <button onclick="closePasswordModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Please enter your transaction password
+                </label>
+                <div class="mt-2">
+                    <input type="password" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Enter transaction password">
+                </div>
+                <div id="passwordError" class="mt-2 text-red-500 text-sm hidden"></div>
+                <div class="mt-2">
+                    <a href="#" class="text-sm text-[#7D33FF] hover:text-[#6929CC]">Forgot Password?</a>
+                </div>
+            </div>
+            <div class="flex justify-end items-center space-x-4 mt-6">
+                <button onclick="closePasswordModal()" class="px-4 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-md">
+                    Cancel
+                </button>
+                <button onclick="verifyPassword()" class="px-4 py-2 border border-[#7D33FF] text-[#7D33FF] hover:bg-[#7D33FF] hover:text-white rounded-md">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account Details Modal -->
+    <div id="accountDetailsModal" class="modal">
+        <div class="modal-content max-w-2xl">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center pb-4 mb-4 border-b border-gray-200">
+                <div class="flex items-center">
+                    <h3 class="text-xl font-medium text-gray-900">Collection Account Details</h3>
+                </div>
+                <button onclick="closeAccountDetailsModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Account Detailed Information -->
+            <div class="space-y-4">
+                <!-- Collection Account Information -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-medium text-gray-900">Collection Account Information</h4>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Bank Account Number</div>
+                            <div class="text-xs text-gray-400">Bank Account Number</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-900 mr-2">20000044626899</span>
+                            <button class="text-sm purple-theme" onclick="copyToClipboard('20000044626899')">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">ACH Routing Number</div>
+                            <div class="text-xs text-gray-400">ACH Routing Number</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-900 mr-2">028000024</span>
+                            <button class="text-sm purple-theme" onclick="copyToClipboard('028000024')">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">SWIFT/BIC</div>
+                            <div class="text-xs text-gray-400">SWIFT/BIC Code</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-900 mr-2">CHASUS33</span>
+                            <button class="text-sm purple-theme" onclick="copyToClipboard('CHASUS33')">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Bank Name</div>
+                            <div class="text-xs text-gray-400">Bank Name</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-900 mr-2">JPMORGAN CHASE BANK, N.A.</span>
+                            <button class="text-sm purple-theme" onclick="copyToClipboard('JPMORGAN CHASE BANK, N.A.')">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Bank Address</div>
+                            <div class="text-xs text-gray-400">Bank Address</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-900 mr-2">383 MADISON AVENUE, NEW YORK, United States</span>
+                            <button class="text-sm purple-theme" onclick="copyToClipboard('383 MADISON AVENUE, NEW YORK, United States')">
+                                Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Creation Time</div>
+                            <div class="text-xs text-gray-400">Creation Time</div>
+                        </div>
+                        <span class="text-gray-900">2023-06-20</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Payment Platform</div>
+                            <div class="text-xs text-gray-400">Payment Platform</div>
+                        </div>
+                        <div class="flex items-center">
+                            <img class="h-5 w-5 rounded-full mr-2" src="https://logo.clearbit.com/shopify.com" alt="">
+                            <span class="text-gray-900">Shopify</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Currency</div>
+                            <div class="text-xs text-gray-400">Currency</div>
+                        </div>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">USD</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Status</div>
+                            <div class="text-xs text-gray-400">Status</div>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Normal</span>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Cancellation Date</div>
+                            <div class="text-xs text-gray-400">Cancellation Date</div>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-900">2024-06-20</span>
+                            <i class="fas fa-exclamation-circle text-yellow-500 ml-2" title="Expiring Soon"></i>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <div class="text-sm text-gray-500">Auto Renewal</div>
+                            <div class="text-xs text-gray-400">Auto Renewal</div>
+                        </div>
+                        <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">Enabled</span>
+                    </div>
+                </div>
+
+                <!-- Account Holder Bank Account Information -->
+                <div class="pt-6 mt-6 border-t border-gray-200">
+                    <h4 class="text-lg font-medium text-gray-900 mb-4">Account Holder Bank Account</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-gray-500">Account Holder Name</div>
+                                <div class="text-xs text-gray-400">Account Holder Name</div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-900 mr-2">ZHANG SHANSHAN</span>
+                                <button class="text-sm purple-theme" onclick="copyToClipboard('ZHANG SHANSHAN')">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-gray-500">Bank Name</div>
+                                <div class="text-xs text-gray-400">Bank Name</div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-900 mr-2">BANK OF CHINA</span>
+                                <button class="text-sm purple-theme" onclick="copyToClipboard('BANK OF CHINA')">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-gray-500">Account Number</div>
+                                <div class="text-xs text-gray-400">Account Number</div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-900 mr-2">6225 8888 8888 8888</span>
+                                <button class="text-sm purple-theme" onclick="copyToClipboard('6225 8888 8888 8888')">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm text-gray-500">Bank Code</div>
+                                <div class="text-xs text-gray-400">Bank Code</div>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-900 mr-2">BKCHCNBJ</span>
+                                <button class="text-sm purple-theme" onclick="copyToClipboard('BKCHCNBJ')">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Edit store alias
+        function editShopAlias(aliasId) {
+            const aliasSpan = document.getElementById(aliasId);
+            const currentAlias = aliasSpan.textContent;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentAlias;
+            input.className = 'border border-gray-300 rounded px-2 py-1 text-sm';
+            
+            // Handle enter key and blur events
+            function saveAlias() {
+                const newAlias = input.value.trim();
+                if (newAlias) {
+                    aliasSpan.textContent = newAlias;
+                    // Add logic to save to server here
+                } else {
+                    aliasSpan.textContent = currentAlias;
+                }
+            }
+            
+            input.onblur = saveAlias;
+            input.onkeypress = function(e) {
+                if (e.key === 'Enter') {
+                    saveAlias();
+                    input.blur();
+                }
+            };
+            
+            aliasSpan.textContent = '';
+            aliasSpan.appendChild(input);
+            input.focus();
+        }
+
+        // Handle bank account view logic
+        function handleBankAccountView(elementId, fullNumber) {
+            const element = document.getElementById(elementId);
+            const button = element.nextElementSibling;
+            
+            if (button.textContent === 'View') {
+                showPasswordModal(function() {
+                    element.textContent = fullNumber;
+                    button.textContent = 'Copy';
+                    button.onclick = function() {
+                        copyToClipboard(fullNumber);
+                    };
+                });
+            }
+        }
+
+        // Password verification modal
+        let remainingAttempts = 5;
+
+        function showPasswordModal(callback) {
+            const modal = document.getElementById('passwordModal');
+            modal.classList.add('active');
+            
+            // Reset error message and attempts
+            document.getElementById('passwordError').classList.add('hidden');
+            remainingAttempts = 5;
+            
+            // Store callback function
+            modal.dataset.callback = true;
+            modal._callback = callback;
+        }
+
+        function verifyPassword() {
+            const modal = document.getElementById('passwordModal');
+            const passwordInput = document.querySelector('#passwordModal input[type="password"]');
+            const errorElement = document.getElementById('passwordError');
+            const password = passwordInput.value;
+            
+            // Add actual password verification logic here
+            if (password === '123456') { // Example password, should be verified from backend
+                if (modal.dataset.callback && modal._callback) {
+                    modal._callback();
+                    delete modal.dataset.callback;
+                    delete modal._callback;
+                }
+                closePasswordModal();
+                passwordInput.value = ''; // Clear password input
+                errorElement.classList.add('hidden');
+            } else {
+                remainingAttempts--;
+                errorElement.textContent = `Transaction password incorrect, you have ${remainingAttempts} attempts remaining`;
+                errorElement.classList.remove('hidden');
+                passwordInput.value = ''; // Clear password input
+                
+                if (remainingAttempts <= 0) {
+                    closePasswordModal();
+                    // Add account lock logic here
+                }
+            }
+        }
+
+        function closePasswordModal() {
+            document.getElementById('passwordModal').classList.remove('active');
+        }
+
+        // Account details modal
+        function showAccountDetailsModal() {
+            document.getElementById('accountDetailsModal').classList.add('active');
+        }
+
+        function closeAccountDetailsModal() {
+            document.getElementById('accountDetailsModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('accountDetailsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAccountDetailsModal();
+            }
+        });
+
+        // Update all "View Account Details" link click events
+        document.querySelectorAll('a[href="#"]').forEach(link => {
+            if (link.textContent === 'View Account Details') {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showAccountDetailsModal();
+                });
+            }
+        });
+
+        // Copy to clipboard functionality
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Add a tooltip to show copy success
+                const tooltip = document.createElement('div');
+                tooltip.textContent = 'Copied';
+                tooltip.className = 'fixed px-3 py-2 bg-gray-800 text-white text-sm rounded shadow-lg';
+                tooltip.style.left = (event.clientX + 10) + 'px';
+                tooltip.style.top = (event.clientY - 30) + 'px';
+                document.body.appendChild(tooltip);
+                
+                setTimeout(() => {
+                    tooltip.remove();
+                }, 1500);
+            }).catch(err => {
+                console.error('Copy failed:', err);
+            });
+        }
+    </script>
+</body>
+</html> 

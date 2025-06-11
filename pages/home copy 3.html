@@ -105,7 +105,7 @@
             background-color: #7D33FF;
             color: white;
         }
-        #quickNavModal {
+        #surveyModal {
             position: fixed !important;
             inset: 0 !important;
             width: 100vw !important;
@@ -117,11 +117,11 @@
             z-index: 999999;
         }
         
-        #quickNavModal.show {
+        #surveyModal.show {
             display: flex !important;
         }
         
-        #quickNavModal .modal-content {
+        #surveyModal .modal-content {
             background: white;
             border-radius: 0.75rem;
             width: 90%;
@@ -131,7 +131,7 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         
-        [data-theme="dark"] #quickNavModal .modal-content {
+        [data-theme="dark"] #surveyModal .modal-content {
             background: #2d2d2d;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
         }
@@ -277,6 +277,11 @@
 
             <!-- 右侧按钮组 -->
             <div class="flex items-center space-x-6">
+                <!-- 语言切换按钮 -->
+                <div class="language-switch" onclick="toggleLanguage()">
+                    <span id="currentLanguage">简体中文</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
                 
                 <!-- 主题切换按钮 -->
                 <button id="themeToggle" class="theme-toggle">
@@ -367,7 +372,7 @@
                         <div class="ml-2 flex-1">
                             <div class="flex items-center">
                                 <span class="text-xs px-1.5 py-0.5 rounded" style="background-color: rgba(125, 51, 255, 0.1); color: #7D33FF" data-i18n="announcement">最新公告</span>
-                                <p class="ml-2 text-gray-600 text-sm">Notice on Payment and Collection Service Arrangements During 2024 Chinese New Year</p>
+                                <p class="ml-2 text-gray-600 text-sm">关于2024年春节期间收付款服务安排的通知</p>
                             </div>
                         </div>
                     </div>
@@ -621,6 +626,29 @@
         </div>
     </div>
 
+    <!-- 问卷调查弹框 -->
+    <div id="surveyModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="modal-content p-6 relative">
+            <button id="closeSurveyModal" class="absolute right-4 top-4 text-gray-400 hover:text-gray-600">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center mb-6">
+                <img src="https://cdn-icons-png.flaticon.com/512/3273/3273666.png" alt="Survey" class="w-16 h-16 mx-auto mb-4">
+                <h3 class="text-xl font-semibold text-gray-900 mb-2" data-i18n="surveyTitle">问卷调查</h3>
+                <p class="text-gray-600 text-sm" data-i18n="surveyDesc">您的反馈对我们很重要，请花几分钟完成这份问卷</p>
+            </div>
+            <div class="space-y-4">
+                <button onclick="window.open('survey.html', '_blank')" class="w-full bg-[#7D33FF] text-white py-3 rounded-lg hover:bg-opacity-90 transition-colors flex items-center justify-center">
+                    <span data-i18n="startSurvey">开始问卷</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+                <button id="skipSurvey" class="w-full text-gray-600 hover:text-gray-800 py-2">
+                    <span data-i18n="skipSurvey">暂时跳过</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 快速导航管理弹出框 -->
     <div id="quickNavModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
         <div class="bg-white rounded-xl shadow-lg w-full max-w-lg mx-4">
@@ -780,7 +808,6 @@
             // 管理按钮点击事件
             manageBtn.addEventListener('click', () => {
                 modal.classList.remove('hidden');
-                modal.classList.add('show');
             });
 
             // 关闭按钮事件
@@ -788,7 +815,6 @@
                 if (btn) {
                     btn.addEventListener('click', () => {
                         modal.classList.add('hidden');
-                        modal.classList.remove('show');
                     });
                 }
             });
@@ -810,7 +836,6 @@
                     localStorage.setItem('selectedQuickNavItems', JSON.stringify(selectedItems));
                     initQuickNav();
                     modal.classList.add('hidden');
-                    modal.classList.remove('show');
                 });
             }
 
@@ -823,12 +848,41 @@
                     errorText.classList.add('hidden');
                 }
             });
+        }
+
+        // 初始化问卷调查弹框
+        function initSurveyModal() {
+            const surveyModal = document.getElementById('surveyModal');
+            const closeSurveyModal = document.getElementById('closeSurveyModal');
+            const skipSurvey = document.getElementById('skipSurvey');
+            
+            // 检查是否已经显示过问卷
+            const hasShownSurvey = localStorage.getItem('hasShownSurvey');
+            
+            if (!hasShownSurvey) {
+                // 延迟5秒显示问卷
+                setTimeout(() => {
+                    surveyModal.classList.add('show');
+                }, 5000);
+            }
+            
+            // 关闭按钮事件
+            closeSurveyModal.addEventListener('click', () => {
+                surveyModal.classList.remove('show');
+                localStorage.setItem('hasShownSurvey', 'true');
+            });
+            
+            // 跳过按钮事件
+            skipSurvey.addEventListener('click', () => {
+                surveyModal.classList.remove('show');
+                localStorage.setItem('hasShownSurvey', 'true');
+            });
 
             // 点击遮罩层关闭
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                    modal.classList.remove('show');
+            surveyModal.addEventListener('click', (e) => {
+                if (e.target === surveyModal) {
+                    surveyModal.classList.remove('show');
+                    localStorage.setItem('hasShownSurvey', 'true');
                 }
             });
         }
@@ -837,6 +891,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             initQuickNav();
             initQuickNavModal();
+            initSurveyModal();
         });
 
         // 用户中心下拉菜单点击切换显示
@@ -1084,7 +1139,6 @@
         });
 
         // 语言切换功能
-        /*
         function toggleLanguage() {
             const currentLang = getCurrentLanguage();
             const newLang = currentLang === 'zh-CN' ? 'en' : 'zh-CN';
@@ -1105,7 +1159,6 @@
                 language: newLang
             }, '*');
         }
-        */
 
         // 更新页面内容
         function updatePageContent() {

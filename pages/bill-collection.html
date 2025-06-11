@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Collection - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem;
+        }
+        @media (min-width: 640px) {
+            .container {
+                padding: 1.5rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .container {
+                padding: 1.5rem 2rem;
+            }
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .bill-card {
+            transition: all 0.2s ease-in-out;
+        }
+        .bill-card:hover {
+            border-color: #4f46e5;
+        }
+        .tab-btn {
+            border-bottom: 2px solid transparent;
+            color: #6b7280;
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-btn:hover {
+            color: #374151;
+            border-bottom-color: #d1d5db;
+        }
+        .tab-btn.active {
+            border-bottom: 2px solid #7D33FF;
+            color: #7D33FF;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .preview-link {
+            color: #7D33FF;
+        }
+        .status-completed {
+            color: #059669;
+        }
+        .status-cancelled {
+            color: #6B7280;
+        }
+        .status-expired {
+            color: #D97706;
+        }
+        .status-normal {
+            color: #2563EB;
+        }
+        .status-disabled {
+            color: #DC2626;
+        }
+        .status-deleted {
+            color: #6B7280;
+        }
+        .status-paying {
+            color: #7C3AED;
+        }
+        .more-actions-dropdown {
+            position: absolute;
+            right: 0;
+            margin-top: 0.5rem;
+            z-index: 50;
+            min-width: 10rem;
+            padding: 0.5rem 0;
+            background-color: white;
+            border-radius: 0.375rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .more-actions-btn {
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        .more-actions-btn:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .relative {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto">
+        <!-- 将顶部导航和tab选项卡放在同一行 -->
+        <div class="bg-white rounded-lg shadow-sm mb-4">
+            <div class="border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <nav class="flex justify-start -mb-px pl-6">
+                        <button class="tab-btn active whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium" data-tab="bill-collection">
+                            Bill Collection
+                        </button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium" data-tab="product-management">
+                            Product Management
+                        </button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium" data-tab="buyer-management">
+                            Buyer Management
+                        </button>
+                    </nav>
+                    <div class="flex items-center space-x-6 pr-6">
+                        <!-- 公告图标 -->
+                        <div class="relative">
+                            <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <span class="relative">
+                                    <i class="fas fa-bell text-lg"></i>
+                                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </span>
+                            </a>
+                        </div>
+                        
+                        <!-- 帮助 -->
+                        <a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Help</a>
+                        
+                        <!-- 用户中心 -->
+                        <div class="relative">
+                            <button id="userCenterBtn" class="text-gray-600 hover:text-blue-600">
+                                <i class="fas fa-user-circle text-lg"></i>
+                            </button>
+                            <div id="userCenterDropdown" class="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg py-3 hidden z-10">
+                                <!-- 用户信息部分 -->
+                                <div class="px-4 pb-3 border-b border-gray-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-medium text-gray-900">Zhang Shanshan</h3>
+                                        <a href="#" class="text-xs text-blue-600 hover:text-blue-700">Upgrade to Enterprise</a>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-600">ZHANG SHANSHAN</span>
+                                            <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">ID</span>
+                                        <button class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-copy text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- 菜单选项 -->
+                                <div class="py-1">
+                                    <a href="security.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-shield-alt w-5 text-gray-400"></i>
+                                        Security Settings
+                                    </a>
+                                    <a href="authentication-info.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-id-card w-5 text-gray-400"></i>
+                                        Authentication Info
+                                    </a>
+                                    <a href="fees.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-percentage w-5 text-gray-400"></i>
+                                        Fee Rate Query
+                                    </a>
+                                    <a href="coupons.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-gift w-5 text-gray-400"></i>
+                                        My Coupons
+                                    </a>
+                                    <a href="my-invitation.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-user-plus w-5 text-gray-400"></i>
+                                        My Invitations
+                                    </a>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="logout.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt w-5"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bill Collection Tab Content -->
+        <div id="bill-collection" class="tab-content active bg-white rounded-lg shadow-sm">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Bill Collection</h2>
+                    <a href="create-payment-link.html" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded text-sm font-medium">
+                        Create Payment Link
+                    </a>
+                </div>
+            </div>
+
+            <!-- Search Criteria -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Date:</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="Start Date" />
+                        <span class="mx-2">to</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="End Date" />
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Status:</span>
+                        <select class="p-2 text-sm border border-gray-300 rounded-md">
+                            <option value="">All Status</option>
+                            <option value="normal">Normal</option>
+                            <option value="disabled">Disabled</option>
+                            <option value="expired">Expired</option>
+                            <option value="deleted">Deleted</option>
+                            <option value="paying">Paying</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="text" placeholder="Merchant Order No." class="p-2 text-sm border border-gray-300 rounded-md w-64" />
+                        <button class="ml-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium">
+                            Search
+                        </button>
+                        <button class="ml-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[140px]">
+                                Creation Time
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                Amount
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[140px]">
+                                Payment Link
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[160px]">
+                                Customer Email
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[140px]">
+                                Merchant Order No.
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                Link Name
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[140px]">
+                                Link Expiry
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[100px]">
+                                Status
+                            </th>
+                            <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- Normal status row -->
+                        <tr>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-18 15:30:00</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2,000.00 USD</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                <a href="payment-preview.html" target="_blank" class="preview-link">Preview</a>
+                                <a href="#" class="preview-link ml-2">Copy Link</a>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">customer...@gmail.com</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">20250118...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">Payment-USD</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-25 15:30:00</td>
+                            <td class="px-3 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Normal</span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="bill-collection-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disable</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Copy to New Link</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Completed status row -->
+                        <tr>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-17 10:08:53</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">15.00 EUR</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                <a href="payment-preview.html" target="_blank" class="preview-link">Preview</a>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...@gmail.com</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">20250117...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">gelunbiy...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-24 10:08:20</td>
+                            <td class="px-3 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="bill-collection-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Copy to New Link</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Deleted status row -->
+                        <tr>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-16 17:40:53</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">15.00 USD</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                <a href="payment-preview.html" target="_blank" class="preview-link">Preview</a>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...@gmail.com</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">20250116...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">nanfei-u...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-23 17:40:09</td>
+                            <td class="px-3 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">Deleted</span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="bill-collection-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Copy to New Link</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Expired status row -->
+                        <tr>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-16 11:51:23</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">5,000.00 ARS</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                <a href="payment-preview.html" target="_blank" class="preview-link">Preview</a>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...@gmail.com</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">20250116...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">agengtin...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-23 11:50:35</td>
+                            <td class="px-3 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Expired</span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="bill-collection-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Copy to New Link</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Other status row -->
+                        <tr>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-14 11:46:06</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">1,500.00 XOF</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                <a href="payment-preview.html" target="_blank" class="preview-link">Preview</a>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...@gmail.com</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">20250114...</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">Senegal</td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-21 11:41:25</td>
+                            <td class="px-3 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Completed</span>
+                            </td>
+                            <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="bill-collection-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Copy to New Link</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="px-6 py-4 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500">
+                        Showing 1 to 5 of 20 entries
+                    </div>
+                    <div class="flex space-x-1">
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
+                            Previous
+                        </button>
+                        <button class="px-3 py-1 border border-[#7D33FF] bg-[#7D33FF] text-white rounded-md text-sm">
+                            1
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            2
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            3
+                        </button>
+                        <span class="px-2 py-1 text-gray-500">...</span>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            4
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Management Tab Content -->
+        <div id="product-management" class="tab-content bg-white rounded-lg shadow-sm">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Product Management</h2>
+                    <a href="create-product.html" style="background-color: #7D33FF; color: white" class="hover:bg-purple-700 px-6 py-2 rounded text-sm font-medium">
+                        Create Product
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Search Criteria -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Date:</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="Start Date" />
+                        <span class="mx-2">to</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="End Date" />
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Status:</span>
+                        <select class="p-2 text-sm border border-gray-300 rounded-md">
+                            <option value="">All Status</option>
+                            <option value="normal">Normal</option>
+                            <option value="disabled">Disabled</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="text" placeholder="Product ID" class="p-2 text-sm border border-gray-300 rounded-md w-64" />
+                        <input type="text" placeholder="Product Name" class="ml-2 p-2 text-sm border border-gray-300 rounded-md w-64" />
+                        <button class="ml-2 bg-[#7D33FF] hover:bg-purple-700 text-white px-4 py-2 rounded text-sm font-medium">
+                            Search
+                        </button>
+                        <button class="ml-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data List -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Creation Time
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Product ID
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Product Name
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Unit Price
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- First row data -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-10 17:23:32</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">202501101723321555414001</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">kemailong</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1,000.00 XAF</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Normal</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="product-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disable</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Second row data -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-10 17:11:44</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">202501101711439128230001</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">ruwangda</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">6,000.00 RWF</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Disabled</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="product-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Enable</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Third row data -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-10 16:38:42</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">202501101638422839504001</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <div class="flex items-center">
+                                    <span class="bg-gray-800 text-white text-xs px-2 py-1 rounded mr-2">bilu</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">6,000.00 KES</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Normal</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="product-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disable</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Fourth row data -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-10 16:30:28</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">202501101630279596136001</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">bilu</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">6,000.00 TZS</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Disabled</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="product-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Enable</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Fifth row data -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-02 18:04:32</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">202501021804318896490001</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">bilu</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">6,000.00 PEN</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Normal</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="product-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disable</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="px-6 py-4 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500">
+                        Showing 1 to 5 of 20 entries
+                    </div>
+                    <div class="flex space-x-1">
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
+                            Previous
+                        </button>
+                        <button class="px-3 py-1 border border-[#7D33FF] bg-[#7D33FF] text-white rounded-md text-sm">
+                            1
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            2
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            3
+                        </button>
+                        <span class="px-2 py-1 text-gray-500">...</span>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            4
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 买家管理 Tab 内容 -->
+        <div id="buyer-management" class="tab-content bg-white rounded-lg shadow-sm">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Buyer Management</h2>
+                    <a href="create-buyer.html" style="background-color: #7D33FF; color: white" class="hover:bg-purple-700 px-6 py-2 rounded text-sm font-medium">
+                        Create New Buyer
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 查询条件 -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Date:</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="Start Date" />
+                        <span class="mx-2">to</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="End Date" />
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Status:</span>
+                        <select class="p-2 text-sm border border-gray-300 rounded-md">
+                            <option value="">All Status</option>
+                            <option value="normal">Normal</option>
+                            <option value="disabled">Disabled</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="text" placeholder="Email" class="p-2 text-sm border border-gray-300 rounded-md w-64" />
+                        <input type="text" placeholder="Buyer Name" class="ml-2 p-2 text-sm border border-gray-300 rounded-md w-64" />
+                        <button class="ml-2 bg-[#7D33FF] hover:bg-purple-700 text-white px-4 py-2 rounded text-sm font-medium">
+                            Query
+                        </button>
+                        <button class="ml-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 买家管理数据列表 -->
+            <div class="overflow-x-auto">
+                <div class="inline-block min-w-full align-middle">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[140px]">
+                                        Created Time
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                        Buyer Name
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[140px]">
+                                        Buyer Email
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                        Phone Number
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                        Country/Region
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                        State/Region/Province
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                        City
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[140px]">
+                                        Address1
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                        Postal Code
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[100px]">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[120px]">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- 第一行数据 - 正常状态 -->
+                                <tr>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-17 09:59:48</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yyuanyua...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">13527363...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">Colombia</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">state</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">San Jose</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">28 Zanker...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">400000</td>
+                                    <td class="px-3 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Normal</span>
+                                    </td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="buyer-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                        <div class="relative inline-block text-left">
+                                            <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                            <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                                <div class="py-1">
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disable</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 第二行数据 - 禁用状态 -->
+                                <tr>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-14 11:19:41</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yyuanyua...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">13527363...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">Senegal</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">state</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">San Jose</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">28 Zanker...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">400000</td>
+                                    <td class="px-3 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Disabled</span>
+                                    </td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="buyer-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                        <div class="relative inline-block text-left">
+                                            <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                            <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                                <div class="py-1">
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Enable</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 第三行数据 - 正常状态 -->
+                                <tr>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-14 11:18:27</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yyuanyua...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">13527363...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">Burkina Faso</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">state</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">San Jose</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">28 Zanker...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">400000</td>
+                                    <td class="px-3 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Normal</span>
+                                    </td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="buyer-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                        <div class="relative inline-block text-left">
+                                            <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                            <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                                <div class="py-1">
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disable</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 第四行数据 - 禁用状态 -->
+                                <tr>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-10 17:21:42</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yyuanyua...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">13527363...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">Cameroon</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">state</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">San Jose</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">28 Zanker...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">400000</td>
+                                    <td class="px-3 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Disabled</span>
+                                    </td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="buyer-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                        <div class="relative inline-block text-left">
+                                            <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                            <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                                <div class="py-1">
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Enable</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <!-- 第五行数据 - 正常状态 -->
+                                <tr>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-10 16:42:35</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yyuanyua...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">yuanyuan...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">13527363...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">Rwanda</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">state</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">San Jose</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">28 Zanker...</td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">400000</td>
+                                    <td class="px-3 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Normal</span>
+                                    </td>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm font-medium">
+                                        <a href="buyer-detail.html" class="text-blue-600 hover:text-blue-900 mr-3">Details</a>
+                                        <div class="relative inline-block text-left">
+                                            <button type="button" class="more-actions-btn text-gray-600 hover:text-gray-900">More</button>
+                                            <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                                <div class="py-1">
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Disable</a>
+                                                    <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Delete</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="px-6 py-4 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500">
+                        Displaying 1 to 5 of 20
+                    </div>
+                    <div class="flex space-x-1">
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
+                            Previous
+                        </button>
+                        <button class="px-3 py-1 border border-[#7D33FF] bg-[#7D33FF] text-white rounded-md text-sm">
+                            1
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            2
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            3
+                        </button>
+                        <span class="px-2 py-1 text-gray-500">...</span>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            4
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // 切换标签页的函数
+            function switchTab(tabId) {
+                // 移除所有标签页的激活状态
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.remove('text-purple-600', 'border-purple-600');
+                    btn.classList.add('text-gray-500', 'border-transparent');
+                });
+                tabContents.forEach(content => {
+                    content.style.display = 'none';
+                });
+
+                // 激活选中的标签页
+                const selectedButton = document.querySelector(`[data-tab="${tabId}"]`);
+                const selectedContent = document.getElementById(tabId);
+
+                if (selectedButton && selectedContent) {
+                    selectedButton.classList.add('active');
+                    selectedButton.classList.remove('text-gray-500', 'border-transparent');
+                    selectedButton.classList.add('text-purple-600', 'border-purple-600');
+                    selectedContent.style.display = 'block';
+                }
+            }
+
+            // 为每个标签按钮添加点击事件
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    switchTab(tabId);
+                    // 存储当前激活的标签页
+                    localStorage.setItem('activeTab', tabId);
+                });
+            });
+
+            // 从 localStorage 恢复激活的标签页
+            const activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                switchTab(activeTab);
+                // 清除存储的标签页信息
+                localStorage.removeItem('activeTab');
+            } else {
+                // 默认显示第一个标签页
+                const firstTab = tabButtons[0].getAttribute('data-tab');
+                switchTab(firstTab);
+            }
+
+            // 处理 URL hash 变化
+            window.addEventListener('hashchange', function() {
+                const hash = window.location.hash.slice(1);
+                if (hash) {
+                    switchTab(hash);
+                }
+            });
+
+            // 初始检查 URL hash
+            const initialHash = window.location.hash.slice(1);
+            if (initialHash) {
+                switchTab(initialHash);
+            }
+            
+            // User center dropdown
+            const userCenterBtn = document.getElementById('userCenterBtn');
+            const userCenterDropdown = document.getElementById('userCenterDropdown');
+            
+            userCenterBtn.addEventListener('click', function() {
+                userCenterDropdown.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!userCenterBtn.contains(event.target) && !userCenterDropdown.contains(event.target)) {
+                    userCenterDropdown.classList.add('hidden');
+                }
+            });
+            
+            // More actions button click handler
+            const moreActionsBtns = document.querySelectorAll('.more-actions-btn');
+            moreActionsBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Close all other dropdowns first
+                    document.querySelectorAll('.more-actions-dropdown').forEach(d => {
+                        if (d !== this.nextElementSibling) {
+                            d.classList.add('hidden');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    const dropdown = this.nextElementSibling;
+                    dropdown.classList.toggle('hidden');
+                });
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                const dropdowns = document.querySelectorAll('.more-actions-dropdown');
+                if (!event.target.closest('.more-actions-btn') && !event.target.closest('.more-actions-dropdown')) {
+                    dropdowns.forEach(dropdown => {
+                        dropdown.classList.add('hidden');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

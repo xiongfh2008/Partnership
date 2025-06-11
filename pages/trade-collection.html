@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cross-border B2B - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .platform-card {
+            transition: all 0.3s ease;
+        }
+        .platform-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        /* 修改顶部导航栏样式 */
+        .tab-btn {
+            position: relative;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn.active {
+            border-bottom: 2px solid #7D33FF !important;
+            color: #7D33FF !important;
+        }
+        .tab-btn:hover {
+            color: #7D33FF !important;
+            border-bottom-color: #7D33FF !important;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block !important;
+        }
+        /* 添加按钮样式 */
+        .primary-btn {
+            background-color: #7D33FF !important;
+            color: white !important;
+        }
+        .primary-btn:hover {
+            background-color: #6929CC !important;
+        }
+        /* 添加图标悬停样式 */
+        .icon-hover:hover {
+            color: #7D33FF !important;
+        }
+        /* 添加链接样式 */
+        .link-primary {
+            color: #7D33FF !important;
+        }
+        .link-primary:hover {
+            color: #6929CC !important;
+        }
+        /* 添加查询按钮的样式 */
+        .search-btn {
+            background-color: #7D33FF !important;
+            color: white !important;
+        }
+        .search-btn:hover {
+            background-color: #6929CC !important;
+        }
+        /* 添加链接和按钮的样式 */
+        .action-link {
+            color: #7D33FF !important;
+        }
+        .action-link:hover {
+            color: #6929CC !important;
+        }
+        /* 添加上传订单按钮的样式 */
+        .upload-btn {
+            background-color: #7D33FF !important;
+            color: white !important;
+        }
+        .upload-btn:hover {
+            background-color: #6929CC !important;
+        }
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        /* 添加下拉菜单样式 */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.25rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 50;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        /* 添加菜单项悬停效果 */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            color: #374151;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            background-color: #F3F4F6;
+        }
+
+        .menu-item i {
+            width: 1.25rem;
+            margin-right: 0.5rem;
+            color: #9CA3AF;
+            transition: color 0.2s;
+        }
+
+        .menu-item:hover i {
+            color: #7D33FF;
+        }
+
+        /* 添加导航栏右侧图标和链接的悬停效果 */
+        .nav-icon {
+            color: #6B7280;
+            transition: all 0.3s ease;
+        }
+        .nav-icon:hover {
+            color: #7D33FF !important;
+        }
+        .nav-link {
+            color: #6B7280;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #7D33FF !important;
+        }
+        /* 添加导出按钮样式 */
+        .export-btn {
+            background-color: white !important;
+            color: #7D33FF !important;
+            border: 1px solid #7D33FF !important;
+        }
+        .export-btn:hover {
+            background-color: #f9fafb !important;
+        }
+        /* 添加详情链接样式 */
+        .details-link {
+            color: #7D33FF !important;
+            transition: all 0.3s ease;
+        }
+        .details-link:hover {
+            color: #6929CC !important;
+        }
+        /* 导航栏悬停样式 */
+        .text-gray-600:hover,
+        .hover\:text-blue-600:hover,
+        button.text-gray-600:hover,
+        a.text-gray-600:hover,
+        .text-gray-400:hover {
+            color: #7D33FF !important;
+        }
+        
+        /* 图标悬停样式 */
+        button:hover i,
+        a:hover i {
+            color: #7D33FF !important;
+        }
+        
+        /* 下拉菜单悬停样式 */
+        .hover\:bg-gray-100:hover {
+            color: #7D33FF !important;
+        }
+
+        /* 用户中心下拉菜单样式 */
+        #userCenterDropdown {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transform-origin: top right;
+            transition: all 0.2s ease-out;
+        }
+
+        #userCenterDropdown.hidden {
+            display: none;
+        }
+
+        #userCenterDropdown.opacity-0 {
+            opacity: 0;
+            transform: translateY(-0.5rem);
+        }
+
+        #userCenterDropdown.opacity-100 {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <!-- Integrated top navigation and tabs -->
+        <div class="bg-white rounded-lg shadow-sm mb-6">
+            <div class="border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <nav class="flex justify-start -mb-px pl-6">
+                        <button class="tab-btn active whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium mr-2" data-tab="collection-records">
+                            Cross-border B2B Records
+                        </button>
+                        <button class="tab-btn whitespace-nowrap py-4 px-8 border-b-2 border-transparent text-center text-sm font-medium text-gray-500 mr-2" data-tab="trade-orders">
+                            Trade Orders
+                        </button>
+                    </nav>
+                    <div class="flex items-center space-x-6 pr-6">
+                        <!-- Notification icon -->
+                        <div class="relative">
+                            <a href="#" class="text-gray-600 nav-link-hover">
+                                <span class="relative">
+                                    <i class="fas fa-bell text-lg"></i>
+                                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </span>
+                            </a>
+                        </div>
+                        
+                        <!-- Help -->
+                        <a href="#" class="text-gray-600 nav-link-hover text-sm">Help</a>
+                        
+                        <!-- User Center -->
+                        <div class="relative">
+                            <button id="userCenterBtn" class="text-gray-600 nav-link-hover">
+                                <i class="fas fa-user-circle text-lg"></i>
+                            </button>
+                            <div id="userCenterDropdown" class="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg py-3 hidden z-10">
+                                <!-- User Information Section -->
+                                <div class="px-4 pb-3 border-b border-gray-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-medium text-gray-900">Shanshan Zhang</h3>
+                                        <a href="#" class="text-xs text-blue-600 hover:text-blue-700">Upgrade to Enterprise</a>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-600">ZHANG SHANSHAN</span>
+                                            <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">ID</span>
+                                        <button class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-copy text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Menu Options -->
+                                <div class="py-1">
+                                    <a href="security.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-shield-alt w-5 text-gray-400"></i>
+                                        Security Settings
+                                    </a>
+                                    <a href="authentication-info.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-id-card w-5 text-gray-400"></i>
+                                        Authentication Info
+                                    </a>
+                                    <a href="fees.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-percentage w-5 text-gray-400"></i>
+                                        Fee Query
+                                    </a>
+                                    <a href="coupons.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-gift w-5 text-gray-400"></i>
+                                        My Coupons
+                                    </a>
+                                    <a href="my-invitation.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-user-plus w-5 text-gray-400"></i>
+                                        My Invitations
+                                    </a>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="logout.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt w-5"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cross-border B2B Records Tab Content -->
+        <div id="collection-records" class="tab-content active bg-white rounded-lg shadow-sm">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Cross-border B2B Records</h2>
+                    <div class="flex space-x-3">
+                        <button onclick="window.location.href='apply-trade-collection-account.html'" class="primary-btn px-4 py-2 rounded text-sm font-medium flex items-center">
+                            <i class="fas fa-plus mr-2"></i>
+                            Apply Collection Account
+                        </button>
+                        <button class="export-btn px-4 py-2 rounded text-sm font-medium flex items-center">
+                            <i class="fas fa-download mr-2"></i>Export
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Criteria -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Date:</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="MM/DD/YYYY" />
+                        <span class="mx-2">to</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" placeholder="MM/DD/YYYY" />
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Payer:</span>
+                        <input type="text" placeholder="Enter payer name" class="p-2 text-sm border border-gray-300 rounded-md w-48" />
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Currency:</span>
+                        <select class="p-2 text-sm border border-gray-300 rounded-md">
+                            <option value="">All</option>
+                            <option value="USD">USD</option>
+                            <option value="EUR">EUR</option>
+                            <option value="GBP">GBP</option>
+                            <option value="CNY">CNY</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Status:</span>
+                        <select class="p-2 text-sm border border-gray-300 rounded-md">
+                            <option value="">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                            <option value="refunding">Refunding</option>
+                            <option value="refunded">Refunded</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="text" placeholder="Collection Account/Fuzzy Search" class="p-2 text-sm border border-gray-300 rounded-md w-64" />
+                        <button class="primary-btn px-4 py-2 rounded text-sm font-medium ml-3">
+                            Search
+                        </button>
+                        <button class="ml-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Collection Time
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Payer Amount | Currency
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Received Amount | Currency
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Collection Account
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                2023-05-12 14:30
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">$50,000.00 USD</div>
+                                <div class="text-sm text-gray-500">ABC Trading Co., Ltd</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                ¥320,000.00 CNY
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                Bank of America **** 5678
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                    Pending
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="trade-collection-detail.html" class="text-purple-600 hover:text-purple-900 mr-3">Details</a>
+                                <a href="trade-collection-order-relation.html" class="text-purple-600 hover:text-purple-900">Link Order</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                2023-05-10 09:15
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">€35,000.00 EUR</div>
+                                <div class="text-sm text-gray-500">XYZ International</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                ¥260,000.00 CNY
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                HSBC **** 3456
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Completed
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="trade-collection-detail.html" class="text-purple-600 hover:text-purple-900">Details</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500">
+                        Showing 1 to 10 of 50 entries
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            Previous
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trade Orders Tab Content -->
+        <div id="trade-orders" class="tab-content bg-white rounded-lg shadow-sm">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-gray-800">Order Management</h2>
+                    <button onclick="window.location.href='create-collection-order.html'" class="primary-btn px-4 py-2 rounded text-sm font-medium flex items-center">
+                        <i class="fas fa-plus mr-2"></i>
+                        Create New Order
+                    </button>
+                </div>
+            </div>
+            <!-- Search Criteria -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex flex-wrap gap-4">
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Order No./Buyer Name:</span>
+                        <input type="text" placeholder="Enter order number or buyer name" class="p-2 text-sm border border-gray-300 rounded-md w-56" />
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Shipping Status:</span>
+                        <select class="p-2 text-sm border border-gray-300 rounded-md">
+                            <option value="">All</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="not_shipped">Not Shipped</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Order Status:</span>
+                        <select class="p-2 text-sm border border-gray-300 rounded-md">
+                            <option value="">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="mr-2 text-sm font-medium text-gray-700">Date:</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" />
+                        <span class="mx-2">to</span>
+                        <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" />
+                    </div>
+                    <div class="flex items-center">
+                        <input type="text" placeholder="Product Name/Fuzzy Search" class="p-2 text-sm border border-gray-300 rounded-md w-64" />
+                        <button class="primary-btn px-4 py-2 rounded text-sm font-medium ml-4">
+                            Search
+                        </button>
+                        <button class="ml-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Creation Time
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Order No.
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Buyer Name
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Product Name
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Shipping Status
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Order Amount
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Remaining Amount
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                2023-05-15
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                ORD20230515001
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                ABC Trading Co., Ltd
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                Electronic Parts Kit
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Shipped
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                $50,000.00
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                $0.00
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Completed
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="foreign-trade-order-detail.html?id=ORD20230515001" class="text-purple-600 hover:text-purple-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="text-gray-600 hover:text-[#7D33FF] more-actions-btn">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#7D33FF]">
+                                                <i class="fas fa-edit mr-2"></i>Edit
+                                            </a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#7D33FF]">
+                                                <i class="fas fa-copy mr-2"></i>Copy to New Order
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                2023-05-12
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                ORD20230512002
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                XYZ International
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                Smart Home Devices
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    Processing
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                €35,000.00
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900">
+                                €17,500.00
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    Processing
+                                </span>
+                            </td>
+                            <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="foreign-trade-order-detail.html?id=ORD20230512002" class="text-purple-600 hover:text-purple-900 mr-3">Details</a>
+                                <div class="relative inline-block text-left">
+                                    <button type="button" class="text-gray-600 hover:text-[#7D33FF] more-actions-btn">More</button>
+                                    <div class="more-actions-dropdown origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden z-20">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#7D33FF]">
+                                                <i class="fas fa-edit mr-2"></i>Edit
+                                            </a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-[#7D33FF]">
+                                                <i class="fas fa-copy mr-2"></i>Copy to New Order
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-500">
+                        Showing 1 to 10 of 50 entries
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            Previous
+                        </button>
+                        <button class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签页切换功能
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            function switchTab(tabId) {
+                // 移除所有标签页的激活状态
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active', 'text-purple-600', 'border-purple-600');
+                    btn.classList.add('text-gray-500', 'border-transparent');
+                });
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    content.style.display = 'none';
+                });
+
+                // 激活选中的标签页
+                const selectedButton = document.querySelector(`[data-tab="${tabId}"]`);
+                const selectedContent = document.getElementById(tabId);
+                
+                if (selectedButton && selectedContent) {
+                    selectedButton.classList.remove('text-gray-500', 'border-transparent');
+                    selectedButton.classList.add('active', 'text-purple-600', 'border-purple-600');
+                    selectedContent.style.display = 'block';
+                }
+            }
+
+            // 为每个标签按钮添加点击事件
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    switchTab(tabId);
+                    // 更新 URL hash
+                    window.location.hash = tabId;
+                });
+            });
+
+            // 根据 URL hash 切换标签页
+            function handleHashChange() {
+                const hash = window.location.hash.slice(1) || 'collection-records';
+                switchTab(hash);
+            }
+
+            // 监听 hash 变化
+            window.addEventListener('hashchange', handleHashChange);
+
+            // 页面加载时处理 hash
+            handleHashChange();
+
+            // 用户中心下拉菜单功能
+            const userCenterBtn = document.getElementById('userCenterBtn');
+            const userCenterDropdown = document.getElementById('userCenterDropdown');
+            
+            if (userCenterBtn && userCenterDropdown) {
+                userCenterBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userCenterDropdown.classList.toggle('hidden');
+                });
+                
+                document.addEventListener('click', function(e) {
+                    if (!userCenterBtn.contains(e.target) && !userCenterDropdown.contains(e.target)) {
+                        userCenterDropdown.classList.add('hidden');
+                    }
+                });
+            }
+
+            // 订单表格"更多"下拉菜单功能
+            const moreBtns = document.querySelectorAll('.more-actions-btn');
+            const moreDropdowns = document.querySelectorAll('.more-actions-dropdown');
+            
+            if (moreBtns.length > 0) {
+                moreBtns.forEach((btn, index) => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // 关闭所有其他打开的下拉菜单
+                        moreDropdowns.forEach((dropdown, i) => {
+                            if (i !== index) {
+                                dropdown.classList.add('hidden');
+                            }
+                        });
+                        // 切换当前下拉菜单的显示状态
+                        moreDropdowns[index].classList.toggle('hidden');
+                    });
+                });
+                
+                // 点击页面其他区域关闭所有下拉菜单
+                document.addEventListener('click', function(e) {
+                    let isClickInside = false;
+                    
+                    moreBtns.forEach((btn, index) => {
+                        if (btn.contains(e.target) || moreDropdowns[index].contains(e.target)) {
+                            isClickInside = true;
+                        }
+                    });
+                    
+                    if (!isClickInside) {
+                        moreDropdowns.forEach(dropdown => {
+                            dropdown.classList.add('hidden');
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

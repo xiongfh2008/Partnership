@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whalet - Forex Exchange</title>
+    <title>Whalet - Currency Exchange</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../styles/custom.css">
@@ -360,6 +360,91 @@
 </head>
 <body class="bg-gray-50">
     <div class="container mx-auto px-4 py-6">
+        <!-- Top Navigation -->
+        <div class="bg-white rounded-lg shadow-sm mb-4">
+            <div class="border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <nav class="flex justify-start -mb-px pl-6">
+                        <button class="tab-btn active whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium">
+                            Currency Exchange
+                        </button>
+                    </nav>
+                    <div class="flex items-center space-x-6 pr-6">
+                        <!-- Notification Icon -->
+                        <div class="relative">
+                            <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <span class="relative">
+                                    <i class="fas fa-bell text-lg"></i>
+                                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </span>
+                            </a>
+                        </div>
+                        
+                        <!-- Help -->
+                        <a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Help</a>
+                        
+                        <!-- User Center -->
+                        <div class="relative">
+                            <button id="userCenterBtn" class="text-gray-600 hover:text-blue-600">
+                                <i class="fas fa-user-circle text-lg"></i>
+                            </button>
+                            <div id="userCenterDropdown" class="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg py-3 hidden z-10">
+                                <!-- User Info Section -->
+                                <div class="px-4 pb-3 border-b border-gray-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-medium text-gray-900">Zhang Shanshan</h3>
+                                        <a href="#" class="text-xs text-blue-600 hover:text-blue-700">Upgrade to Business</a>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-600">ZHANG SHANSHAN</span>
+                                            <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">ID</span>
+                                        <button class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-copy text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Menu Options -->
+                                <div class="py-1">
+                                    <a href="security.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-shield-alt w-5 text-gray-400"></i>
+                                        Security Settings
+                                    </a>
+                                    <a href="authentication-info.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-id-card w-5 text-gray-400"></i>
+                                        Authentication Info
+                                    </a>
+                                    <a href="fees.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-percentage w-5 text-gray-400"></i>
+                                        Fee Query
+                                    </a>
+                                    <a href="coupons.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-gift w-5 text-gray-400"></i>
+                                        My Coupons
+                                    </a>
+                                    <a href="my-invitation.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-user-plus w-5 text-gray-400"></i>
+                                        My Invitations
+                                    </a>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="logout.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt w-5"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content Area - Two Column Layout -->
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Left: Currency Exchange Process -->
@@ -367,7 +452,7 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
                     <!-- Page Title -->
                     <div class="mb-6">
-                        <h1 class="text-xl font-semibold text-gray-800">Forex Exchange</h1>
+                        <h1 class="text-xl font-semibold text-gray-800">Currency Exchange</h1>
                     </div>
 
                     <!-- Step Indicator -->
@@ -406,19 +491,19 @@
                         <div class="exchange-card">
                             <div class="exchange-card-header">
                                 <h3 class="font-medium text-gray-800">Sell</h3>
-                                <div class="text-xs text-blue-600 flex items-center">
+                                <div class="text-sm text-blue-600 flex items-center">
                                     <span>Available Balance</span>
                                     <span class="font-medium ml-1" id="selectedCurrencyBalance">1000.99 USD</span>
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 gap-4">
                                 <div class="col-span-2">
-                                    <input type="text" class="currency-amount-input cursor-not-allowed" id="sellAmountInput" value="1000.99" readonly style="background:#f3f4f6;">
+                                    <input type="text" class="currency-amount-input" value="1000.99">
                                 </div>
                                 <div class="relative">
                                     <button id="sellCurrencyDropdown" class="currency-dropdown w-full">
                                         <img src="https://flagcdn.com/w40/us.png" alt="USD" class="currency-flag-large" id="sellCurrencyFlag">
-                                        <span class="ml-2" id="sellCurrencyText">USD</span>
+                                        <span class="ml-2" id="sellCurrencyText">USD USD</span>
                                         <i class="fas fa-chevron-down ml-auto text-gray-400"></i>
                                     </button>
                                     <div id="sellCurrencyOptions" class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
@@ -427,8 +512,8 @@
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/us.png" alt="USD" class="currency-flag-large">
                                                     <div class="ml-2">
-                                                        <div>USD</div>
-                                                        <div class="text-xs text-gray-500">Balance 18,983.87USD</div>
+                                                        <div>USD USD</div>
+                                                        <div class="text-sm text-gray-500">Balance 18,983.87USD</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -436,8 +521,8 @@
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/jp.png" alt="JPY" class="currency-flag-large">
                                                     <div class="ml-2">
-                                                        <div>JPY</div>
-                                                        <div class="text-xs text-gray-500">Balance 196JPY</div>
+                                                        <div>JPY JPY</div>
+                                                        <div class="text-sm text-gray-500">Balance 196JPY</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -445,8 +530,8 @@
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/eu.png" alt="EUR" class="currency-flag-large">
                                                     <div class="ml-2">
-                                                        <div>EUR</div>
-                                                        <div class="text-xs text-gray-500">Balance 0.00EUR</div>
+                                                        <div>EUR EUR</div>
+                                                        <div class="text-sm text-gray-500">Balance 0.00EUR</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -492,7 +577,7 @@
                                 <div class="relative">
                                     <button id="buyCurrencyDropdown" class="currency-dropdown w-full">
                                         <img src="https://flagcdn.com/w40/eu.png" alt="EUR" class="currency-flag-large" id="buyCurrencyFlag">
-                                        <span class="ml-2" id="buyCurrencyText">EUR</span>
+                                        <span class="ml-2" id="buyCurrencyText">EUR EUR</span>
                                         <i class="fas fa-chevron-down ml-auto text-gray-400"></i>
                                     </button>
                                     <div id="buyCurrencyOptions" class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
@@ -500,19 +585,19 @@
                                             <div class="currency-option hover:bg-gray-50 p-2 rounded cursor-pointer" data-currency="USD" data-flag="us">
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/us.png" alt="USD" class="currency-flag-large">
-                                                    <div class="ml-2">USD</div>
+                                                    <div class="ml-2">USD USD</div>
                                                 </div>
                                             </div>
                                             <div class="currency-option hover:bg-gray-50 p-2 rounded cursor-pointer" data-currency="JPY" data-flag="jp">
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/jp.png" alt="JPY" class="currency-flag-large">
-                                                    <div class="ml-2">JPY</div>
+                                                    <div class="ml-2">JPY JPY</div>
                                                 </div>
                                             </div>
                                             <div class="currency-option hover:bg-gray-50 p-2 rounded cursor-pointer" data-currency="EUR" data-flag="eu">
                                                 <div class="flex items-center">
                                                     <img src="https://flagcdn.com/w40/eu.png" alt="EUR" class="currency-flag-large">
-                                                    <div class="ml-2">EUR</div>
+                                                    <div class="ml-2">EUR EUR</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -637,11 +722,11 @@
                             
                             <!-- Button Group -->
                             <div class="flex space-x-4">
-                                <a href="#" class="text-blue-600 hover:text-blue-700 font-medium" id="viewExchangeHistoryLink">
+                                <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">
                                     View Exchange History
                                 </a>
                                 <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">
-                                    Continue Forex Exchange
+                                    Continue Currency Exchange
                                 </a>
                             </div>
                         </div>
@@ -833,7 +918,7 @@
 
             // 绑定结果页面的链接事件
             const viewRecordLink = Array.from(document.querySelectorAll('a')).find(link => link.textContent.trim() === 'View Exchange History');
-            const continueExchangeLink = Array.from(document.querySelectorAll('a')).find(link => link.textContent.trim() === 'Continue Forex Exchange');
+            const continueExchangeLink = Array.from(document.querySelectorAll('a')).find(link => link.textContent.trim() === 'Continue Currency Exchange');
 
             if (nextButton) {
                 nextButton.addEventListener('click', () => {
@@ -872,7 +957,7 @@
 
             if (refreshButton) {
                 refreshButton.addEventListener('click', () => {
-                    startCountdown();
+                    alert('Refreshing exchange rate...');
                 });
             }
 
@@ -880,7 +965,7 @@
             if (viewRecordLink) {
                 viewRecordLink.addEventListener('click', (e) => {
                     e.preventDefault();
-                    window.location.href = 'forex-transaction.html?tab=exchange';
+                    window.location.href = 'transactions.html?tab=exchange';
                 });
             }
 
@@ -895,7 +980,7 @@
             const viewAllExchangeHistoryBtn = document.getElementById('viewAllExchangeHistory');
             if (viewAllExchangeHistoryBtn) {
                 viewAllExchangeHistoryBtn.addEventListener('click', function() {
-                    window.location.href = 'forex-transaction.html';
+                    window.location.href = 'transactions.html?tab=exchange';
                 });
             }
 
@@ -989,10 +1074,9 @@
                     
                     sellCurrencyFlag.src = `https://flagcdn.com/w40/${flag}.png`;
                     sellCurrencyFlag.alt = currency;
-                    sellCurrencyText.textContent = currency;
+                    sellCurrencyText.textContent = `${currency}${getCurrencyName(currency)}`;
                     selectedCurrencyBalance.textContent = balance;
-                    // 自动填充卖出金额并只读
-                    document.getElementById('sellAmountInput').value = balance.replace(/[^\d.]/g, '');
+                    
                     sellCurrencyOptions.classList.add('hidden');
                 });
             });
@@ -1005,7 +1089,7 @@
                     
                     buyCurrencyFlag.src = `https://flagcdn.com/w40/${flag}.png`;
                     buyCurrencyFlag.alt = currency;
-                    buyCurrencyText.textContent = currency;
+                    buyCurrencyText.textContent = `${currency}${getCurrencyName(currency)}`;
                     
                     buyCurrencyOptions.classList.add('hidden');
                 });

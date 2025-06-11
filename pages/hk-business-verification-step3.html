@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hong Kong Business Verification - Account Authorization</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #7D33FF;
+            --primary-hover: #6929D4;
+            --primary-light: rgba(125, 51, 255, 0.1);
+            --bg-color: #FFFFFF;
+            --text-primary: #1F1F1F;
+            --text-secondary: #666666;
+            --border-color: #E5E5E5;
+            --success-color: #34C759;
+            --card-shadow: 0 2px 8px rgba(125, 51, 255, 0.08);
+            --transition: all 0.2s ease-in-out;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 12px;
+            --spacing-lg: 16px;
+            --spacing-xl: 24px;
+            --radius-sm: 4px;
+            --radius-md: 6px;
+            --radius-lg: 8px;
+            --header-height: 56px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.5;
+            background-color: #F8F7FF;
+            margin: 0;
+            padding: 0;
+            padding-top: var(--header-height);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .verification-container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 32px;
+        }
+
+        .progress-tracker {
+            width: 240px;
+            min-width: 240px;
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: calc(var(--header-height) + 24px);
+            align-self: flex-start;
+            height: fit-content;
+        }
+
+        .progress-step {
+            display: flex;
+            margin-bottom: 24px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .progress-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .progress-step::before {
+            content: "";
+            position: absolute;
+            left: 14px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background-color: var(--border-color);
+            transition: var(--transition);
+        }
+
+        .progress-step:last-child::before {
+            display: none;
+        }
+
+        .progress-step.completed::before {
+            background-color: var(--primary-color);
+        }
+
+        .progress-step.active::before {
+            background-color: var(--border-color);
+        }
+
+        .progress-step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .progress-step.active .progress-step-number {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .progress-step.completed .progress-step-number {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .progress-step-content {
+            flex: 1;
+        }
+
+        .progress-step-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .progress-step.active .progress-step-title {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-step.completed .progress-step-title {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-step-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .form-container {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+            color: var(--text-primary);
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .form-label.required::after {
+            content: '*';
+            color: #FF3B30;
+            margin-left: 4px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 24px;
+        }
+
+        .radio-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .radio-button input[type="radio"] {
+            display: none;
+        }
+
+        .radio-text {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .radio-dot {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .radio-dot::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: all 0.2s ease;
+        }
+
+        .radio-button input[type="radio"]:checked + .radio-dot {
+            border-color: var(--primary-color);
+        }
+
+        .radio-button input[type="radio"]:checked + .radio-dot::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .upload-box {
+            border: 2px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .upload-box i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .upload-box p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .upload-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .example-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-size: 13px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .example-link:hover {
+            text-decoration: underline;
+        }
+
+        .example-link i {
+            margin-right: 4px;
+        }
+
+        .qr-code-container {
+            text-align: center;
+            margin: 32px 0;
+        }
+
+        .qr-code-box {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            background-color: #F5F5F5;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-code-box img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .warm-tip {
+            background-color: #FFF9E6;
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: #B88230;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .warm-tip i {
+            font-size: 16px;
+        }
+
+        .agreement-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 24px 0;
+        }
+
+        .agreement-checkbox input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--primary-color);
+        }
+
+        .agreement-checkbox label {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .agreement-checkbox a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .agreement-checkbox a:hover {
+            text-decoration: underline;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            justify-content: space-between;
+        }
+
+        .form-actions-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            height: 40px;
+            padding: 0 24px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #F5F5F5;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-save {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .btn-save:hover {
+            background-color: var(--primary-light);
+        }
+
+        .form-error {
+            color: #FF3B30;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-group.error .form-input,
+        .form-group.error .upload-box {
+            border-color: #FF3B30;
+        }
+
+        .form-group.error .form-label {
+            color: #FF3B30;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-logo">
+            <img src="../assets/images/whaletlogo2.png" alt="Whalet Logo">
+        </div>
+        <div class="header-divider"></div>
+        <span class="header-title">Hong Kong Business Verification</span>
+        <i class="fas fa-times header-close" onclick="closeHeader()"></i>
+    </div>
+
+    <div class="verification-container">
+        <!-- Progress Tracker -->
+        <div class="progress-tracker">
+            <div class="progress-step completed">
+                <div class="progress-step-number">1</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Company Information</div>
+                    <div class="progress-step-desc">Fill in basic company information</div>
+                </div>
+            </div>
+            <div class="progress-step completed">
+                <div class="progress-step-number">2</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Key Members</div>
+                    <div class="progress-step-desc">Fill in key member information</div>
+                </div>
+            </div>
+            <div class="progress-step active">
+                <div class="progress-step-number">3</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Account Authorization</div>
+                    <div class="progress-step-desc">Upload account authorization documents</div>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-step-number">4</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Complete</div>
+                    <div class="progress-step-desc">Submission successful, awaiting review</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <div class="form-container">
+            <h2 class="form-title">Account Authorization</h2>
+
+            <div class="form-section">
+                <!-- Authorizer Selection -->
+                <div class="form-group">
+                    <label class="form-label required">Authorizer</label>
+                    <select class="form-input" id="authorizer">
+                        <option value="">Please select an authorizer</option>
+                    </select>
+                    <div class="form-error" id="authorizer-error">Please select an authorizer</div>
+                </div>
+
+                <!-- Authorization Method Selection -->
+                <div class="form-group">
+                    <label class="form-label required">Authorization Method</label>
+                    <div class="radio-group">
+                        <label class="radio-button">
+                            <input type="radio" name="auth_method" value="photo" checked onchange="handleAuthMethodChange()">
+                            <span class="radio-dot"></span>
+                            <span class="radio-text">Photo with Document</span>
+                        </label>
+                        <label class="radio-button">
+                            <input type="radio" name="auth_method" value="face" onchange="handleAuthMethodChange()">
+                            <span class="radio-dot"></span>
+                            <span class="radio-text">Face Recognition</span>
+                        </label>
+                    </div>
+                    <div class="form-error" id="auth-method-error">Please select an authorization method</div>
+                </div>
+
+                <!-- Photo Upload Section -->
+                <div id="photo-upload-section">
+                    <!-- Photo with Application Form Upload -->
+                    <div class="form-group">
+                        <label class="form-label required">Photo with Account Application Form</label>
+                        <div class="upload-box" onclick="triggerFileUpload('holding-photo')">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click or drag files here to upload</p>
+                            <p>Supports JPG, PNG, PDF formats, file size up to 5MB</p>
+                        </div>
+                        <div class="form-error" id="holding-photo-error">Please upload photo with account application form</div>
+                        <div class="upload-actions">
+                            <a href="#" class="example-link" onclick="showExample('holding')">
+                                <i class="fas fa-image"></i>
+                                View Example
+                            </a>
+                            <a href="#" class="example-link" style="margin-left: 16px;" onclick="downloadTemplate()">
+                                <i class="fas fa-download"></i>
+                                Download Application Form Template
+                            </a>
+                        </div>
+                        <div class="upload-note" style="margin-top: 12px; padding: 12px 16px; background: #F8F9FA; border-radius: 4px;">
+                            <p style="margin: 0 0 8px 0; color: var(--text-primary); font-size: 14px;">Please fill out the <a href="#" style="color: var(--primary-color); text-decoration: none;" onclick="downloadTemplate()">Account Application Form (click to download)</a>, stamp with company seal, and upload a photo of the legal representative holding the form</p>
+                            <p style="margin: 0; color: var(--text-secondary); font-size: 13px;">Please note the following:</p>
+                            <p style="margin: 4px 0 0 0; color: var(--text-secondary); font-size: 13px;">1. Account application form must be clearly visible</p>
+                            <p style="margin: 4px 0 0 0; color: var(--text-secondary); font-size: 13px;">2. Upper body must be fully visible</p>
+                        </div>
+                    </div>
+
+                    <!-- Application Form Upload -->
+                    <div class="form-group">
+                        <label class="form-label required">Account Application Form</label>
+                        <div class="upload-box" onclick="triggerFileUpload('application-form')">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click or drag files here to upload</p>
+                            <p>Supports JPG, PNG, PDF formats, file size up to 5MB</p>
+                        </div>
+                        <div class="upload-note" style="margin-top: 12px; padding: 12px 16px; background: #F8F9FA; border-radius: 4px;">
+                            <p style="margin: 0; color: var(--text-primary); font-size: 14px;">Please fill out the account application form, stamp with company seal, and upload a clear original photo or scan of the form</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Face Recognition Section -->
+                <div id="face-recognition-section" style="display: none;">
+                    <div class="form-note info" style="margin-bottom: 24px;">
+                        <i class="fas fa-info-circle"></i>
+                        Note: Some banks may require a paper version when opening a receiving account according to bank requirements
+                    </div>
+                    <div class="qr-code-container">
+                        <img src="../assets/images/qr-placeholder.png" alt="Face Recognition QR Code">
+                        <p>Please scan the QR code with your mobile phone for face recognition</p>
+                    </div>
+                </div>
+
+                <!-- Agreement Checkbox -->
+                <div class="agreement-checkbox">
+                    <input type="checkbox" id="agreement" onchange="toggleSubmitButton()">
+                    <span>I have read, understood and agree to the <a href="#" onclick="showAgreement()">《Commitment Letter》</a> terms</span>
+                    <div class="form-error" id="agreement-error">Please read and agree to the Commitment Letter</div>
+                </div>
+            </div>
+
+            <!-- Bottom Buttons -->
+            <div class="form-actions">
+                <button class="btn btn-secondary" onclick="prevStep()">Previous</button>
+                <div class="form-actions-right">
+                    <button class="btn btn-save" onclick="saveForm()">Save Draft</button>
+                    <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function closeHeader() {
+            // 实现关闭页面的逻辑
+            window.close();
+        }
+
+        function handleAuthMethodChange() {
+            const photoMethod = document.querySelector('input[name="auth_method"]:checked');
+            const photoSection = document.getElementById('photo-upload-section');
+            const faceSection = document.getElementById('face-recognition-section');
+
+            if (photoMethod) {
+                photoSection.style.display = photoMethod.value === 'photo' ? 'block' : 'none';
+                faceSection.style.display = photoMethod.value === 'face' ? 'block' : 'none';
+            }
+        }
+
+        function triggerFileUpload(inputId) {
+            // 创建隐藏的文件输入框
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.jpg,.jpeg,.png,.pdf';
+            input.style.display = 'none';
+            
+            input.onchange = function() {
+                const file = this.files[0];
+                if (file) {
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('文件大小不能超过5M');
+                        return;
+                    }
+
+                    // 创建上传文件的预览
+                    const uploadBox = document.querySelector('.upload-box');
+                    const previewDiv = document.createElement('div');
+                    previewDiv.className = 'uploaded-file';
+                    previewDiv.style.marginTop = '12px';
+                    previewDiv.style.padding = '8px 12px';
+                    previewDiv.style.background = '#F8F9FA';
+                    previewDiv.style.borderRadius = '4px';
+                    previewDiv.style.display = 'flex';
+                    previewDiv.style.alignItems = 'center';
+                    previewDiv.style.justifyContent = 'space-between';
+                    
+                    previewDiv.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-file" style="color: var(--primary-color)"></i>
+                            <span style="color: var(--text-primary); font-size: 14px;">${file.name}</span>
+                        </div>
+                        <button onclick="removeFile(this)" style="background: none; border: none; color: var(--text-secondary); cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    // 移除之前的预览（如果有）
+                    const existingPreview = document.querySelector('.uploaded-file');
+                    if (existingPreview) {
+                        existingPreview.remove();
+                    }
+                    
+                    uploadBox.parentNode.appendChild(previewDiv);
+                }
+            };
+            
+            input.click();
+        }
+
+        function removeFile(button) {
+            button.closest('.uploaded-file').remove();
+        }
+
+        function showExample(type) {
+            alert('View ' + type + ' example');
+        }
+
+        function downloadTemplate() {
+            alert('Download account application form template');
+        }
+
+        function showAgreement() {
+            alert('View Commitment Letter');
+        }
+
+        function prevStep() {
+            // 返回上一步
+            window.location.href = './hk-business-verification-step2.html';
+        }
+
+        function saveForm() {
+            const formData = {
+                authorizer: document.getElementById('authorizer').value,
+                authMethod: document.querySelector('input[name="auth_method"]:checked')?.value
+            };
+            localStorage.setItem('hk-business-auth-draft', JSON.stringify(formData));
+            alert('Current content has been saved');
+        }
+
+        function showError(elementId) {
+            const error = document.getElementById(elementId);
+            error.classList.add('show');
+            const formGroup = error.closest('.form-group');
+            if (formGroup) {
+                formGroup.classList.add('error');
+            }
+        }
+
+        function hideError(elementId) {
+            const error = document.getElementById(elementId);
+            error.classList.remove('show');
+            const formGroup = error.closest('.form-group');
+            if (formGroup) {
+                formGroup.classList.remove('error');
+            }
+        }
+
+        function hideAllErrors() {
+            const errors = document.querySelectorAll('.form-error');
+            errors.forEach(error => {
+                error.classList.remove('show');
+                const formGroup = error.closest('.form-group');
+                if (formGroup) {
+                    formGroup.classList.remove('error');
+                }
+            });
+        }
+
+        function validateForm() {
+            hideAllErrors();
+            let isValid = true;
+
+            // 验证授权人
+            const authorizer = document.getElementById('authorizer').value;
+            if (!authorizer) {
+                showError('authorizer-error');
+                isValid = false;
+            }
+
+            // 验证授权方式
+            const authMethod = document.querySelector('input[name="auth_method"]:checked')?.value;
+            if (!authMethod) {
+                showError('auth-method-error');
+                isValid = false;
+            }
+
+            // 根据授权方式验证必填项
+            if (authMethod === 'photo') {
+                const uploadedFiles = document.querySelectorAll('.uploaded-file');
+                if (uploadedFiles.length === 0) {
+                    showError('holding-photo-error');
+                    isValid = false;
+                }
+            }
+
+            // 验证承诺函同意
+            const agreement = document.getElementById('agreement').checked;
+            if (!agreement) {
+                showError('agreement-error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function submitForm() {
+            if (!validateForm()) {
+                return;
+            }
+
+            // 禁用提交按钮防止重复提交
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
+
+            // 模拟提交表单数据
+            setTimeout(() => {
+                // 清除暂存的数据
+                localStorage.removeItem('hk-business-auth-draft');
+                
+                // 跳转到完成页面
+                window.location.href = './hk-business-verification-step4.html';
+            }, 1000);
+        }
+
+        // 当输入改变时隐藏对应的错误提示
+        document.getElementById('authorizer').addEventListener('change', () => {
+            hideError('authorizer-error');
+        });
+
+        document.querySelectorAll('input[name="auth_method"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                hideError('auth-method-error');
+            });
+        });
+
+        document.getElementById('agreement').addEventListener('change', () => {
+            hideError('agreement-error');
+        });
+
+        // 页面加载时从本地存储获取第2步添加的成员列表
+        window.onload = function() {
+            loadAuthorizerOptions();
+            handleAuthMethodChange();
+        }
+
+        function loadAuthorizerOptions() {
+            let members = JSON.parse(localStorage.getItem('hk-business-members') || '[]');
+            
+            if (members.length === 0) {
+                members = [{
+                    id: '1',
+                    name: 'John Smith',
+                    position: 'Legal Representative',
+                    idType: 'ID Card',
+                    idNumber: '110101199001011234'
+                }];
+                localStorage.setItem('hk-business-members', JSON.stringify(members));
+            }
+
+            const authorizer = document.getElementById('authorizer');
+            authorizer.innerHTML = '<option value="">Please select an authorizer</option>';
+            
+            members.forEach(member => {
+                const option = document.createElement('option');
+                option.value = member.id;
+                option.textContent = member.name;
+                authorizer.appendChild(option);
+            });
+        }
+
+        function toggleSubmitButton() {
+            const agreement = document.getElementById('agreement');
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = !agreement.checked;
+        }
+    </script>
+</body>
+</html> 

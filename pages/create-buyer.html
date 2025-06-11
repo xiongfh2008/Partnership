@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Buyer - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #F8F9FD;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .form-section {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: #7D33FF;
+            box-shadow: 0 0 0 3px rgba(125, 51, 255, 0.1);
+            outline: none;
+        }
+
+        .required-field::after {
+            content: '*';
+            color: #EF4444;
+            margin-left: 4px;
+        }
+
+        .btn-primary {
+            background-color: #7D33FF;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #6929CC;
+        }
+
+        .form-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Content Area -->
+        <div class="form-section">
+            <!-- Page Title -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="bill-collection.html#buyer-management" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="bill-collection.html#buyer-management" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Create Buyer</h1>
+                    </div>
+                    <a href="bill-collection.html#buyer-management" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Create Buyer Form -->
+            <div class="p-6">
+                <form class="space-y-6">
+                    <div class="form-columns">
+                        <!-- Left Column -->
+                            <div>
+                            <!-- Buyer Name -->
+                            <div class="form-group">
+                                <label class="form-label required">Buyer Name</label>
+                                <input type="text" placeholder="Enter buyer name" 
+                                       class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+
+                            <!-- Buyer Email -->
+                            <div class="form-group">
+                                <label class="form-label required">Buyer Email</label>
+                                <input type="email" placeholder="Enter email address"
+                                       class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" placeholder="Enter phone number"
+                                       class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+
+                            <!-- Country/Region -->
+                            <div class="form-group">
+                                <label class="form-label required">Country/Region</label>
+                                <select class="w-full p-2 border border-gray-300 rounded-md text-sm bg-white focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                    <option value="">Select country/region</option>
+                                    <option value="CN">China</option>
+                                    <option value="US">United States</option>
+                                    <option value="GB">United Kingdom</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Right Column -->
+                            <div>
+                            <!-- State/Province/Region -->
+                            <div class="form-group">
+                                <label class="form-label">State/Province/Region</label>
+                                <input type="text" placeholder="Enter state/province/region"
+                                       class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+
+                            <!-- City -->
+                            <div class="form-group">
+                                <label class="form-label">City</label>
+                                <input type="text" placeholder="Enter city"
+                                       class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+
+                            <!-- Address Line 1 -->
+                            <div class="form-group">
+                                <label class="form-label">Address Line 1</label>
+                                <input type="text" placeholder="Enter detailed address"
+                                       class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+
+                            <!-- Postal Code -->
+                            <div class="form-group">
+                                <label class="form-label">Postal Code</label>
+                                <input type="text" placeholder="Enter postal code"
+                                       class="w-full p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Button Group -->
+                    <div class="flex justify-center space-x-4 pt-6 mt-8 border-t border-gray-200">
+                        <a href="bill-collection.html#buyer-management" class="px-8 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Back
+                        </a>
+                        <button type="submit" class="px-8 py-2 btn-primary rounded-md text-sm font-medium">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle back links
+            document.querySelectorAll('a[href="bill-collection.html#buyer-management"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Store active tab information
+                    localStorage.setItem('activeTab', 'buyer-management');
+                    window.location.href = this.href;
+                });
+            });
+
+            // Handle form submission
+            document.querySelector('form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add form submission logic here
+                alert('Buyer created successfully!');
+                // Store active tab information
+                localStorage.setItem('activeTab', 'buyer-management');
+                window.location.href = 'bill-collection.html#buyer-management';
+            });
+        });
+    </script>
+</body>
+</html> 
