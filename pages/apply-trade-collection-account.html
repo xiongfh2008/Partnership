@@ -573,149 +573,21 @@
                                 Account Name
                                 <span class="text-red-500 ml-0.5">*</span>
                             </h2>
-                            <p class="text-sm text-gray-500 mb-6">Please select an existing account or provide detailed company information to create a new account.</p>
+                            <p class="text-sm text-gray-500 mb-6">Select Company Account Name.</p>
                             <div class="form-group">
-                                <div class="space-y-6">
-                                    <!-- Account Name Section -->
-                                    <div>
-                                        <!-- Account Name Selection Type -->
-                                        <div class="mb-4">
-                                            <div class="flex space-x-4">
-                                                <label class="inline-flex items-center">
-                                                    <input type="radio" name="accountNameType" value="select" class="text-purple-600 border-purple-600 focus:ring-purple-500" checked>
-                                                    <span class="ml-2 text-sm text-gray-700">Select</span>
-                                                </label>
-                                                <label class="inline-flex items-center">
-                                                    <input type="radio" name="accountNameType" value="fill" class="text-purple-600 border-purple-600 focus:ring-purple-500">
-                                                    <span class="ml-2 text-sm text-gray-700">Fill</span>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Select Option -->
-                                        <div id="accountNameSelect" class="account-name-option">
-                                            <select id="accountNameDropdown" name="accountNameDropdown" class="form-select h-11 w-full px-4 py-2 text-sm text-gray-900 bg-white border border-purple-600 rounded-md shadow-sm focus:border-purple-600 focus:ring focus:ring-purple-200 focus:ring-opacity-50 appearance-none">
+                                <div class="flex space-x-3">
+                                    <select id="accountNameDropdown" name="accountNameDropdown" class="form-select h-11 flex-1 px-4 py-2 text-sm text-gray-900 bg-white border border-purple-600 rounded-md shadow-sm focus:border-purple-600 focus:ring focus:ring-purple-200 focus:ring-opacity-50 appearance-none">
                                                 <option value="">Please select account name</option>
                                                 <option value="wahaha_chongqing">Wahaha Group (Chongqing) branch company</option>
                                                 <option value="wahaha_beijing">Wahaha Group (Beijing) branch company</option>
                                                 <option value="wahaha_shanghai">Wahaha Group (Shanghai) branch company</option>
                                             </select>
-                                            <p class="mt-1 text-xs text-gray-500">Please refer to account details for the actual account name</p>
-                                        </div>
-                                        
-                                        <!-- Fill Option -->
-                                        <div id="accountNameFill" class="account-name-option hidden">
-                                            <div class="space-y-4">
-                                                <!-- Company Information -->
-                                                <div class="border border-gray-200 rounded-lg p-4">
-                                                    <h4 class="text-sm font-medium text-gray-900 mb-3">Company Information</h4>
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Company English Name <span class="text-red-500">*</span></label>
-                                                            <input type="text" name="companyEnglishName" class="form-input h-8" placeholder="Please enter company English name">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Country/Region <span class="text-red-500">*</span></label>
-                                                            <select name="companyCountry" class="form-select h-8 w-full px-3 py-1 text-sm text-gray-900 bg-white border border-purple-600 rounded-md">
-                                                                <option value="">Please select country/region</option>
-                                                                <option value="CN">China</option>
-                                                                <option value="US">United States</option>
-                                                                <option value="SG">Singapore</option>
-                                                                <option value="HK">Hong Kong</option>
-                                                                <option value="AU">Australia</option>
-                                                                <option value="JP">Japan</option>
-                                                                <option value="KR">South Korea</option>
-                                                            </select>
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Registration Number <span class="text-red-500">*</span></label>
-                                                            <input type="text" name="companyRegistrationNumber" class="form-input h-8" placeholder="Please enter registration number">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Registration Date <span class="text-red-500">*</span></label>
-                                                            <input type="date" name="companyRegistrationDate" class="form-input h-8">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Expiry Date</label>
-                                                            <div class="flex items-center space-x-2">
-                                                                <input type="date" name="companyExpiryDate" class="form-input h-8 flex-1">
-                                                                <label class="inline-flex items-center">
-                                                                    <input type="checkbox" name="isPermanent" class="text-purple-600 border-purple-600 focus:ring-purple-500">
-                                                                    <span class="ml-1 text-sm text-gray-700">Permanent</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Address Postal Code</label>
-                                                            <input type="text" name="companyPostalCode" class="form-input h-8" placeholder="Please enter postal code">
-                                                        </div>
-                                                        <div class="md:col-span-2">
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Business Registration Address <span class="text-red-500">*</span></label>
-                                                            <textarea name="companyAddress" rows="2" class="form-input resize-none" placeholder="Please enter business registration address"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- Beneficial Owner Information -->
-                                                <div class="border border-gray-200 rounded-lg p-4">
-                                                    <h4 class="text-sm font-medium text-gray-900 mb-3">Beneficial Owner Information</h4>
-                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Beneficial Owner Country/Region <span class="text-red-500">*</span></label>
-                                                            <select name="beneficiaryCountry" class="form-select h-8 w-full px-3 py-1 text-sm text-gray-900 bg-white border border-purple-600 rounded-md">
-                                                                <option value="">Please select country/region</option>
-                                                                <option value="CN">China</option>
-                                                                <option value="US">United States</option>
-                                                                <option value="SG">Singapore</option>
-                                                                <option value="HK">Hong Kong</option>
-                                                                <option value="AU">Australia</option>
-                                                                <option value="JP">Japan</option>
-                                                                <option value="KR">South Korea</option>
-                                                            </select>
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Beneficial Owner ID Type <span class="text-red-500">*</span></label>
-                                                            <select name="beneficiaryIdType" class="form-select h-8 w-full px-3 py-1 text-sm text-gray-900 bg-white border border-purple-600 rounded-md">
-                                                                <option value="">Please select ID type</option>
-                                                                <option value="id_card">ID Card</option>
-                                                                <option value="passport">Passport</option>
-                                                                <option value="driving_license">Driving License</option>
-                                                                <option value="other">Other</option>
-                                                            </select>
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Beneficial Owner Name <span class="text-red-500">*</span></label>
-                                                            <input type="text" name="beneficiaryName" class="form-input h-8" placeholder="Please enter name">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Beneficial Owner ID Number <span class="text-red-500">*</span></label>
-                                                            <input type="text" name="beneficiaryIdNumber" class="form-input h-8" placeholder="Please enter ID number">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">ID Expiry Date <span class="text-red-500">*</span></label>
-                                                            <input type="date" name="beneficiaryIdExpiry" class="form-input h-8">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth <span class="text-red-500">*</span></label>
-                                                            <input type="date" name="beneficiaryBirthDate" class="form-input h-8">
-                                                        </div>
-                                                        <div>
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Shareholding Percentage <span class="text-red-500">*</span></label>
-                                                            <div class="relative">
-                                                                <input type="number" name="beneficiaryShareholding" min="0" max="100" step="0.01" class="form-input h-8 pr-8" placeholder="Please enter shareholding percentage">
-                                                                <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">%</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="md:col-span-2">
-                                                            <label class="block text-sm font-medium text-gray-700 mb-1">Beneficial Owner Address <span class="text-red-500">*</span></label>
-                                                            <textarea name="beneficiaryAddress" rows="2" class="form-input resize-none" placeholder="Please enter beneficial owner address"></textarea>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <button type="button" onclick="window.location.href='add-holder.html'" class="inline-flex items-center px-4 py-2 h-11 text-sm font-medium text-purple-600 bg-white border border-purple-600 rounded-md hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors duration-200">
+                                        <i class="fas fa-plus mr-2"></i>
+                                        Add
+                                    </button>
                                 </div>
+                                            <p class="mt-1 text-xs text-gray-500">Please refer to account details for the actual account name</p>
                             </div>
                         </section>
 
@@ -817,40 +689,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Account Name Type Selection
-            const accountNameTypeRadios = document.querySelectorAll('input[name="accountNameType"]');
-            const accountNameSelect = document.getElementById('accountNameSelect');
-            const accountNameFill = document.getElementById('accountNameFill');
-
-            accountNameTypeRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'select') {
-                        accountNameSelect.classList.remove('hidden');
-                        accountNameFill.classList.add('hidden');
-                    } else if (this.value === 'fill') {
-                        accountNameSelect.classList.add('hidden');
-                        accountNameFill.classList.remove('hidden');
-                    }
-                });
-            });
-
-            // Business expiry date permanent option control
-            const isPermanentCheckbox = document.querySelector('input[name="isPermanent"]');
-            const companyExpiryDate = document.querySelector('input[name="companyExpiryDate"]');
-
-            if (isPermanentCheckbox && companyExpiryDate) {
-                isPermanentCheckbox.addEventListener('change', function() {
-                    if (this.checked) {
-                        companyExpiryDate.disabled = true;
-                        companyExpiryDate.value = '';
-                        companyExpiryDate.classList.add('bg-gray-100');
-                    } else {
-                        companyExpiryDate.disabled = false;
-                        companyExpiryDate.classList.remove('bg-gray-100');
-                    }
-                });
-            }
-
             // Account Type Selection
             const accountTypeRadios = document.querySelectorAll('.custom-radio');
             accountTypeRadios.forEach(radio => {
@@ -896,27 +734,8 @@
                 e.preventDefault();
                 
                 // Account Name validation
-                const accountNameType = document.querySelector('input[name="accountNameType"]:checked').value;
-                let accountNameValid = false;
-                
-                if (accountNameType === 'select') {
                     const accountNameDropdown = document.getElementById('accountNameDropdown').value;
-                    accountNameValid = accountNameDropdown !== '';
-                } else if (accountNameType === 'fill') {
-                    // Validate required fields
-                    const requiredFields = [
-                        'companyEnglishName', 'companyCountry', 'companyRegistrationNumber', 
-                        'companyRegistrationDate', 'companyAddress',
-                        'beneficiaryCountry', 'beneficiaryIdType', 'beneficiaryName', 
-                        'beneficiaryIdNumber', 'beneficiaryIdExpiry', 'beneficiaryBirthDate', 
-                        'beneficiaryShareholding', 'beneficiaryAddress'
-                    ];
-                    
-                    accountNameValid = requiredFields.every(fieldName => {
-                        const field = document.querySelector(`[name="${fieldName}"]`);
-                        return field && field.value.trim() !== '';
-                    });
-                }
+                const accountNameValid = accountNameDropdown !== '';
                 
                 // Basic validation
                 const shopName = document.getElementById('shopName').value;
