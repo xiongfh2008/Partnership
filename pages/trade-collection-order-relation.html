@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Order Relation - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 添加按钮样式 */
+        .primary-btn {
+            background-color: #7D33FF !important;
+            color: white !important;
+        }
+        .primary-btn:hover {
+            background-color: #6929CC !important;
+        }
+        /* 添加链接样式 */
+        .link-primary {
+            color: #7D33FF !important;
+        }
+        .link-primary:hover {
+            color: #6929CC !important;
+        }
+        /* 添加卡片阴影效果 */
+        .card-shadow {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        /* 表格样式优化 */
+        .table-container {
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .table-header {
+            background-color: #F9FAFB;
+        }
+        /* 步骤导航样式 */
+        .step-active {
+            background-color: #7D33FF;
+            color: white;
+        }
+        .step-completed {
+            background-color: #7D33FF;
+            color: white;
+        }
+        .step-pending {
+            background-color: #E5E7EB;
+            color: #6B7280;
+        }
+        .step-content {
+            display: none;
+        }
+        .step-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="min-h-screen">
+    <div class="container mx-auto px-4 py-6">
+            <div class="max-w-6xl mx-auto">
+                <!-- Header Navigation -->
+                <div class="bg-white rounded-t-lg shadow-sm">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-4">
+                                <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 flex items-center">
+                                    <i class="fas fa-arrow-left text-sm mr-2"></i>
+                                    <span>Back</span>
+                                </a>
+                                <h1 class="text-xl font-semibold text-gray-800">Payment Order Relation</h1>
+                            </div>
+                            <a href="javascript:history.back()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Area -->
+                <div class="bg-white shadow-sm">
+                    <!-- Payment Information Card -->
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="grid grid-cols-3 gap-x-8 gap-y-4">
+                            <div class="flex items-center">
+                            <span class="text-gray-500 w-24">Payment No.:</span>
+                                <span class="text-gray-900 font-medium">SK202101010001</span>
+                        </div>
+                            <div class="flex items-center">
+                            <span class="text-gray-500 w-24">Payer:</span>
+                            <span class="text-gray-900">ZHI ZUN BAO</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-gray-500 w-24">Amount:</span>
+                                <span class="text-gray-900 font-medium">4,000.00 USD</span>
+                        </div>
+                            <div class="flex items-center">
+                            <span class="text-gray-500 w-24">Payment Time:</span>
+                            <span class="text-gray-900">2021-8-29 17:47</span>
+                        </div>
+                            <div class="flex items-center">
+                            <span class="text-gray-500 w-24">Account:</span>
+                            <span class="text-gray-900">62270037</span>
+                        </div>
+                    </div>
+                    </div>
+
+                    <!-- Step Navigation -->
+                    <div class="flex items-center justify-center py-6 px-6 border-b border-gray-200">
+                        <div class="flex items-center w-2/3">
+                            <div class="flex items-center flex-1">
+                                <div id="step1-circle" class="flex items-center justify-center w-8 h-8 rounded-full step-completed">
+                                    <span>1</span>
+                                </div>
+                                <div class="ml-2 text-sm font-medium text-gray-900">Create/Select Order</div>
+                                <div id="step1-line" class="flex-1 h-0.5 mx-4 bg-purple-600"></div>
+                            </div>
+                            <div class="flex items-center flex-1">
+                                <div id="step2-circle" class="flex items-center justify-center w-8 h-8 rounded-full step-active">
+                                    <span>2</span>
+                                </div>
+                                <div class="ml-2 text-sm font-medium text-gray-900">Enter Relation Amount</div>
+                                <div id="step2-line" class="flex-1 h-0.5 mx-4 bg-gray-200"></div>
+                            </div>
+                            <div class="flex items-center flex-1">
+                                <div id="step3-circle" class="flex items-center justify-center w-8 h-8 rounded-full step-pending">
+                                    <span>3</span>
+                                </div>
+                                <div class="ml-2 text-sm font-medium text-gray-500">Relation Complete</div>
+                </div>
+            </div>
+        </div>
+
+                    <!-- Step 1: Create/Select Order -->
+                    <div id="step1-content" class="step-content p-6">
+                        <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-lg font-medium text-gray-900">Please create/select the order corresponding to this payment</h2>
+                            <button class="primary-btn px-5 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                                <a href="create-collection-order.html" class="text-white">Create Order</a>
+                            </button>
+                </div>
+                        <div class="table-container border border-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="table-header">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-10">
+                                    Select
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Order No.
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Buyer Name
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Product Name
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Create Time
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Order Amount
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                            <input type="checkbox" class="rounded border-gray-300 text-purple-600 focus:border-purple-500 focus:ring focus:ring-purple-200 focus:ring-opacity-50">
+                                </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">2021001</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">ZHI ZUN BAO</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PS5 Pro-5T</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2021-08-30 18:20</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">4,000.00 USD</td>
+                            </tr>
+                                    <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                            <input type="checkbox" class="rounded border-gray-300 text-purple-600 focus:border-purple-500 focus:ring focus:ring-purple-200 focus:ring-opacity-50">
+                                </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">2021002</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">ZHI ZUN YU</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PS4 Pro-2T</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2021-08-30 18:20</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">4,000.00 USD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                        <div class="mt-4 text-sm text-gray-500">
+                    1 order selected
+                </div>
+            </div>
+
+                    <!-- Step 2: Enter Relation Amount -->
+                    <div id="step2-content" class="step-content active p-6">
+                        <!-- Payment Amount Information Card -->
+                        <div class="bg-gray-50 p-4 rounded-lg mb-6">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <span class="text-gray-600 text-sm">Current Foreign Trade Payment Amount:</span>
+                                    <span class="text-gray-900 text-sm font-medium ml-2">4,000.00 USD</span>
+                                    <div class="flex items-center ml-4 text-green-500">
+                                        <i class="fas fa-check-circle text-sm mr-1.5"></i>
+                                        <span class="text-sm">Relation is sufficient, payment can be fully recorded</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex items-center">
+                                <span class="text-gray-600 text-sm">Enter Relation Total:</span>
+                                <span class="text-orange-500 text-sm font-medium ml-2">4,000.00 USD</span>
+                                <span class="text-gray-500 text-sm ml-2">Enter the actual total payment amount to be fully recorded</span>
+                            </div>
+                        </div>
+
+                        <div class="text-gray-500 mb-4 text-sm">Please enter the corresponding payment amount for each order below</div>
+
+                        <!-- Three Column Headers -->
+                        <div class="bg-gray-50 rounded-t border border-gray-200">
+                            <div class="grid grid-cols-3 text-sm text-gray-500">
+                                <div class="py-2.5 px-4">Selected Order</div>
+                                <div class="py-2.5 px-4">Remaining Relation Amount</div>
+                                <div class="py-2.5 px-4">Enter Relation Amount</div>
+                            </div>
+                        </div>
+
+                        <!-- Order Content -->
+                        <div class="bg-white border-x border-b border-gray-200">
+                            <div class="grid grid-cols-3 p-6">
+                                <!-- Order Information -->
+                                <div class="space-y-4 border-r border-gray-200 pr-6">
+                                    <div class="grid grid-cols-2 gap-x-4">
+                                        <!-- Left Column -->
+                                        <div class="space-y-4">
+                                            <div>
+                                                <div class="text-gray-500 text-sm mb-1">Order No.:</div>
+                                                <div class="text-gray-900 truncate">2021001</div>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-500 text-sm mb-1">Buyer Name:</div>
+                                                <div class="text-gray-900 truncate">ZHI ZUN BAO</div>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-500 text-sm mb-1">Product Name:</div>
+                                                <div class="text-gray-900 truncate">PS5 Pro-5T</div>
+                                            </div>
+                                        </div>
+                                        <!-- Right Column -->
+                                        <div class="space-y-4">
+                                            <div>
+                                                <div class="text-gray-500 text-sm mb-1">Order Total:</div>
+                                                <div class="text-gray-900 truncate">4,000.00 USD</div>
+                                            </div>
+                                            <div>
+                                                <div class="text-gray-500 text-sm mb-1">Create Time:</div>
+                                                <div class="text-gray-900 truncate">2021-08-30 18:20</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Remaining Relation Amount -->
+                                <div class="flex items-center border-r border-gray-200 px-6">
+                                    <span class="text-gray-900 truncate">4,000.00 USD</span>
+                                </div>
+
+                                <!-- Enter Relation Amount -->
+                                <div class="flex items-center justify-center px-6">
+                                    <div class="relative w-full max-w-[280px]">
+                                        <div class="flex">
+                                            <input type="text" 
+                                                class="w-full border border-gray-300 rounded-l px-3 py-1.5 text-sm focus:ring-1 focus:ring-purple-200 focus:border-purple-500 outline-none" 
+                                                value="4,000.00"
+                                                style="padding-right: 64px;">
+                                            <div class="absolute inset-y-0 right-0 flex items-center">
+                                                <span class="bg-gray-50 text-gray-500 text-sm px-4 py-1.5 border-l border-gray-300">USD</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Checkbox Options -->
+                            <div class="px-6 pb-5 border-t border-gray-100 pt-4">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600 rounded border-gray-300 focus:ring-1 focus:ring-purple-200" checked>
+                                    <span class="ml-2 text-sm text-gray-500">Order payment is complete, order will be automatically closed after approval</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Warning Message -->
+                        <div class="mt-6 p-4 border border-red-100 bg-red-50 rounded flex items-start">
+                            <i class="fas fa-exclamation-circle text-red-500 mt-0.5 mr-2"></i>
+                            <span class="text-red-600 text-sm">Note: Please verify your order and submit accurate data information, changes cannot be made after submission</span>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Relation Complete -->
+                    <div id="step3-content" class="step-content p-6">
+                        <div class="flex flex-col items-center justify-center py-12">
+                            <!-- Success Icon -->
+                            <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-6">
+                                <i class="fas fa-check text-2xl text-green-500"></i>
+                            </div>
+                            <!-- Title -->
+                            <h2 class="text-xl font-medium text-gray-900 mb-2">Relation Complete</h2>
+                            <!-- Description Text -->
+                            <p class="text-gray-500 text-sm mb-8">We will review your information, completion within 1 hour, please check SMS or email notifications</p>
+                            <!-- Return Button -->
+                            <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 text-sm">Return to Foreign Trade Payment</a>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Buttons -->
+                    <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
+                        <div class="flex justify-center space-x-3">
+                            <button id="prevBtn" class="px-6 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200">
+                                Previous
+                            </button>
+                            <button id="nextBtn" class="primary-btn px-6 py-2 rounded-md text-sm font-medium transition-colors duration-200">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const step1Content = document.getElementById('step1-content');
+            const step2Content = document.getElementById('step2-content');
+            const step3Content = document.getElementById('step3-content');
+            const step1Circle = document.getElementById('step1-circle');
+            const step2Circle = document.getElementById('step2-circle');
+            const step3Circle = document.getElementById('step3-circle');
+            const step1Line = document.getElementById('step1-line');
+            const step2Line = document.getElementById('step2-line');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            let currentStep = 1; // 初始在第一步
+
+            function updateStepDisplay() {
+                // 更新内容显示
+                step1Content.classList.toggle('active', currentStep === 1);
+                step2Content.classList.toggle('active', currentStep === 2);
+                step3Content.classList.toggle('active', currentStep === 3);
+
+                // 更新步骤样式
+                if (currentStep === 1) {
+                    step1Circle.classList.remove('step-completed');
+                    step1Circle.classList.add('step-active');
+                    step2Circle.classList.remove('step-active', 'step-completed');
+                    step2Circle.classList.add('step-pending');
+                    step3Circle.classList.remove('step-active', 'step-completed');
+                    step3Circle.classList.add('step-pending');
+                    step1Line.classList.remove('bg-purple-600');
+                    step1Line.classList.add('bg-gray-200');
+                    step2Line.classList.remove('bg-purple-600');
+                    step2Line.classList.add('bg-gray-200');
+                    nextBtn.textContent = 'Next';
+                    prevBtn.style.display = 'none'; // 第一步隐藏上一步按钮
+                } else if (currentStep === 2) {
+                    step1Circle.classList.remove('step-active');
+                    step1Circle.classList.add('step-completed');
+                    step2Circle.classList.remove('step-pending', 'step-completed');
+                    step2Circle.classList.add('step-active');
+                    step3Circle.classList.remove('step-active', 'step-completed');
+                    step3Circle.classList.add('step-pending');
+                    step1Line.classList.remove('bg-gray-200');
+                    step1Line.classList.add('bg-purple-600');
+                    step2Line.classList.remove('bg-purple-600');
+                    step2Line.classList.add('bg-gray-200');
+                    nextBtn.textContent = 'Submit';
+                    prevBtn.style.display = 'block'; // 显示上一步按钮
+                } else if (currentStep === 3) {
+                    step1Circle.classList.add('step-completed');
+                    step2Circle.classList.remove('step-active');
+                    step2Circle.classList.add('step-completed');
+                    step3Circle.classList.remove('step-pending');
+                    step3Circle.classList.add('step-active');
+                    step1Line.classList.add('bg-purple-600');
+                    step2Line.classList.remove('bg-gray-200');
+                    step2Line.classList.add('bg-purple-600');
+                    // 隐藏底部按钮
+                    document.querySelector('.px-6.py-4.border-t').style.display = 'none';
+                }
+            }
+
+            prevBtn.addEventListener('click', function() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateStepDisplay();
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentStep < 3) {
+                    currentStep++;
+                    updateStepDisplay();
+                }
+            });
+
+            // 初始化显示第一步
+            updateStepDisplay();
+        });
+    </script>
+</body>
+</html> 

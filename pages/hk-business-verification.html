@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hong Kong Business Verification</title>
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #7D33FF;
+            --primary-hover: #6929D4;
+            --primary-light: rgba(125, 51, 255, 0.1);
+            --bg-color: #FFFFFF;
+            --text-primary: #1F1F1F;
+            --text-secondary: #666666;
+            --border-color: #E5E5E5;
+            --success-color: #34C759;
+            --card-shadow: 0 2px 8px rgba(125, 51, 255, 0.08);
+            --transition: all 0.2s ease-in-out;
+            --header-height: 56px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.5;
+            background-color: #F8F7FF;
+            margin: 0;
+            padding: 0;
+            padding-top: var(--header-height);
+        }
+
+        /* Header styles */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: white;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
+
+        .header-logo {
+            height: 32px;
+            margin-right: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 100%;
+            width: auto;
+        }
+
+        .header-divider {
+            width: 1px;
+            height: 16px;
+            background-color: var(--border-color);
+            margin: 0 16px;
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .header-close {
+            margin-left: auto;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .header-close:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+            color: var(--text-primary);
+        }
+
+        /* Main container */
+        .verification-container {
+            max-width: 1200px;
+            margin: 24px auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 32px;
+        }
+
+        /* Progress tracker styles */
+        .progress-tracker {
+            width: 240px;
+            min-width: 240px;
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: calc(var(--header-height) + 24px);
+            align-self: flex-start;
+            height: fit-content;
+        }
+
+        .progress-step {
+            display: flex;
+            margin-bottom: 24px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .progress-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .progress-step::before {
+            content: "";
+            position: absolute;
+            left: 14px;
+            top: 24px;
+            bottom: -24px;
+            width: 2px;
+            background-color: var(--border-color);
+        }
+
+        .progress-step:last-child::before {
+            display: none;
+        }
+
+        .progress-step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            border: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            z-index: 1;
+        }
+
+        .progress-step.active .progress-step-number {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .progress-step.completed .progress-step-number {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .progress-step.completed .progress-step-number::after {
+            content: "✓";
+            font-size: 14px;
+        }
+
+        .progress-step-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .progress-step.active .progress-step-title {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .progress-step.completed .progress-step-title {
+            color: var(--success-color);
+        }
+
+        .progress-step-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        /* Form container styles */
+        .form-container {
+            flex: 1;
+            min-width: 0;
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 32px 40px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .form-title::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background-color: var(--primary-color);
+            margin-right: 12px;
+            border-radius: 2px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 24px;
+            align-items: flex-start;
+        }
+
+        .form-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .required::after {
+            content: "*";
+            color: #FF4D4F;
+            margin-left: 4px;
+        }
+
+        .form-input, .select-input {
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .form-input:focus, .select-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(125, 51, 255, 0.2);
+        }
+
+        .form-note {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .upload-box {
+            border: 1px dashed var(--border-color);
+            border-radius: 4px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: #FAFAFA;
+            margin-bottom: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary-color);
+            background-color: var(--primary-light);
+        }
+
+        .upload-box i {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .upload-box p {
+            margin: 4px 0;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .upload-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding: 0 4px;
+        }
+
+        .example-link {
+            font-size: 12px;
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .example-link:hover {
+            text-decoration: underline;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .radio-option input[type="radio"] {
+            accent-color: var(--primary-color);
+        }
+
+        .recommend-link {
+            color: var(--primary-color);
+            font-size: 13px;
+            margin-left: auto;
+            text-decoration: none;
+            white-space: nowrap;
+            padding: 0 6px;
+        }
+
+        .recommend-link:hover {
+            text-decoration: underline;
+        }
+
+        .input-suffix {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-with-suffix {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .hidden-address {
+            display: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 1024px) {
+            .verification-container {
+                padding: 0 16px;
+                gap: 24px;
+            }
+
+            .form-container {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .verification-container {
+                flex-direction: column;
+            }
+
+            .progress-tracker {
+                width: 100%;
+                min-width: auto;
+                position: static;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .form-col {
+                width: 100%;
+            }
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+            gap: 16px;
+        }
+
+        .form-actions > div {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            height: 40px;
+            padding: 0 24px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(125, 51, 255, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-light);
+            border-color: var(--primary-color);
+        }
+
+        .btn-secondary:active {
+            background-color: rgba(125, 51, 255, 0.2);
+        }
+
+        .btn-text {
+            background-color: transparent;
+            color: var(--primary-color);
+            padding: 0 16px;
+        }
+
+        .btn-text:hover {
+            background-color: var(--primary-light);
+        }
+
+        .btn-text:active {
+            background-color: rgba(125, 51, 255, 0.2);
+        }
+
+        .btn i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top navigation bar for real-name verification -->
+    <div class="header">
+        <div class="header-logo">
+            <img src="../assets/images/whaletlogo2.png" alt="Whalet Logo">
+        </div>
+        <div class="header-divider"></div>
+        <span class="header-title">Hong Kong Business Verification</span>
+        <i class="fas fa-times header-close" onclick="closeHeader()"></i>
+    </div>
+
+    <div class="verification-container">
+        <!-- Left progress bar -->
+        <div class="progress-tracker">
+            <div class="progress-step active">
+                <div class="progress-step-number">1</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Company Information</div>
+                    <div class="progress-step-desc">Upload and fill in basic company information</div>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-step-number">2</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Key Members</div>
+                    <div class="progress-step-desc">Fill in key member information</div>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-step-number">3</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Account Authorization</div>
+                    <div class="progress-step-desc">Provide account application and authorization</div>
+                </div>
+            </div>
+            <div class="progress-step">
+                <div class="progress-step-number">4</div>
+                <div class="progress-step-content">
+                    <div class="progress-step-title">Complete</div>
+                    <div class="progress-step-desc">Submission successful, waiting for review</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right form content -->
+        <div class="form-container">
+            <h2 class="form-title">Basic Company Information</h2>
+
+            <div class="form-section">
+                <div class="form-row">
+                    <!-- Company Registration Certificate -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label required">Company Registration Certificate (CI)</label>
+                            <div class="upload-box" onclick="triggerFileInput('ci-upload')">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click or drag files here to upload</p>
+                                <p>Supports JPG, PNG, PDF format, file size under 5MB</p>
+                            </div>
+                            <input type="file" id="ci-upload" style="display: none" accept=".jpg,.jpeg,.png,.pdf">
+                            <div class="upload-actions">
+                                <span class="example-link" onclick="showExample('Company Registration Certificate')">View Example</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Business Registration Certificate -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label required">Business Registration Certificate (BR)</label>
+                            <div class="upload-box" onclick="triggerFileInput('br-upload')">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click or drag files here to upload</p>
+                                <p>Supports JPG, PNG, PDF format, file size under 5MB</p>
+                            </div>
+                            <input type="file" id="br-upload" style="display: none" accept=".jpg,.jpeg,.png,.pdf">
+                            <div class="upload-actions">
+                                <span class="example-link" onclick="showExample('Business Registration Certificate')">View Example</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Incorporation Form -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label required">Incorporation Form (NC)</label>
+                            <div class="upload-box" onclick="triggerFileInput('nc-upload')">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click or drag files here to upload</p>
+                                <p>Supports JPG, PNG, PDF format, file size under 5MB</p>
+                            </div>
+                            <input type="file" id="nc-upload" style="display: none" accept=".jpg,.jpeg,.png,.pdf">
+                            <div class="upload-actions">
+                                <span class="example-link" onclick="showExample('Incorporation Form')">View Example</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Annual Return -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label">Annual Return (NAR1)<span class="form-note">Required for companies over one year old</span></label>
+                            <div class="upload-box" onclick="triggerFileInput('nar1-upload')">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click or drag files here to upload</p>
+                                <p>Supports JPG, PNG, PDF format, file size under 5MB</p>
+                            </div>
+                            <input type="file" id="nar1-upload" style="display: none" accept=".jpg,.jpeg,.png,.pdf">
+                            <div class="upload-actions">
+                                <span class="example-link" onclick="showExample('Annual Return')">View Example</span>
+                                <span class="form-note">Please upload the complete annual return for the most recent year, required for companies over one year old</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-title">Company Information</h2>
+                
+                <div class="form-row">
+                    <!-- Company Chinese Name -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label required">Company Chinese Name</label>
+                            <input type="text" class="form-input" placeholder="Enter company Chinese name">
+                            <div class="form-note">If no Chinese name, enter English name</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Company English Name -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label required">Company English Name</label>
+                            <div style="display: flex; align-items: center; width: 100%;">
+                                <input type="text" class="form-input" placeholder="Enter company English name">
+                                <a href="#" class="recommend-link">System Recommendation</a>
+                            </div>
+                            <div class="form-note">English name will be used as receiving account name, must match the receiving account</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company Registration Number -->
+                <div class="form-group">
+                    <label class="form-label required">Company Registration Number</label>
+                    <input type="text" class="form-input" placeholder="Enter company registration number">
+                    <div class="form-note">Usually the 7-digit number in the top right corner of the CI</div>
+                </div>
+
+                <!-- Company Registered Address -->
+                <div class="form-group">
+                    <label class="form-label required">Company Registered Address</label>
+                    <div class="form-row" style="margin-bottom: 8px;">
+                        <div class="form-col">
+                            <select class="select-input" disabled>
+                                <option selected>Hong Kong, China</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="text" class="form-input" placeholder="Enter detailed address">
+                </div>
+
+                <!-- Business Address -->
+                <div class="form-group">
+                    <label class="form-label required">Business Address</label>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="address-type" value="same" checked onchange="toggleAddress('same')">
+                            <span>Same as registered address</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="address-type" value="different" onchange="toggleAddress('different')">
+                            <span>Different from registered address</span>
+                        </label>
+                    </div>
+                    <div id="different-address" class="hidden-address" style="margin-top: 12px;">
+                        <div class="form-row" style="margin-bottom: 8px;">
+                            <div class="form-col">
+                                <select class="select-input">
+                                    <option selected>Hong Kong, China</option>
+                                    <option>Mainland China</option>
+                                    <option>Other Countries/Regions</option>
+                                </select>
+                            </div>
+                        </div>
+                        <input type="text" class="form-input" placeholder="Enter detailed address">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- Company Establishment Date -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label required">Company Establishment Date</label>
+                            <input type="date" class="form-input">
+                        </div>
+                    </div>
+                    
+                    <!-- Expiry Date -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="date" class="form-input">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Products -->
+                <div class="form-group">
+                    <label class="form-label required">Export Products</label>
+                    <select class="select-input">
+                        <option value="" disabled selected>Select export product type</option>
+                        <option>Electronics</option>
+                        <option>Food</option>
+                        <option>Apparel/Accessories/Footwear</option>
+                        <option>Office Supplies</option>
+                        <option>Luggage</option>
+                        <option>Toys</option>
+                        <option>Beauty</option>
+                        <option>Daily Chemical Products</option>
+                    </select>
+                </div>
+
+                <!-- Target Sales Countries/Regions -->
+                <div class="form-group">
+                    <label class="form-label required">Target Sales Countries/Regions</label>
+                    <select class="select-input">
+                        <option value="" disabled selected>Select target sales countries/regions</option>
+                        <option>United States</option>
+                        <option>Canada</option>
+                        <option>United Kingdom</option>
+                        <option>European Union</option>
+                        <option>Australia</option>
+                        <option>Japan</option>
+                        <option>South Korea</option>
+                        <option>Southeast Asia</option>
+                    </select>
+                </div>
+
+                <!-- Company Size -->
+                <div class="form-group">
+                    <label class="form-label">Company Size</label>
+                    <select class="select-input">
+                        <option value="" disabled selected>Select company size</option>
+                        <option>Less than 10 employees</option>
+                        <option>10-20 employees</option>
+                        <option>20-50 employees</option>
+                        <option>More than 50 employees</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <!-- Historical Export Volume -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label">Historical Export Volume</label>
+                            <div class="input-suffix">
+                                <input type="number" class="form-input input-with-suffix" placeholder="Enter whole number">
+                                <span class="input-suffix-text">USD 10,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Expected Annual Export Volume -->
+                    <div class="form-col">
+                        <div class="form-group">
+                            <label class="form-label required">Expected Annual Export Volume</label>
+                            <div class="input-suffix">
+                                <input type="number" class="form-input input-with-suffix" placeholder="Enter whole number">
+                                <span class="input-suffix-text">USD 10,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form action buttons -->
+            <div class="form-actions">
+                <div class="form-actions-left">
+                    <button type="button" class="btn btn-secondary" id="prevButton" onclick="window.location.href='./real-name-verification.html?type=hk-business'">
+                        <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>
+                        Previous
+                    </button>
+                </div>
+                <div class="form-actions-right">
+                    <button type="button" class="btn btn-secondary" id="saveButton">
+                        <i class="fas fa-save" style="margin-right: 8px;"></i>
+                        Save Draft
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='./hk-business-verification-step2.html'">
+                        <i class="fas fa-arrow-right"></i>
+                        Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function triggerFileInput(inputId) {
+            document.getElementById(inputId).click();
+        }
+
+        function showExample(type) {
+            alert(`Here will show the example of ${type}`);
+            // Here can implement popup to show example image
+        }
+
+        function toggleAddress(type) {
+            const differentAddress = document.getElementById('different-address');
+            if (type === 'different') {
+                differentAddress.classList.remove('hidden-address');
+            } else {
+                differentAddress.classList.add('hidden-address');
+            }
+        }
+
+        function nextStep() {
+            // Here implement next step logic, such as form validation, navigation to next step
+            alert('Proceeding to next step: Key Members');
+        }
+
+        function saveDraft() {
+            // Here implement save draft functionality
+            alert('Current content has been saved as draft');
+        }
+
+        function goBack() {
+            // Return to verification page
+            window.location.href = './real-name-verification.html';
+        }
+
+        function closeHeader() {
+            // Here implement close header logic
+            window.location.href = '../index.html';
+        }
+    </script>
+</body>
+</html> 

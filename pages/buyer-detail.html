@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buyer Details - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: #374151;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.375rem 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            color: #374151;
+            background-color: #ffffff;
+        }
+        .form-input:disabled {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
+        }
+        .required:after {
+            content: "*";
+            color: #ef4444;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-6">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Header Return Area -->
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="bill-collection.html#buyer-management" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="bill-collection.html#buyer-management" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Buyer Details</h1>
+                    </div>
+                    <a href="bill-collection.html#buyer-management" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="p-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Left Column -->
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label required">Buyer Name</label>
+                            <input type="text" class="form-input" value="yuanyuan" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <input type="text" class="form-input" value="Normal" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="text" class="form-input" value="Select Date" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Buyer Email</label>
+                            <input type="email" class="form-input" value="yuanyuan112@whalet.com" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-input" value="13527363117" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Country/Region</label>
+                            <input type="text" class="form-input" value="Colombia (CO)" disabled />
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div>
+                        <div class="form-group">
+                            <label class="form-label required">State/Province/Region</label>
+                            <input type="text" class="form-input" value="state" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">City</label>
+                            <input type="text" class="form-input" value="San Jose" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Address Line 1</label>
+                            <input type="text" class="form-input" value="28 Zanker Rd" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Address Line 2</label>
+                            <input type="text" class="form-input" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Street Number</label>
+                            <input type="text" class="form-input" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label required">Postal Code</label>
+                            <input type="text" class="form-input" value="400000" disabled />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 处理返回链接
+            document.querySelectorAll('a[href="bill-collection.html#buyer-management"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // 存储要激活的标签页信息
+                    localStorage.setItem('activeTab', 'buyer-management');
+                    window.location.href = this.href;
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -484,10 +484,81 @@
                             Withdrawal
                         </button>
                         <button class="tab-btn whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium">
-                            Beneficiary Account
+                            My Bank Cards
                         </button>
                     </nav>
-                    <!-- 移除右上角的通知和帮助图标区域 -->
+                    <div class="flex items-center space-x-6 pr-6">
+                        <!-- Notification Icon -->
+                        <div class="relative">
+                            <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <span class="relative">
+                                    <i class="fas fa-bell text-lg"></i>
+                                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </span>
+                            </a>
+                        </div>
+                        
+                        <!-- Help -->
+                        <a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Help</a>
+                        
+                        <!-- User Center -->
+                        <div class="relative">
+                            <button id="userCenterBtn" class="text-gray-600 hover:text-blue-600">
+                                <i class="fas fa-user-circle text-lg"></i>
+                            </button>
+                            <div id="userCenterDropdown" class="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg py-3 hidden z-10">
+                                <!-- User Info Section -->
+                                <div class="px-4 pb-3 border-b border-gray-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-medium text-gray-900">Shanshan Zhang</h3>
+                                        <a href="#" class="text-xs text-blue-600 hover:text-blue-700">Upgrade to Enterprise</a>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-600">ZHANG SHANSHAN</span>
+                                            <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">ID</span>
+                                        <button class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-copy text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Menu Options -->
+                                <div class="py-1">
+                                    <a href="security.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-shield-alt w-5 text-gray-400"></i>
+                                        Security Settings
+                                    </a>
+                                    <a href="authentication-info.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-id-card w-5 text-gray-400"></i>
+                                        Authentication Info
+                                    </a>
+                                    <a href="fees.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-percentage w-5 text-gray-400"></i>
+                                        Fee Query
+                                    </a>
+                                    <a href="coupons.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-gift w-5 text-gray-400"></i>
+                                        My Coupons
+                                    </a>
+                                    <a href="my-invitation.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-user-plus w-5 text-gray-400"></i>
+                                        My Invitations
+                                    </a>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="logout.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt w-5"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -535,10 +606,10 @@
                 init() {
                     this.initializeForm();
                     this.setupWatchers();
-                    // 默认选中China Merchants Bank银行卡
+                    // 默认选中第一张银行卡
                     if (this.banks.length > 0) {
-                        this.selectedBank = this.banks[1]; // 选中第二个银行，即China Merchants Bank
-                        this.receivingCurrency = this.banks[1].currency;
+                        this.selectedBank = this.banks[0];
+                        this.receivingCurrency = this.banks[0].currency;
                     }
                 },
 
@@ -669,7 +740,7 @@
                                 <!-- 提现银行卡选择 -->
                                 <div class="form-group">
                                     <div class="form-label">
-                                        <label class="text-sm font-medium text-gray-700">Beneficiary Account</label>
+                                        <label class="text-sm font-medium text-gray-700">Withdrawal Bank Card</label>
                                     </div>
                                     <div class="form-field">
                                         <div class="relative w-full">
@@ -1447,7 +1518,7 @@
             <div id="bank-cards-tab" class="tab-content" x-show="currentTab === 'bank-cards'" x-cloak>
                 <div class="bg-white rounded-xl shadow-sm p-6">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-lg font-medium text-gray-800">Beneficiary Account</h2>
+                        <h2 class="text-lg font-medium text-gray-800">My Bank Cards</h2>
                         <a href="add-bank-card.html?return_tab=bank-cards" class="text-sm text-blue-600 hover:text-blue-700 font-medium">
                             <i class="fas fa-plus mr-1"></i>
                             Add New Card

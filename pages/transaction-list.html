@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction List - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            height: 240px;
+            position: relative;
+        }
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .custom-checkbox input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            height: 18px;
+            width: 18px;
+            background-color: #eee;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+        .custom-checkbox:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .custom-checkbox .checkmark:after {
+            left: 7px;
+            top: 3px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .filter-dropdown {
+            min-width: 200px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-btn {
+            border-bottom: 2px solid transparent;
+            color: #6b7280;
+        }
+        .tab-btn:hover {
+            color: #374151;
+            border-bottom-color: #d1d5db;
+        }
+        .tab-btn.active {
+            border-bottom: 2px solid #4f46e5;
+            color: #4f46e5;
+        }
+        
+        /* 左侧菜单样式 */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: #4b5563;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+        }
+        
+        .menu-item:hover {
+            background-color: #f3f4f6;
+            color: #1d4ed8;
+            border-left-color: #1d4ed8;
+        }
+        
+        .menu-item.active {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border-left-color: #1d4ed8;
+        }
+        
+        .menu-item i {
+            margin-right: 0.75rem;
+            width: 1.25rem;
+        }
+        
+        /* 退款弹出框样式 */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 40;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            z-index: 50;
+            width: 600px;
+            max-width: 90%;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .modal-close {
+            cursor: pointer;
+            color: #6b7280;
+        }
+        
+        .modal-close:hover {
+            color: #374151;
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-body-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+        
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.375rem;
+            color: #6B7280;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .form-value {
+            color: #111827;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            height: 36px;
+        }
+
+        textarea.form-control {
+            height: auto;
+            min-height: 64px;
+            resize: vertical;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+        }
+
+        .refund-amount-group {
+            position: relative;
+            margin-top: 0.5rem;
+        }
+
+        .refund-amount-wrapper {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        #currency {
+            width: 100px;
+        }
+
+        .full-refund-link {
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #4f46e5;
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+        
+        .full-refund-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            margin-top: 0.25rem;
+            white-space: nowrap;
+            font-size: 0.75rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100">
+
+        
+        <!-- 主要内容区域 -->
+        <div class="flex-1">
+            <div class="container mx-auto px-4 py-6">
+                <!-- 顶部导航和tab选项卡 -->
+                <div class="bg-white rounded-lg shadow-sm mb-4">
+                    <div class="border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <nav class="flex justify-start -mb-px pl-6">
+                                
+                                <button class="tab-btn whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium" data-tab="payment-records">
+                                    Payment Records
+                                </button>
+                                <button class="tab-btn whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium" data-tab="refund-records">
+                                    Refund Records
+                                </button>
+                            </nav>
+                            <div class="flex items-center space-x-6 pr-6">
+                                <!-- 公告图标 -->
+                                <div class="relative">
+                                    <a href="#" class="text-gray-600 hover:text-blue-600">
+                                        <span class="relative">
+                                            <i class="fas fa-bell text-lg"></i>
+                                            <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                        </span>
+                                    </a>
+                                </div>
+                                
+                                <!-- 帮助 -->
+                                <a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Help</a>
+                                
+                                <!-- 用户中心 -->
+                                <div class="relative">
+                                    <button id="userCenterBtn" class="text-gray-600 hover:text-blue-600">
+                                        <i class="fas fa-user-circle text-lg"></i>
+                                    </button>
+                                    <div id="userCenterDropdown" class="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg py-3 hidden z-10">
+                                        <!-- 用户信息部分 -->
+                                        <div class="px-4 pb-3 border-b border-gray-100">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <h3 class="font-medium text-gray-900">Zhang Shanshan</h3>
+                                                <a href="#" class="text-xs text-blue-600 hover:text-blue-700">Upgrade to Enterprise</a>
+                                            </div>
+                                            <div class="flex items-center justify-between mb-2">
+                                                <div class="flex items-center">
+                                                    <span class="text-sm text-gray-600">ZHANG SHANSHAN</span>
+                                                    <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                                        <i class="fas fa-edit text-xs"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-sm text-gray-600">ID</span>
+                                                <button class="text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-copy text-xs"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- 菜单选项 -->
+                                        <div class="py-1">
+                                            <a href="security.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <i class="fas fa-shield-alt w-5 text-gray-400"></i>
+                                                Security Settings
+                                            </a>
+                                            <a href="authentication-info.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <i class="fas fa-id-card w-5 text-gray-400"></i>
+                                                Authentication Info
+                                            </a>
+                                            <a href="fees.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <i class="fas fa-percentage w-5 text-gray-400"></i>
+                                                Fee Rate Query
+                                            </a>
+                                            <a href="coupons.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <i class="fas fa-gift w-5 text-gray-400"></i>
+                                                My Coupons
+                                            </a>
+                                            <a href="my-invitation.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <i class="fas fa-user-plus w-5 text-gray-400"></i>
+                                                My Invitations
+                                            </a>
+                                            <div class="border-t border-gray-100 my-1"></div>
+                                            <a href="logout.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                                <i class="fas fa-sign-out-alt w-5"></i>
+                                                Logout
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 支付记录 Tab -->
+                <div id="payment-records" class="tab-content bg-white rounded-lg shadow-sm">
+                    <!-- 查询条件 -->
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex flex-wrap gap-4">
+                            <div class="flex items-center">
+                                <span class="mr-2 text-sm font-medium text-gray-700">Date:</span>
+                                <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" />
+                                <span class="mx-2">to</span>
+                                <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" />
+                            </div>
+                            <div class="flex items-center">
+                                <span class="mr-2 text-sm font-medium text-gray-700">Status:</span>
+                                <select class="p-2 text-sm border border-gray-300 rounded-md">
+                                    <option value="">All</option>
+                                    <option value="payment_failed">Payment Failed</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="expired">Expired</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="text" placeholder="Transaction ID" class="p-2 text-sm border border-gray-300 rounded-md w-48" />
+                            </div>
+                            <div class="flex items-center">
+                                <input type="text" placeholder="Merchant Order ID" class="p-2 text-sm border border-gray-300 rounded-md w-48" />
+                            </div>
+                            <div class="flex items-center">
+                                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium">
+                                    Search
+                                </button>
+                                <button class="ml-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 数据表格 -->
+                    <div class="w-full">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="w-[12%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Transaction Time
+                                    </th>
+                                    <th scope="col" class="w-[10%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Transaction ID
+                                    </th>
+                                    <th scope="col" class="w-[10%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Merchant Order ID
+                                    </th>
+                                    <th scope="col" class="w-[12%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Customer Email
+                                    </th>
+                                    <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Amount
+                                    </th>
+                                    <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Refund Amount
+                                    </th>
+                                    <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Settlement Amount
+                                    </th>
+                                    <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Fee
+                                    </th>
+                                    <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Method
+                                    </th>
+                                    <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Action
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- 付款成功的记录 -->
+                                <tr>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2023-05-16 15:30:25</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900 truncate" title="TX20230516001">TX20230516001</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900 truncate" title="MO20230516001">MO20230516001</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900 truncate" title="customer@example.com">customer@example.com</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">1,299.00 USD</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">-</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">1,299.00 USD</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">6.50 USD</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">Credit Card</td>
+                                    <td class="px-3 py-4">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Payment Successful
+                                        </span>
+                                    </td>
+                                    <td class="px-3 py-4 text-sm font-medium">
+                                        <div class="flex space-x-2">
+                                            <a href="transaction-detail.html" class="text-blue-600 hover:text-blue-900">Details</a>
+                                            <button class="text-blue-600 hover:text-blue-900 refund-btn">
+                                                <i class="fas fa-undo mr-1"></i>Refund
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2025-01-17 10:08</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900 truncate" title="20250117...">20250117...</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900 truncate" title="20250117...">20250117...</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900 truncate" title="yuanyuan...">yuanyuan...</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">15.00 EUR</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">-</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">15.00 EUR</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">-</td>
+                                    <td class="px-3 py-4 text-sm text-gray-900">Payment Link</td>
+                                    <td class="px-3 py-4">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Payment Failed</span>
+                                    </td>
+                                    <td class="px-3 py-4 text-sm font-medium">
+                                        <a href="transaction-detail.html?from=payment" class="text-blue-600 hover:text-blue-900">Details</a>
+                                    </td>
+                                </tr>
+                            <!-- More rows... -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页 -->
+                <div class="px-6 py-4 border-t border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            Total: 16 pages/80 records
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
+                                Previous
+                            </button>
+                            <button class="px-3 py-1 border border-blue-600 bg-blue-600 text-white rounded text-sm">1</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">2</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">3</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">4</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">5</button>
+                            <span class="px-2 py-1 text-sm text-gray-500">...</span>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">16</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">
+                                Next
+                            </button>
+                            <div class="flex items-center ml-4">
+                                <span class="text-sm text-gray-700">Go to</span>
+                                <input type="text" class="w-12 h-7 mx-1 text-center text-sm border border-gray-300 rounded">
+                                <span class="text-sm text-gray-700">page</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 退款记录 Tab -->
+            <div id="refund-records" class="tab-content bg-white rounded-lg shadow-sm">
+                <!-- 查询条件 -->
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <span class="mr-2 text-sm font-medium text-gray-700">Date:</span>
+                            <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" />
+                            <span class="mx-2">to</span>
+                            <input type="date" class="p-2 text-sm border border-gray-300 rounded-md" />
+                        </div>
+                        <div class="flex items-center">
+                            <span class="mr-2 text-sm font-medium text-gray-700">Status:</span>
+                            <select class="p-2 text-sm border border-gray-300 rounded-md">
+                                <option value="">Select Status</option>
+                                <option value="success">Refund Successful</option>
+                                <option value="processing">Processing</option>
+                                <option value="failed">Refund Failed</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="text" placeholder="Transaction ID" class="p-2 text-sm border border-gray-300 rounded-md w-48" />
+                        </div>
+                        <div class="flex items-center">
+                            <input type="text" placeholder="Order ID" class="p-2 text-sm border border-gray-300 rounded-md w-48" />
+                        </div>
+                        <div class="flex items-center">
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded text-sm font-medium">
+                                Search
+                            </button>
+                            <button class="ml-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded text-sm font-medium hover:bg-gray-50">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数据表格 -->
+                <div class="w-full">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="w-[12%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Application Time
+                                </th>
+                                <th scope="col" class="w-[10%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Transaction ID
+                                </th>
+                                <th scope="col" class="w-[12%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Customer Email
+                                </th>
+                                <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Transaction Amount
+                                </th>
+                                <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Refund Type
+                                </th>
+                                <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Refund Amount
+                                </th>
+                                <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Refund Fee
+                                </th>
+                                <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Refund Reason
+                                </th>
+                                <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th scope="col" class="w-[8%] px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2023-07-30 21:33:54</td>
+                                <td class="px-3 py-4 text-sm text-gray-900 truncate" title="123456789">123456789</td>
+                                <td class="px-3 py-4 text-sm text-gray-900 truncate" title="xxx123@gmail.com">xxx123@gmail.com</td>
+                                <td class="px-3 py-4 text-sm text-gray-900">421,791.97 NGN</td>
+                                <td class="px-3 py-4 text-sm text-gray-900">Partial Refund</td>
+                                <td class="px-3 py-4 text-sm text-gray-900">1000 NGN</td>
+                                <td class="px-3 py-4 text-sm text-gray-900">0.3 USD</td>
+                                <td class="px-3 py-4 text-sm text-gray-900">Refund</td>
+                                <td class="px-3 py-4">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Refund Successful
+                                    </span>
+                                </td>
+                                <td class="px-3 py-4 text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900">Details</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2023-07-30 21:33:54</td>
+                                <td class="px-3 py-4 text-sm text-gray-900 truncate" title="123456789">123456789</td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900">Refund</td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        Processing
+                                    </span>
+                                </td>
+                                <td class="px-3 py-4 text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900">Details</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-900">2023-07-30 21:33:54</td>
+                                <td class="px-3 py-4 text-sm text-gray-900 truncate" title="123456789">123456789</td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4 text-sm text-gray-900"></td>
+                                <td class="px-3 py-4">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        Refund Failed
+                                    </span>
+                                </td>
+                                <td class="px-3 py-4 text-sm font-medium">
+                                    <a href="#" class="text-blue-600 hover:text-blue-900">Details</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            <!-- 分页 -->
+                <div class="px-6 py-4 border-t border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm text-gray-500">
+                            Total: 16 pages/80 records
+                        </div>
+                        <div class="flex items-center space-x-1">
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50 disabled:opacity-50" disabled>
+                            Previous
+                        </button>
+                        <button class="px-3 py-1 border border-blue-600 bg-blue-600 text-white rounded text-sm">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">3</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">4</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">5</button>
+                        <span class="px-2 py-1 text-sm text-gray-500">...</span>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">16</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-700 hover:bg-gray-50">
+                            Next
+                        </button>
+                        <div class="flex items-center ml-4">
+                            <span class="text-sm text-gray-700">Go to</span>
+                            <input type="text" class="w-12 h-7 mx-1 text-center text-sm border border-gray-300 rounded">
+                            <span class="text-sm text-gray-700">page</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Switching Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签页切换逻辑
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // 默认显示支付记录标签页
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            const defaultTab = document.querySelector('[data-tab="payment-records"]');
+            const defaultContent = document.getElementById('payment-records');
+            defaultTab.classList.add('active');
+            defaultContent.classList.add('active');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    const tabId = button.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // 处理详情链接点击事件
+            const detailLinks = document.querySelectorAll('a[href="#"]');
+            detailLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const row = link.closest('tr');
+                    const transactionId = row.querySelector('td:nth-child(2)').textContent.trim();
+                    window.location.href = `transaction-detail.html?from=payment&id=${transactionId}`;
+                });
+            });
+
+            // 用户中心下拉菜单
+            const userCenterBtn = document.getElementById('userCenterBtn');
+            const userCenterDropdown = document.getElementById('userCenterDropdown');
+            
+            if (userCenterBtn && userCenterDropdown) {
+                userCenterBtn.addEventListener('click', function() {
+                    userCenterDropdown.classList.toggle('hidden');
+                });
+                
+                // 点击其他地方关闭下拉菜单
+                document.addEventListener('click', function(event) {
+                    if (!userCenterBtn.contains(event.target) && !userCenterDropdown.contains(event.target)) {
+                        userCenterDropdown.classList.add('hidden');
+                    }
+                });
+            }
+
+            // 退款弹出框相关函数
+            window.openRefundModal = function(orderData) {
+                document.getElementById('orderNumber').textContent = orderData.orderNumber;
+                document.getElementById('paidAmount').textContent = orderData.paidAmount;
+                document.getElementById('refundableAmount').textContent = orderData.refundableAmount;
+                document.getElementById('refundFee').textContent = '0.30 USD';
+                document.getElementById('amountError').textContent = 'Account balance 10USD, refund amount 10.2USD (9.9USD+0.3USD), insufficient balance cannot initiate refund';
+                document.getElementById('amountError').classList.add('text-xs');
+                const modalBackdrop = document.getElementById('refundModal');
+                modalBackdrop.style.display = 'block';
+                document.getElementById('refundAmount').value = '';
+                document.getElementById('refundReason').value = '';
+                document.getElementById('refundDescription').value = '';
+
+                modalBackdrop.addEventListener('click', function(e) {
+                    if (e.target === modalBackdrop) {
+                        closeRefundModal();
+                    }
+                });
+
+                document.getElementById('refundAmount').addEventListener('input', function() {
+                    const refundAmount = parseFloat(this.value) || 0;
+                    const feeRate = 0.003;
+                    const refundFee = refundAmount * feeRate;
+                    document.getElementById('refundFee').textContent = `${refundFee.toFixed(2)} USD`;
+                });
+            };
+            
+            window.closeRefundModal = function() {
+                const modalBackdrop = document.getElementById('refundModal');
+                modalBackdrop.style.display = 'none';
+                // 移除事件监听器
+                modalBackdrop.removeEventListener('click', function(e) {
+                    if (e.target === modalBackdrop) {
+                        closeRefundModal();
+                    }
+                });
+            };
+            
+            window.setFullRefund = function() {
+                const refundableAmount = document.getElementById('refundableAmount').textContent;
+                document.getElementById('refundAmount').value = refundableAmount.split(' ')[0];
+                // 更新手续费
+                const refundAmount = parseFloat(refundableAmount) || 0;
+                const feeRate = 0.003; // 0.3%
+                const refundFee = refundAmount * feeRate;
+                document.getElementById('refundFee').textContent = `${refundFee.toFixed(2)} USD`;
+            };
+            
+            window.submitRefund = function() {
+                const amount = document.getElementById('refundAmount').value;
+                const reason = document.getElementById('refundReason').value;
+                
+                // 验证
+                if (!amount) {
+                    document.getElementById('amountError').textContent = '请输入退款金额';
+                    return;
+                }
+                if (!reason) {
+                    document.getElementById('refundReason').focus();
+                    return;
+                }
+                
+                // 由于余额不足，阻止提交
+                return;
+            };
+            
+            // 修改退款按钮点击事件
+            document.querySelectorAll('.refund-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const orderData = {
+                        orderNumber: '202410240103099',
+                        paidAmount: '421,791.97 NGN',
+                        refundableAmount: '420,000.11 NGN'
+                    };
+                    openRefundModal(orderData);
+                });
+            });
+
+            // 计算退款手续费和总扣除金额
+            function calculateRefundFee() {
+                const refundAmount = parseFloat(document.getElementById('refundAmount').value) || 0;
+                const currency = document.getElementById('currency').value;
+                
+                // 这里使用示例费率，实际应从后端获取
+                const feeRate = 0.003; // 0.3%
+                const refundFee = refundAmount * feeRate;
+
+                // 更新显示 - 手续费固定显示为 USD
+                document.getElementById('refundFee').textContent = `${refundFee.toFixed(2)} USD`;
+
+                // 验证余额是否足够
+                const accountBalance = parseFloat(document.getElementById('accountBalance').textContent);
+                const totalDeduct = refundAmount + refundFee;
+                
+                if (totalDeduct > accountBalance) {
+                    document.getElementById('amountError').textContent = `账户余额10USD，退款金额${(refundAmount + refundFee).toFixed(2)}USD（${refundAmount.toFixed(2)}${currency}+${refundFee.toFixed(2)}USD），余额不足无法发起退款`;
+                    document.getElementById('amountError').classList.add('text-red-600');
+                    document.getElementById('amountError').classList.add('text-xs');
+                    document.getElementById('amountError').classList.add('whitespace-nowrap');
+                    return false;
+                } else {
+                    document.getElementById('amountError').textContent = '';
+                    return true;
+                }
+            }
+        });
+    </script>
+
+    <!-- 退款弹出框 -->
+    <div id="refundModal" class="modal-backdrop">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="text-lg font-medium text-gray-900">Apply for Refund</h3>
+                <button class="modal-close" onclick="closeRefundModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-body-grid">
+                    <div class="form-group">
+                        <label class="form-label">Order Number</label>
+                        <div id="orderNumber" class="form-value"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Paid Amount</label>
+                        <div id="paidAmount" class="form-value"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Refundable Amount</label>
+                        <div id="refundableAmount" class="form-value"></div>
+                    </div>
+                </div>
+                <div class="form-group refund-amount-group">
+                    <label class="form-label required">Refund Amount</label>
+                    <a href="#" class="full-refund-link" onclick="setFullRefund()">Full Refund</a>
+                    <div class="refund-amount-wrapper">
+                        <input type="text" class="form-control" id="refundAmount" placeholder="Enter refund amount">
+                        <select class="form-control" id="currency">
+                            <option value="NGN">NGN</option>
+                        </select>
+                    </div>
+                    <div class="text-sm mt-2">
+                        <span class="text-gray-500">Refund Fee:</span>
+                        <span id="refundFee" class="text-gray-900">0.00 USD</span>
+                    </div>
+                    <div class="error-message text-red-600 mt-1" id="amountError"></div>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label required">Refund Reason</label>
+                    <input type="text" class="form-control" id="refundReason" placeholder="Enter refund reason">
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label">Refund Description</label>
+                    <textarea class="form-control" id="refundDescription" placeholder="Enter refund description (optional)"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50" onclick="closeRefundModal()">
+                    Cancel
+                </button>
+                <button class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700" onclick="submitRefund()">
+                    Apply for Refund
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Account Details - Whalet</title>
+    <!-- 引入 Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- 引入字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 引入图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f9fafb;
+            min-height: 100vh;
+        }
+        .required::after {
+            content: '*';
+            color: #ef4444;
+            margin-left: 4px;
+        }
+        .form-input:focus, .form-select:focus {
+            border-color: #8b5cf6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+        /* Custom radio button styles */
+        .form-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .form-radio:checked {
+            border-color: #8b5cf6;
+            background-color: #8b5cf6;
+            box-shadow: inset 0 0 0 3px white;
+        }
+        .form-radio:hover {
+            border-color: #8b5cf6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <div>
+                            <h1 class="text-xl font-semibold text-gray-800">USD Dollar Details</h1>
+                        </div>
+                    </div>
+                    <a href="javascript:history.back()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Account Balance Information Cards -->
+            <div class="px-6 py-4 grid grid-cols-4 gap-4">
+                <!-- Available Balance -->
+                <div class="bg-purple-50 rounded-lg p-4 flex items-center">
+                    <div class="bg-purple-200 p-2 rounded-full mr-3">
+                        <i class="fas fa-heart text-purple-700"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-semibold">$ 0.00</div>
+                        <div class="text-xs text-gray-600">Available Balance</div>
+                    </div>
+                </div>
+                
+                <!-- Pending Amount -->
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center">
+                    <div class="bg-gray-200 p-2 rounded-full mr-3">
+                        <i class="fas fa-clock text-gray-700"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-semibold">$ 0.00</div>
+                        <div class="text-xs text-gray-600">Pending</div>
+                    </div>
+                </div>
+                
+                <!-- Margin Amount -->
+                <div class="bg-blue-50 rounded-lg p-4 flex items-center">
+                    <div class="bg-blue-200 p-2 rounded-full mr-3">
+                        <i class="fas fa-clock text-blue-700"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-semibold">$ 0.00</div>
+                        <div class="text-xs text-gray-600">Margin Amount</div>
+                    </div>
+                </div>
+                
+                <!-- Frozen Amount -->
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center">
+                    <div class="bg-gray-200 p-2 rounded-full mr-3">
+                        <i class="fas fa-clock text-gray-700"></i>
+                    </div>
+                    <div>
+                        <div class="text-lg font-semibold">$ 0.00</div>
+                        <div class="text-xs text-gray-600">Frozen Amount</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Records Filter and Table -->
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800">Pending Transactions</h2>
+                </div>
+                <!-- Search Criteria -->
+                <div class="mb-6 bg-white rounded-lg">
+                    <div class="grid grid-cols-3 gap-4">
+                        <!-- First Row -->
+                        <div class="col-span-1">
+                            <label class="block text-sm text-gray-600 mb-1">Transaction ID</label>
+                            <input type="text" class="w-full h-9 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500" placeholder="Enter transaction ID">
+                        </div>
+                        <div class="col-span-1">
+                            <label class="block text-sm text-gray-600 mb-1">Platform Name</label>
+                            <select class="w-full h-9 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500">
+                                <option value="">Select Platform</option>
+                            </select>
+                        </div>
+                        <div class="col-span-1">
+                            <label class="block text-sm text-gray-600 mb-1">Bank Account</label>
+                            <input type="text" class="w-full h-9 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500" placeholder="Enter bank account">
+                        </div>
+                        <!-- Second Row -->
+                        <div class="col-span-1">
+                            <label class="block text-sm text-gray-600 mb-1">Status</label>
+                            <select class="w-full h-9 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500">
+                                <option value="">Select Status</option>
+                            </select>
+                        </div>
+                        <div class="col-span-1">
+                            <label class="block text-sm text-gray-600 mb-1">Creation Time</label>
+                            <input type="date" class="w-full h-9 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-purple-500 focus:border-purple-500">
+                        </div>
+                        <div class="col-span-1 flex items-end space-x-4">
+                            <button class="px-4 h-9 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50">
+                                Reset
+                            </button>
+                            <button class="px-4 h-9 text-sm text-white bg-purple-600 rounded-md hover:bg-purple-700">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-gray-50 text-left">
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Transaction ID</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Platform Name</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Bank Account</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Currency</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Receipt Amount</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Remitter</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Status</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Creation Time</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-600">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- No Data Display -->
+                            <tr>
+                                <td colspan="9">
+                                    <div class="py-10 flex justify-center items-center text-gray-500">
+                                        <div class="text-center">
+                                            <i class="fas fa-inbox text-gray-300 text-5xl mb-4"></i>
+                                            <p class="text-gray-500">No Data</p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html> 

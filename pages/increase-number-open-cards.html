@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Increase Number of Cards - Whalet</title>
+    <!-- 引入 Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- 引入字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- 引入图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #f9fafb;
+            min-height: 100vh;
+        }
+        .required::after {
+            content: '*';
+            color: #ef4444;
+            margin-left: 4px;
+        }
+        .form-input:focus, .form-select:focus {
+            border-color: #8b5cf6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+        /* Custom radio button styles */
+        .form-radio {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .form-radio:checked {
+            border-color: #8b5cf6;
+            background-color: #8b5cf6;
+            box-shadow: inset 0 0 0 3px white;
+        }
+        .form-radio:hover {
+            border-color: #8b5cf6;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Page Title -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="javascript:history.back()" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Increase Number of Cards</h1>
+                    </div>
+                    <a href="javascript:history.back()" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="p-4">
+                <form class="space-y-3">
+                    <!-- Payment Platform and Currency -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-0.5">Payment Platform</label>
+                            <div class="text-sm text-gray-800">Amazon North America (USA, Mexico, Canada, Brazil)</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-0.5">Payment Currency</label>
+                            <div class="text-sm text-gray-800">USD</div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Location -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-0.5">
+                            <span class="text-red-500">*</span> Bank Location
+                        </label>
+                        <select required class="w-1/2 p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500 text-sm">
+                            <option value="">Please Select</option>
+                        </select>
+                    </div>
+
+                    <!-- Increase Number of Cards -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <span class="text-red-500">*</span> Increase Number of Cards
+                        </label>
+                        <div class="flex items-center space-x-2">
+                            <button type="button" class="px-3 py-1 border border-gray-300 rounded-md">-</button>
+                            <input type="text" value="1" class="w-20 text-center p-1 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                            <button type="button" class="px-3 py-1 border border-gray-300 rounded-md">+</button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">(Non-refundable after payment, please proceed with caution)</p>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <span class="text-red-500">*</span> Payment Method
+                        </label>
+                        <div class="space-x-6">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="payment_method" class="form-radio" checked>
+                                <span class="ml-2 text-sm text-gray-700">Account Balance</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="payment_method" class="form-radio">
+                                <span class="ml-2 text-sm text-gray-700">Offline Payment</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Payment Currency -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <span class="text-red-500">*</span> Payment Currency
+                        </label>
+                        <select required class="w-1/2 p-2 border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500">
+                            <option>USD</option>
+                        </select>
+                    </div>
+
+                    <!-- Payment Amount -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Payment Amount</label>
+                        <div class="flex items-baseline">
+                            <span class="text-lg font-medium text-gray-800">100.00</span>
+                            <span class="ml-2 text-sm text-gray-500">USD</span>
+                        </div>
+                        <p class="text-red-500 text-sm mt-2">! Insufficient Account Balance</p>
+                    </div>
+
+                    <!-- Transaction Password -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            <span class="text-red-500">*</span> Transaction Password
+                        </label>
+                        <div class="relative w-1/2">
+                            <input type="password" required class="w-full p-2 text-sm border border-gray-300 rounded-md focus:ring-purple-500 focus:border-purple-500" placeholder="Please enter transaction password">
+                            <a href="#" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-purple-600 hover:text-purple-700">Forgot Password?</a>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Buttons -->
+                    <div class="flex justify-center space-x-4 mt-8">
+                        <button type="button" class="px-8 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-8 py-2 bg-purple-600 text-white rounded-md text-sm font-medium hover:bg-purple-700">
+                            Confirm Application
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html> 

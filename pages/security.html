@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Settings - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .security-item {
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #e5e7eb;
+        }
+        .security-item:hover {
+            border-color: #4f46e5;
+            background-color: #f9fafb;
+        }
+        .device-item {
+            transition: all 0.2s ease;
+        }
+        .device-item:hover {
+            background-color: #f9fafb;
+        }
+        .tab-btn {
+            border-bottom: 2px solid transparent;
+            color: #6b7280;
+        }
+        .tab-btn:hover {
+            color: #374151;
+            border-bottom-color: #d1d5db;
+        }
+        .tab-btn.active {
+            border-bottom: 2px solid #4f46e5;
+            color: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-3">
+        <!-- Top Navigation and Main Tabs -->
+        <div class="bg-white rounded-lg shadow-sm mb-3">
+            <div class="border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <nav class="flex justify-start -mb-px pl-6">
+                        <button class="tab-btn active whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium">
+                            Security Settings
+                        </button>
+                    </nav>
+                    <div class="flex items-center space-x-6 pr-6">
+                        <!-- Notification Icon -->
+                        <div class="relative">
+                            <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <span class="relative">
+                                    <i class="fas fa-bell text-lg"></i>
+                                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </span>
+                            </a>
+                        </div>
+                        
+                        <!-- Help -->
+                        <a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Help</a>
+                        
+                        <!-- User Center -->
+                        <div class="relative">
+                            <button id="userCenterBtn" class="text-gray-600 hover:text-blue-600">
+                                <i class="fas fa-user-circle text-lg"></i>
+                            </button>
+                            <div id="userCenterDropdown" class="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg py-3 hidden z-10">
+                                <!-- User Info Section -->
+                                <div class="px-4 pb-3 border-b border-gray-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-medium text-gray-900">Zhang Shanshan</h3>
+                                        <a href="#" class="text-xs text-blue-600 hover:text-blue-700">Upgrade to Enterprise</a>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-600">ZHANG SHANSHAN</span>
+                                            <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">ID</span>
+                                        <button class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-copy text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Menu Options -->
+                                <div class="py-1">
+                                    <a href="security.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-shield-alt w-5 text-gray-400"></i>
+                                        Security Settings
+                                    </a>
+                                    <a href="authentication-info.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-id-card w-5 text-gray-400"></i>
+                                        Authentication Info
+                                    </a>
+                                    <a href="fees.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-percentage w-5 text-gray-400"></i>
+                                        Fee Query
+                                    </a>
+                                    <a href="coupons.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-gift w-5 text-gray-400"></i>
+                                        My Coupons
+                                    </a>
+                                    <a href="my-invitation.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-user-plus w-5 text-gray-400"></i>
+                                        My Invitations
+                                    </a>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="logout.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt w-5"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <div class="bg-white p-4 rounded-xl shadow-sm mb-3">
+            <div class="flex justify-between items-start">
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4">
+                        <i class="fas fa-building text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800 mb-1">Chongqing Testing Co., Ltd</h1>
+                        <p class="text-gray-600">Enterprise Security Center</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Basic Information -->
+        <div class="bg-white rounded-xl shadow-sm mb-3">
+            <div class="grid grid-cols-3 divide-x divide-gray-100">
+                <div class="p-3">
+                    <h3 class="text-sm font-medium text-gray-500 mb-1">Account Name</h3>
+                    <p class="text-base text-gray-900">13888888888</p>
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm font-medium text-gray-500 mb-1">User ID</h3>
+                    <p class="text-base text-gray-900">202208231752558868160001</p>
+                </div>
+                <div class="p-3">
+                    <h3 class="text-sm font-medium text-gray-500 mb-1">Last Visit</h3>
+                    <p class="text-base text-gray-900">2025-03-12 00:10:25</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="grid grid-cols-1 gap-3 mb-3">
+            <!-- English Name -->
+            <div class="security-item bg-white rounded-xl p-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-start">
+                        <div class="rounded-lg bg-blue-100 p-3 mr-4">
+                            <i class="fas fa-globe text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-1">English Name</h3>
+                            <p class="text-sm text-gray-600">Whale Testing Co., Ltd</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-sm text-gray-400 mr-2">3 attempts remaining</span>
+                        <button class="px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                            Modify
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Password -->
+            <div class="security-item bg-white rounded-xl p-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-start">
+                        <div class="rounded-lg bg-yellow-100 p-3 mr-4">
+                            <i class="fas fa-key text-yellow-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-1">Login Password</h3>
+                            <p class="text-sm text-gray-500">Last modified: 2023-09-04 12:04:58</p>
+                        </div>
+                    </div>
+                    <a href="reset-password.html" class="px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                        Update
+                    </a>
+                </div>
+            </div>
+
+            <!-- Transaction Password -->
+            <div class="security-item bg-white rounded-xl p-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-start">
+                        <div class="rounded-lg bg-green-100 p-3 mr-4">
+                            <i class="fas fa-lock text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-1">Transaction Password</h3>
+                            <p class="text-sm text-gray-500">Last modified: 2024-11-13 10:08:25</p>
+                        </div>
+                    </div>
+                    <a href="reset-transaction-password.html" class="px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                        Update
+                    </a>
+                </div>
+            </div>
+
+            <!-- Phone Binding -->
+            <div class="security-item bg-white rounded-xl p-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-start">
+                        <div class="rounded-lg bg-purple-100 p-3 mr-4">
+                            <i class="fas fa-mobile-alt text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-1">Phone Binding</h3>
+                            <p class="text-sm text-gray-600">86-132 **** 2514</p>
+                        </div>
+                    </div>
+                    <a href="update-phone.html" class="px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                        Update
+                    </a>
+                </div>
+            </div>
+
+            <!-- Email Binding -->
+            <div class="security-item bg-white rounded-xl p-3">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-start">
+                        <div class="rounded-lg bg-orange-100 p-3 mr-4">
+                            <i class="fas fa-envelope text-orange-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-800 mb-1">Email Binding</h3>
+                            <p class="text-sm text-gray-600">daniel **** halet.com</p>
+                        </div>
+                    </div>
+                    <a href="update-email.html" class="px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium">
+                        Update
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Tips -->
+        <div class="bg-white rounded-xl shadow-sm p-4">
+            <h2 class="text-lg font-medium text-gray-800 mb-3">Security Tips</h2>
+            <div class="space-y-3">
+                <div class="flex items-start">
+                    <div class="text-yellow-500 mr-3">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <p class="text-sm text-gray-700">
+                        Never share your account password with anyone.
+                    </p>
+                </div>
+                <div class="flex items-start">
+                    <div class="text-yellow-500 mr-3">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <p class="text-sm text-gray-700">
+                        Change your password regularly and ensure it contains uppercase and lowercase letters, numbers, and special characters.
+                    </p>
+                </div>
+                <div class="flex items-start">
+                    <div class="text-yellow-500 mr-3">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <p class="text-sm text-gray-700">
+                        If you notice any suspicious activity, please contact our customer support immediately.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 用户中心下拉菜单
+        const userCenterBtn = document.getElementById('userCenterBtn');
+        const userCenterDropdown = document.getElementById('userCenterDropdown');
+        
+        // 点击按钮时切换下拉菜单的显示状态
+        userCenterBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // 阻止事件冒泡
+            userCenterDropdown.classList.toggle('hidden');
+        });
+        
+        // 点击页面其他地方时关闭下拉菜单
+        document.addEventListener('click', (e) => {
+            if (!userCenterDropdown.contains(e.target) && e.target !== userCenterBtn) {
+                userCenterDropdown.classList.add('hidden');
+            }
+        });
+    </script>
+
+    <!-- Edit English Name Modal -->
+    <div id="editEnglishNameModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg w-[500px] relative">
+            <!-- Title and Close Button -->
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-lg font-medium">Edit English Name</h3>
+                <button id="closeEnglishNameModal" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Notification -->
+            <div class="p-4">
+                <div class="bg-blue-50 p-4 mb-4 rounded-lg">
+                    <p class="text-sm text-gray-600">The English name of previously opened collection accounts will not be modified. The new English name will take effect after approval. You will be notified of the review result via SMS. Please stay tuned.</p>
+                </div>
+
+                <!-- Form Content -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            English Name <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="englishName" value="Whale Testing Co., Ltd" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            Supporting Documents <span class="text-red-500">*</span>
+                        </label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                            <div class="flex flex-col items-center justify-center">
+                                <i class="fas fa-plus text-gray-400 mb-2"></i>
+                                <span class="text-sm text-gray-500">Supporting Documents</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Please upload relevant supporting documents.</p>
+                            <p class="text-xs text-gray-500">File extensions: jpg,jpeg,png,pdf,bmp,zip,rar</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Buttons -->
+            <div class="flex justify-end space-x-3 p-4 border-t">
+                <button id="cancelEnglishName" class="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">
+                    Cancel
+                </button>
+                <button id="confirmEnglishName" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+                    Submit Application
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 英文名称修改弹窗控制
+        const editEnglishNameModal = document.getElementById('editEnglishNameModal');
+        const closeEnglishNameModal = document.getElementById('closeEnglishNameModal');
+        const cancelEnglishName = document.getElementById('cancelEnglishName');
+        const editEnglishNameBtn = document.querySelector('.security-item:first-of-type button');
+
+        function showModal() {
+            editEnglishNameModal.classList.remove('hidden');
+        }
+
+        function hideModal() {
+            editEnglishNameModal.classList.add('hidden');
+        }
+
+        editEnglishNameBtn.addEventListener('click', showModal);
+        closeEnglishNameModal.addEventListener('click', hideModal);
+        cancelEnglishName.addEventListener('click', hideModal);
+
+        // Close modal when clicking outside
+        editEnglishNameModal.addEventListener('click', (e) => {
+            if (e.target === editEnglishNameModal) {
+                hideModal();
+            }
+        });
+    </script>
+</body>
+</html> 
