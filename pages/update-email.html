@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,4 +115,122 @@
         });
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Email - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="security.html" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="security.html" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Update Email</h1>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update Email Form -->
+            <div class="p-6">
+                <div class="max-w-2xl mx-auto">
+                    <!-- Current Email -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Current Email</label>
+                        <div class="text-gray-600">daniel****halet.com</div>
+                    </div>
+
+                    <!-- New Email -->
+                    <div class="mb-6">
+                        <label for="newEmail" class="block text-sm font-medium text-gray-700 mb-2">
+                            New Email Address <span class="text-red-500">*</span>
+                        </label>
+                        <input type="email" id="newEmail" name="newEmail" required
+                            class="w-full p-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                            placeholder="Enter new email address">
+                    </div>
+
+                    <!-- Verification Code -->
+                    <div class="mb-6">
+                        <label for="verificationCode" class="block text-sm font-medium text-gray-700 mb-2">
+                            Verification Code <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex space-x-3">
+                            <input type="text" id="verificationCode" name="verificationCode" required
+                                class="flex-1 p-2 border rounded-md focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                placeholder="Enter verification code">
+                            <button type="button" id="sendCodeBtn"
+                                class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">
+                                Get Code
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex justify-center">
+                        <button type="submit" class="w-full px-6 py-3 bg-purple-600 text-white rounded-md hover:bg-purple-700 text-base font-medium">
+                            Confirm Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown for verification code button
+        const sendCodeBtn = document.getElementById('sendCodeBtn');
+        let countdown = 60;
+        let timer = null;
+
+        sendCodeBtn.addEventListener('click', function() {
+            if (timer) return;
+            
+            // Start countdown
+            sendCodeBtn.disabled = true;
+            timer = setInterval(() => {
+                countdown--;
+                sendCodeBtn.textContent = `Retry in ${countdown}s`;
+                
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    sendCodeBtn.disabled = false;
+                    sendCodeBtn.textContent = 'Get Code';
+                    countdown = 60;
+                    timer = null;
+                }
+            }, 1000);
+
+            // TODO: Add actual verification code sending logic here
+        });
+
+        // Form submission handling
+        document.getElementById('updateEmailForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // TODO: Add actual form submission logic here
+            
+            // Demo: Show success message and return
+            alert('Email updated successfully!');
+            window.location.href = 'security.html';
+        });
+    </script>
+</body>
+>>>>>>> f6f9f66563c2d172420a841f3778fee76237b4d4
 </html> 

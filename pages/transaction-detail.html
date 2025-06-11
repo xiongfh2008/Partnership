@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -326,4 +327,334 @@
         });
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Details - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <style>
+        :root {
+            --primary-color: #7D33FF;
+            --primary-hover: #6929CC;
+            --primary-light: rgba(125, 51, 255, 0.1);
+            --primary-lighter: rgba(125, 51, 255, 0.05);
+        }
+
+        body {
+            background-color: #F8F9FD;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+
+        .tab-btn {
+            position: relative;
+            color: #6b7280;
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            font-weight: 500;
+            border-bottom-color: var(--primary-color);
+        }
+
+        .detail-section {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+
+        .info-label {
+            color: #6b7280;
+            font-size: 0.875rem;
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: #111827;
+            font-size: 0.875rem;
+            flex-grow: 1;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-badge.pending {
+            background-color: var(--primary-lighter);
+            color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table thead {
+            background-color: #F9FAFB;
+        }
+
+        table th {
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 500;
+            color: #6B7280;
+            font-size: 0.875rem;
+        }
+
+        table td {
+            padding: 0.75rem;
+            color: #111827;
+            font-size: 0.875rem;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 1rem;
+            padding-left: 0.75rem;
+            border-left: 3px solid var(--primary-color);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto bg-white rounded-lg shadow-sm">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <a href="transaction-list.html#payment-records" class="text-purple-600 hover:text-purple-700 mr-2">
+                            <i class="fas fa-arrow-left"></i>
+                        </a>
+                        <a href="transaction-list.html#payment-records" class="text-purple-600 hover:text-purple-700 mr-4">Back</a>
+                        <h1 class="text-xl font-semibold text-gray-800">Transaction Details</h1>
+                    </div>
+                    <a href="transaction-list.html#payment-records" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Transaction Details Content -->
+            <div class="p-6">
+                <!-- Basic Information -->
+                <div class="flex justify-between items-center mb-6">
+                    <div class="text-2xl font-medium text-gray-900">1,000.00 NGN</div>
+                    <div class="status-badge pending">
+                        Processing
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4 mb-8">
+                    <span class="text-sm text-gray-500">Transaction Time: 2025-03-17 13:44:23</span>
+                    <span class="text-sm text-gray-500">Transaction ID: 202503171344234297850001</span>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="border-b border-gray-200 mb-6">
+                    <nav class="flex space-x-4">
+                        <button class="tab-btn active" data-tab="transaction-detail">
+                            Transaction Details
+                        </button>
+                        <button class="tab-btn" data-tab="settlement-info">
+                            Settlement Info
+                        </button>
+                        <button class="tab-btn" data-tab="refund-info">
+                            Refund Records
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Transaction Details Tab -->
+                <div id="transaction-detail" class="tab-content active">
+                    <!-- Order Information -->
+                    <div class="mb-8">
+                        <h3 class="section-title">Order Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Merchant Order No.</div>
+                                <div class="info-value">202503171344233142820001</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Order Time</div>
+                                <div class="info-value">2025-03-17 13:44:23</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Total Amount</div>
+                                <div class="info-value">1,000.00 NGN</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Discount</div>
+                                <div class="info-value">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Shipping Fee</div>
+                                <div class="info-value">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Information -->
+                    <div class="mb-8">
+                        <h3 class="section-title">Product Information</h3>
+                        <table class="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-right">Unit Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Nigeria NGN</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-right">1,000.00 NGN</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Customer Information -->
+                    <div>
+                        <h3 class="section-title">Customer Information</h3>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Country/Region</div>
+                                <div class="info-value">Nigeria</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Email</div>
+                                <div class="info-value">yjunxiang@whalet.com</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Phone Number</div>
+                                <div class="info-value">18223974787</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Billing Country/Region</div>
+                                <div class="info-value">Nigeria</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Billing Province</div>
+                                <div class="info-value">chongqing</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Billing Address 1</div>
+                                <div class="info-value">chongqing</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Billing Address 2</div>
+                                <div class="info-value">chongqing</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Postal Code</div>
+                                <div class="info-value">023023</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settlement Info Tab -->
+                <div id="settlement-info" class="tab-content">
+                    <div class="text-center text-gray-500 py-8">
+                        No settlement information available
+                    </div>
+                </div>
+
+                <!-- Refund Records Tab -->
+                <div id="refund-info" class="tab-content">
+                    <div class="text-center text-gray-500 py-8">
+                        No refund records available
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromPayment = urlParams.get('from') === 'payment';
+
+            // Tab switching
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            function activateTab(tabId) {
+                tabButtons.forEach(btn => {
+                    if (btn.getAttribute('data-tab') === tabId) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+
+                tabContents.forEach(content => {
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            }
+
+            // If coming from payment records list, show transaction details tab by default
+            if (fromPayment) {
+                activateTab('transaction-detail');
+            }
+
+            // Tab click events
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    activateTab(tabId);
+                });
+            });
+        });
+    </script>
+</body>
+>>>>>>> f6f9f66563c2d172420a841f3778fee76237b4d4
 </html> 

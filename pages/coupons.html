@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -567,4 +568,575 @@
         document.querySelector('[data-filter="unused"]').click();
     </script>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Benefits - Whalet</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles/custom.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+            font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        .welfare-card {
+            transition: all 0.3s ease;
+        }
+        .welfare-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px -3px rgba(0, 0, 0, 0.1);
+        }
+        .tab-btn {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
+        }
+        .tab-btn:hover:not(.active) {
+            color: #4b5563;
+            border-bottom-color: #e5e7eb;
+        }
+        .status-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+        }
+        .status-unused {
+            background-color: #f3e8ff;
+            color: #7D33FF;
+        }
+        .status-used {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+        .status-expired {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 py-3">
+        <!-- Top Navigation and Main Tab -->
+        <div class="bg-white rounded-lg shadow-sm mb-3">
+            <div class="border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <nav class="flex justify-start -mb-px pl-6">
+                        <button class="tab-btn active whitespace-nowrap py-4 px-8 border-b-2 text-center text-sm font-medium">
+                            My Benefits
+                        </button>
+                    </nav>
+                    <div class="flex items-center space-x-6 pr-6">
+                        <!-- Notification Icon -->
+                        <div class="relative">
+                            <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <span class="relative">
+                                    <i class="fas fa-bell text-lg"></i>
+                                    <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </span>
+                            </a>
+                        </div>
+                        
+                        <!-- Help -->
+                        <a href="#" class="text-gray-600 hover:text-blue-600 text-sm">Help</a>
+                        
+                        <!-- User Center -->
+                        <div class="relative">
+                            <button id="userCenterBtn" class="text-gray-600 hover:text-blue-600">
+                                <i class="fas fa-user-circle text-lg"></i>
+                            </button>
+                            <div id="userCenterDropdown" class="absolute right-0 top-full mt-1 w-64 bg-white rounded-lg shadow-lg py-3 hidden z-10">
+                                <!-- User Info Section -->
+                                <div class="px-4 pb-3 border-b border-gray-100">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <h3 class="font-medium text-gray-900">Sarah Zhang</h3>
+                                        <a href="#" class="text-xs text-blue-600 hover:text-blue-700">Upgrade to Enterprise</a>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <div class="flex items-center">
+                                            <span class="text-sm text-gray-600">ZHANG SHANSHAN</span>
+                                            <button class="ml-2 text-gray-400 hover:text-gray-600">
+                                                <i class="fas fa-edit text-xs"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">ID</span>
+                                        <button class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-copy text-xs"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Menu Options -->
+                                <div class="py-1">
+                                    <a href="security.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-shield-alt w-5 text-gray-400"></i>
+                                        Security Settings
+                                    </a>
+                                    <a href="authentication-info.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-id-card w-5 text-gray-400"></i>
+                                        Authentication Info
+                                    </a>
+                                    <a href="fees.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-percentage w-5 text-gray-400"></i>
+                                        Fee Rates
+                                    </a>
+                                    <a href="coupons.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-gift w-5 text-gray-400"></i>
+                                        My Benefits
+                                    </a>
+                                    <a href="my-invitation.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <i class="fas fa-user-plus w-5 text-gray-400"></i>
+                                        My Invitations
+                                    </a>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="logout.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                                        <i class="fas fa-sign-out-alt w-5"></i>
+                                        Logout
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Benefits Overview Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Coupon Card -->
+            <div class="welfare-card bg-white rounded-xl shadow-sm p-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-gray-800 font-medium">Coupons</h3>
+                    <div class="rounded-full bg-blue-100 w-7 h-7 flex items-center justify-center">
+                        <i class="fas fa-ticket-alt text-blue-600"></i>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 text-sm">Available Coupons</span>
+                        <span class="text-xl font-bold text-gray-800">5</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 text-sm">Expiring Soon</span>
+                        <span class="text-sm text-red-500">2 / 7 days</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Free Withdrawal Limit Card -->
+            <div class="welfare-card bg-white rounded-xl shadow-sm p-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-gray-800 font-medium">Free Withdrawal Limit</h3>
+                    <div class="rounded-full bg-purple-100 w-7 h-7 flex items-center justify-center">
+                        <i class="fas fa-wallet text-purple-600"></i>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 text-sm">Total Limit</span>
+                        <span class="text-xl font-bold text-gray-800">¥50,000</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 text-sm">Used/Available</span>
+                        <div class="text-right">
+                            <span class="text-gray-800 text-sm">¥12,500</span>
+                            <span class="text-gray-400 mx-1">/</span>
+                            <span class="text-purple-600 text-sm font-medium">¥37,500</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-gray-100 rounded-full h-1">
+                        <div class="bg-purple-500 h-1 rounded-full" style="width: 25%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reserved Benefits Card -->
+            <div class="welfare-card bg-white rounded-xl shadow-sm p-3 border-2 border-dashed border-gray-200">
+                <div class="flex items-center justify-center h-full">
+                    <div class="text-center">
+                        <div class="rounded-full bg-gray-100 w-8 h-8 flex items-center justify-center mx-auto mb-1">
+                            <i class="fas fa-plus text-gray-400"></i>
+                        </div>
+                        <p class="text-gray-500 text-sm">More Benefits Coming Soon</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Content Area -->
+        <div class="bg-white rounded-xl shadow-sm">
+            <!-- Tab Switching -->
+            <div class="border-b border-gray-200">
+                <div class="flex">
+                    <button class="tab-btn active px-6 py-4 text-sm font-medium" data-tab="coupons">
+                        Coupons
+                    </button>
+                    <button class="tab-btn px-6 py-4 text-sm font-medium text-gray-500" data-tab="withdrawal">
+                        Free Withdrawal Limit
+                    </button>
+                </div>
+            </div>
+
+            <!-- Coupons Content -->
+            <div id="couponsTab" class="p-6">
+                <!-- Usage Instructions -->
+                <div class="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-6">
+                    <h4 class="text-blue-800 font-medium mb-2">Usage Instructions</h4>
+                    <ul class="text-blue-700 text-sm space-y-1">
+                        <li class="flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Coupons cannot be used in combination
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i>
+                            Withdrawal fee reduction coupons support conversion to other currencies
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex space-x-2">
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium" data-filter="all">All</button>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium" data-filter="unused">Unused</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium" data-filter="used">Used</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium" data-filter="expired">Expired</button>
+                    </div>
+                    <button class="flex items-center text-blue-600 hover:text-blue-700">
+                        <i class="fas fa-history mr-2"></i>
+                        <span class="text-sm font-medium">Usage History</span>
+                    </button>
+                </div>
+
+                <!-- Coupon List -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Unused Coupon -->
+                    <div class="relative bg-white rounded-lg overflow-hidden coupon-item shadow-sm" data-status="unused">
+                        <div class="flex">
+                            <!-- Left Amount Section -->
+                            <div class="w-1/3 bg-blue-600 p-4 flex flex-col justify-center items-center text-white relative">
+                                <div class="absolute -right-3 top-0 bottom-0 flex flex-col justify-evenly">
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                </div>
+                                <div class="text-2xl font-bold mb-2">$50.00</div>
+                                <span class="text-xs bg-opacity-20 bg-white px-2 py-0.5 rounded-full">Min. fee $10.00</span>
+                            </div>
+                            
+                            <!-- Right Content Section -->
+                            <div class="flex-1 p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="text-base font-medium text-gray-800 mb-2">Transaction Fee Reduction Coupon</h4>
+                                        <div class="space-y-1.5">
+                                            <div class="flex items-center text-sm text-gray-600">
+                                                <i class="fas fa-globe-americas w-5 mr-2"></i>
+                                                <span>Platform:</span>
+                                                <span class="text-gray-600 ml-1">Amazon North America</span>
+                                            </div>
+                                            <div class="flex items-center text-sm text-gray-600">
+                                                <i class="fas fa-coins w-5 mr-2"></i>
+                                                <span>Currency:</span>
+                                                <div class="flex items-center ml-1">
+                                                    <span class="text-gray-600">USDT</span>
+                                                    <a href="#" class="ml-2 text-blue-600 hover:text-blue-700 hover:underline text-xs">
+                                                        <i class="fas fa-exchange-alt mr-1"></i>
+                                                        Convert
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center text-sm text-gray-600">
+                                                <i class="far fa-calendar-alt w-5 mr-2"></i>
+                                                <span>Valid until:</span>
+                                                <span class="ml-1">2024-02-01 to 2024-03-31</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-unused">Unused</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Used Coupon -->
+                    <div class="relative bg-white rounded-lg overflow-hidden opacity-75 coupon-item shadow-sm hidden" data-status="used">
+                        <div class="flex">
+                            <!-- Left Amount Section -->
+                            <div class="w-1/3 bg-gray-500 p-4 flex flex-col justify-center items-center text-white relative">
+                                <div class="absolute -right-3 top-0 bottom-0 flex flex-col justify-evenly">
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                </div>
+                                <div class="text-2xl font-bold mb-2">85% Off</div>
+                                <span class="text-xs bg-gray-600 px-2 py-0.5 rounded-full">No minimum</span>
+                            </div>
+                            
+                            <!-- Right Content Section -->
+                            <div class="flex-1 p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="text-base font-medium text-gray-600 mb-2">Fee Discount Coupon</h4>
+                                        <div class="space-y-1.5">
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-globe-americas w-5 mr-2"></i>
+                                                <span>Platform:</span>
+                                                <span class="text-gray-500 ml-1">Amazon North America</span>
+                                            </div>
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-coins w-5 mr-2"></i>
+                                                <span>Currency:</span>
+                                                <span class="text-gray-500 ml-1">All Currencies</span>
+                                            </div>
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="far fa-calendar-alt w-5 mr-2"></i>
+                                                <span>Used on:</span>
+                                                <span class="ml-1">2024-02-15 14:30:25</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-used">Used</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expired Coupon -->
+                    <div class="relative bg-white rounded-lg overflow-hidden opacity-75 coupon-item shadow-sm hidden" data-status="expired">
+                        <div class="flex">
+                            <!-- Left Amount Section -->
+                            <div class="w-1/3 bg-gray-400 p-4 flex flex-col justify-center items-center text-white relative">
+                                <div class="absolute -right-3 top-0 bottom-0 flex flex-col justify-evenly">
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full"></div>
+                                </div>
+                                <div class="text-2xl font-bold mb-2">$20.00</div>
+                                <span class="text-xs bg-gray-500 px-2 py-0.5 rounded-full">Min. fee $5.00</span>
+                            </div>
+                            
+                            <!-- Right Content Section -->
+                            <div class="flex-1 p-4">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="text-base font-medium text-gray-600 mb-2">Transaction Fee Reduction Coupon</h4>
+                                        <div class="space-y-1.5">
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-globe-americas w-5 mr-2"></i>
+                                                <span>Platform:</span>
+                                                <span class="text-gray-500 ml-1">Amazon North America</span>
+                                            </div>
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="fas fa-coins w-5 mr-2"></i>
+                                                <span>Currency:</span>
+                                                <span class="text-gray-500 ml-1">BTC, ETH</span>
+                                            </div>
+                                            <div class="flex items-center text-sm text-gray-500">
+                                                <i class="far fa-calendar-alt w-5 mr-2"></i>
+                                                <span>Valid until:</span>
+                                                <span class="ml-1">2024-01-01 to 2024-01-31</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="status-badge status-expired">Expired</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-between items-center mt-6">
+                    <div class="text-sm text-gray-600">
+                        Total: 24 records
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">Previous</button>
+                        <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">3</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">Next</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Free Withdrawal Limit Content -->
+            <div id="withdrawalTab" class="p-6 hidden">
+                <!-- Action Bar -->
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex space-x-4">
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium">Limit Records</button>
+                        <button class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">My Orders</button>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="text-sm text-gray-600">
+                            Time Range:
+                        </div>
+                        <select class="border border-gray-300 rounded px-3 py-1 text-sm">
+                            <option>Last 7 days</option>
+                            <option>Last 30 days</option>
+                            <option>Last 90 days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Limit Records Table -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Limit Change</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remaining</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2024-02-20 15:30:45</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 bg-red-100 text-red-600 rounded-full text-xs font-medium">Used</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600">-¥5,000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">¥37,500</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Withdrawal Fee Reduction</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-[#7D33FF] hover:text-[#6929CC] font-medium">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2024-02-01 00:00:00</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 bg-green-100 text-green-600 rounded-full text-xs font-medium">Gift</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-green-600">+¥50,000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">¥50,000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Monthly Free Withdrawal Limit</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-[#7D33FF] hover:text-[#6929CC] font-medium">Details</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">2024-01-31 23:59:59</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs font-medium">Expired</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">-¥15,000</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">¥0</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">January Limit Expired</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button class="text-[#7D33FF] hover:text-[#6929CC] font-medium">Details</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex justify-between items-center mt-6">
+                    <div class="text-sm text-gray-600">
+                        Total: 36 records
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">Previous</button>
+                        <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">3</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 用户中心下拉菜单
+        const userCenterBtn = document.getElementById('userCenterBtn');
+        const userCenterDropdown = document.getElementById('userCenterDropdown');
+        
+        if (userCenterBtn && userCenterDropdown) {
+            userCenterBtn.addEventListener('click', function() {
+                userCenterDropdown.classList.toggle('hidden');
+            });
+            
+            // 点击其他地方关闭下拉菜单
+            document.addEventListener('click', function(event) {
+                if (!userCenterBtn.contains(event.target)) {
+                    userCenterDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        // 标签页切换
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = {
+            'coupons': document.getElementById('couponsTab'),
+            'withdrawal': document.getElementById('withdrawalTab')
+        };
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有标签的激活状态
+                tabButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.add('text-gray-500');
+                });
+
+                // 隐藏所有内容
+                Object.values(tabContents).forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // 激活当前标签
+                button.classList.add('active');
+                button.classList.remove('text-gray-500');
+
+                // 显示对应内容
+                const tabId = button.getAttribute('data-tab');
+                tabContents[tabId].classList.remove('hidden');
+            });
+        });
+
+        // 优惠券筛选功能
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const couponItems = document.querySelectorAll('.coupon-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 更新按钮样式
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('bg-blue-600', 'text-white');
+                    btn.classList.add('bg-gray-100', 'text-gray-700');
+                });
+                button.classList.remove('bg-gray-100', 'text-gray-700');
+                button.classList.add('bg-blue-600', 'text-white');
+
+                // 筛选优惠券
+                const filter = button.getAttribute('data-filter');
+                couponItems.forEach(item => {
+                    const status = item.getAttribute('data-status');
+                    if (filter === 'all' || filter === status) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // 默认显示未使用的优惠券
+        document.querySelector('[data-filter="unused"]').click();
+    </script>
+</body>
+>>>>>>> f6f9f66563c2d172420a841f3778fee76237b4d4
 </html> 
